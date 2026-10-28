@@ -1,0 +1,20 @@
+---The `TlsDomainServer` struct specifies information about how to define the server side of a [TLS Domain](https://wezterm.org/multiplexing.html#tls-domains).
+local record TlsDomainServer
+	---The address:port combination on which the server will listen for client connections.
+	bind_address: string
+	---The path to an x509 PEM encoded CA chain file.
+	---You can omit this if your `tls_client` is using `bootstrap_via_ssh`.
+	pem_ca: string | nil
+	---The path to an x509 PEM encoded certificate file.
+	---You can omit this if your `tls_client` is using `bootstrap_via_ssh`.
+	pem_cert: string | nil
+	---The path to an x509 PEM encoded private key file.
+	---You can omit this if your `tls_client` is using `bootstrap_via_ssh`.
+	pem_private_key: string | nil
+	---A set of paths to load additional CA certificates. Each entry can be either the path
+	---to a directory or to a PEM encoded CA file. If an entry is a directory, then its contents will be
+	---loaded as CA certs and added to the trust store.
+	---You can omit this if your `tls_client` is using `bootstrap_via_ssh`.
+	pem_root_certs: string | nil[]
+
+-- vim: set ts=2 sts=2 sw=2 et ai si sta:
