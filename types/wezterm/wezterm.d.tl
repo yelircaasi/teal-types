@@ -3,10 +3,195 @@
 require("_shared")
 require("_enums")
 
+global record Config
+   --[[from docs: https://wezterm.org/config/lua/config/index.html
+
+   adjust_window_size_when_changing_font_size
+   allow_square_glyphs_to_overflow_width
+   allow_win32_input_mode
+   alternate_buffer_wheel_scroll_speed
+   animation_fps
+   anti_alias_custom_block_glyphs
+   audible_bell
+   automatically_reload_config
+   background
+   bold_brightens_ansi_colors
+   bypass_mouse_reporting_modifiers
+   canonicalize_pasted_newlines
+   cell_width
+   cell_widths
+   char_select_bg_color
+   char_select_fg_color
+   char_select_font
+   char_select_font_size
+   check_for_updates
+   clean_exit_codes
+   color_schemes
+   colors
+   command_palette_bg_color
+   command_palette_fg_color
+   command_palette_font
+   command_palette_font_size
+   command_palette_line_height
+   command_palette_rows
+   cursor_blink_ease_in
+   cursor_blink_ease_out
+   cursor_blink_rate
+   cursor_thickness
+   custom_block_glyphs
+   daemon_options
+   debug_key_events
+   default_cursor_style
+   default_cwd
+   default_domain
+   default_gui_startup_args
+   default_mux_server_domain
+   default_prog
+   default_ssh_auth_sock
+   default_workspace
+   detect_password_input
+   disable_default_mouse_bindings
+   disable_default_quick_select_patterns
+   display_pixel_geometry
+   dpi
+   enable_csi_u_key_encoding
+   enable_kitty_keyboard
+   enable_scroll_bar
+   enable_tab_bar
+   enable_wayland
+   exit_behavior
+   exit_behavior_messaging
+   font
+   font_antialias
+   font_dirs
+   font_hinting
+   font_locator
+   font_rasterizer
+   font_rules
+   font_shaper
+   font_size
+   force_reverse_video_cursor
+   foreground_text_hsb
+   freetype_interpreter_version
+   freetype_load_flags
+   freetype_load_target
+   freetype_pcf_long_family_names
+   freetype_render_target
+   front_end
+   harfbuzz_features
+   hide_mouse_cursor_when_typing
+   hide_tab_bar_if_only_one_tab
+   hyperlink_rules
+   ime_preedit_rendering
+   initial_cols
+   initial_rows
+   integrated_title_button_alignment
+   integrated_title_button_color
+   integrated_title_button_style
+   integrated_title_buttons
+   kde_window_background_blur
+   key_map_preference
+   key_tables
+   launch_menu
+   launcher_alphabet
+   line_height
+   log_unknown_escape_sequences
+   macos_forward_to_ime_modifier_mask
+   macos_fullscreen_extend_behind_notch
+   macos_window_background_blur
+   max_fps
+   min_scroll_bar_height
+   mouse_wheel_scrolls_tabs
+   mux_enable_ssh_agent
+   mux_env_remove
+   native_macos_fullscreen_mode
+   normalize_output_to_unicode_nfc
+   notification_handling
+   pane_focus_follows_mouse
+   pane_select_font
+   prefer_egl
+   prefer_to_spawn_tabs
+   quick_select_alphabet
+   quick_select_patterns
+   quick_select_remove_styling
+   quit_when_all_windows_are_closed
+   quote_dropped_files
+   reverse_video_cursor_min_contrast
+   scroll_to_bottom_on_input
+   scrollback_lines
+   selection_word_boundary
+   serial_ports
+   set_environment_variables
+   show_close_tab_button_in_tabs
+   show_new_tab_button_in_tab_bar
+   show_tab_index_in_tab_bar
+   show_tabs_in_tab_bar
+   show_update_window
+   skip_close_confirmation_for_processes_named
+   ssh_backend
+   ssh_domains
+   status_update_interval
+   strikethrough_position
+   swallow_mouse_click_on_pane_focus
+   swallow_mouse_click_on_window_focus
+   swap_backspace_and_delete
+   switch_to_last_active_tab_when_closing_tab
+   tab_and_split_indices_are_zero_based
+   tab_bar_at_bottom
+   tab_bar_style
+   tab_max_width
+   term
+   text_blink_ease_in
+   text_blink_ease_out
+   text_blink_rapid_ease_in
+   text_blink_rapid_ease_out
+   text_blink_rate
+   text_blink_rate_rapid
+   text_min_contrast_ratio
+   tiling_desktop_environments
+   tls_clients
+   tls_servers
+   treat_east_asian_ambiguous_width_as_wide
+   treat_left_ctrlalt_as_altgr
+   ui_key_cap_rendering
+   ulimit_nofile
+   ulimit_nproc
+   underline_position
+   underline_thickness
+   unicode_version
+   unix_domains
+   unzoom_on_switch_pane
+   use_cap_height_to_scale_fallback_fonts
+   use_fancy_tab_bar
+   use_ime
+   use_resize_increments
+   visual_bell
+   warn_about_missing_glyphs
+   wayland_window_background_blur
+   webgpu_force_fallback_adapter
+   webgpu_power_preference
+   webgpu_preferred_adapter
+   win32_acrylic_accent_color
+   win32_system_backdrop
+   window_background_gradient
+   window_background_image
+   window_background_image_hsb
+   window_background_opacity
+   window_close_confirmation
+   window_content_alignment
+   window_decorations
+   window_frame
+   window_padding
+   wsl_domains
+   xim_im_name
+   ]]
+end
+
 global record wezterm
    config: WeztermConfig
    events: Events
    harfbuzz: Harfbuzz
+
    color: Color
    gui: Gui
    mux: Mux
@@ -17,6 +202,12 @@ global record wezterm
    time: Time
    url: Url
    window_decorations: WindowDecorations
+
+   -- enums:
+   action: KeyAssignment
+
+   on: function(ActionString, callback): nil
+
 
    ---This function is a helper to register a custom event and return
    ---an action triggering it.
@@ -30,7 +221,7 @@ global record wezterm
    ---  return wezterm.action.EmitEvent(event_id)
    ---end
    ---```
-   function action_callback(callback: function|CallbackWindowPane|CallbackInputSelector|CallbackPromptInputLine): {
+   action_callback: function(callback: function|CallbackWindowPane|CallbackInputSelector|CallbackPromptInputLine): {
 
    ---Adds path to the list of files that are watched for config changes.
    ---If `config.automatically_reload_config`
@@ -38,30 +229,30 @@ global record wezterm
    ---that have been added to the watch list have changed.
    ---See:
    --- - [`config.automatically_reload_config`](lua://Config.automatically_reload_config)
-   function add_to_config_reload_watch_list(path: string): nil
+   add_to_config_reload_watch_list: function(path: string): nil
 
    ---Accepts an argument list; it will attempt to spawn that command in the background.
-   function background_child_process(args: string[]): nil
+   background_child_process: function(args: string[]): nil
 
    ---Returns the battery information for each of the installed batteries on the system.
    ---This is useful for example to assemble status information for the status bar.
-   function battery_info(): BatteryInfo[]
+   battery_info: function(): BatteryInfo[]
 
    ---Given a `string` parameter, returns the number of columns that text occupies
    ---in the terminal.
    ---This is useful together with the `"format-tab-title"` and `"update-right-status"` events
    ---to compute/layout tabs and status information.
-   function column_width(value: string): number
+   column_width: function(value: string): number
 
    ---Returns a `Config` object that can be used to define your configuration.
    ---See:
    --- - [`Config`](lua://Config)
-   function config_builder(): Config
+   config_builder: function(): Config
 
    ---Returns the compiled-in default hyperlink rules as a table.
    ---For more information, see:
    --- - [`HyperLinkRule`](lua://HyperLinkRule)
-   function default_hyperlink_rules(): HyperLinkRule[]
+   default_hyperlink_rules: function(): HyperLinkRule[]
 
    ---Computes a list of `SshDomain` objects based on the set of hosts
    ---discovered in `~/.ssh/config`.
@@ -73,7 +264,7 @@ global record wezterm
    ---to edit/adjust the returned information before assigning it to your config.
    ---For more information, see:
    --- - [SshDomain](lua://SshDomain)
-   function default_ssh_domains(): SshDomain[]
+   default_ssh_domains: function(): SshDomain[]
 
    ---Computes a list of `WslDomain` objects, each one representing
    ---an installed WSL distribution on your system.
@@ -84,7 +275,7 @@ global record wezterm
    ---See:
    --- - [`WslDomain`](lua://WslDomain)
    --- - [`config.wsl_domains`](lua://Config.wsl_domains)
-   function default_wsl_domains(): WslDomain[]
+   default_wsl_domains: function(): WslDomain[]
 
    ---`wezterm.emit()` resolves the registered callback(s) for the specified event name
    ---and calls each of them in turn, passing the additional arguments through to the callback.
@@ -100,7 +291,7 @@ global record wezterm
    ---- [`wezterm.on`](lua://Wezterm.on)
    ---@param event string
    ---@param ... any
-   function emit(event, ...): boolean
+   emit: function(event, ...): boolean
 
    ---This function will parse your ssh configuration file(s) and extract from them
    ---the set of literal (non-pattern, non-negated) host names that are specified
@@ -109,7 +300,7 @@ global record wezterm
    ---You may optionally pass a list of ssh configuration files that should be read
    ---in case you have a special configuration.
    ---@param ssh_config_file_name? string[]|string
-   function enumerate_ssh_hosts(ssh_config_file_name): table<string>,
+   enumerate_ssh_hosts: function(ssh_config_file_name): table<string>,
 
    ---This function constructs a Lua table that corresponds to the internal
    ---`FontAttributes` struct that is used to select a single named font:
@@ -133,7 +324,7 @@ global record wezterm
    --- - [`TextStyle`](lua://TextStyle)
    ---@param font string|FontFamilyAttributes
    ---@param attributes? TextStyleAttributes
-   function font(font, attributes)(): TextStyle
+   font: function(font, attributes)(): TextStyle
 
    ---This function constructs a Lua table that corresponds to the internal
    ---`FontAttributes` struct that is used to select a single named font.
@@ -161,7 +352,7 @@ global record wezterm
    --- - [`wezterm.font()`](lua://Wezterm.font)
    ---@param font FontFamilyAttributes
    ---@param attributes? TextStyleAttributes
-   function font(font, attributes)(): TextStyle
+   font: function(font, attributes)(): TextStyle
 
    ---This function constructs a Lua table that configures a font with fallback processing.
    ---Glyphs are looked up in the first font in the list but if missing the next font is checked and so on.
@@ -192,13 +383,13 @@ global record wezterm
    --- - [`TextStyle`](lua://TextStyle)
    ---@param fonts (string|FontFamilyAttributes)[]
    ---@param attributes? TextStyleAttributes
-   function font_with_fallback(fonts, attributes)(): TextStyle
+   font_with_fallback: function(fonts, attributes)(): TextStyle
 
    ---Can be used to produce a formatted string with terminal graphic attributes
    ---such as `bold`, `italic` and `colors`.
    ---The result is a string with WezTerm-compatible escape sequences embedded.
    ---@param ... FormatItem[]
-   function format(...): string
+   format: function(...): string
 
    ---While this function is still valid, it is recommended to use instead:
    --- - [`wezterm.color.get_builtin_schemes()`](lua://Wezterm.Color.get_builtin_schemes)
@@ -209,7 +400,7 @@ global record wezterm
    ---or for taking a scheme and overriding a couple of entries from your configuration file.
    ---@return table<string, Palette> builtin
    ---@deprecated Use `wezterm.color.get_builtin_color_schemes()` instead
-   function get_builtin_color_schemes() end
+   get_builtin_color_schemes: function() end
 
    ---This function evalutes the glob pattern and returns an array containing the absolute file names
    ---of the matching results.
@@ -217,7 +408,7 @@ global record wezterm
    ---or this function will generate an error.
    ---@param pattern string
    ---@param relative_to? string
-   function glob(pattern, relative_to): string[]
+   glob: function(pattern, relative_to): string[]
 
    ---This function was moved to `wezterm.color.gradient`.
    ---In addition, the returned colors are now of `Color` type.
@@ -229,16 +420,16 @@ global record wezterm
    ---See:
    --- - [`Color`](lua://Color)
    --- - [`wezterm.color.gradient`](lua://Wezterm.Color.gradient)
-   function gradient_colors(gradient: Gradient, num_colors: number): Color[]
+   gradient_colors: function(gradient: Gradient, num_colors: number): Color[]
    ---@deprecated
-   function has_action(action: string): boolean
+   has_action: function(action: string): boolean
 
 
-   function hostname(): string
+   hostname: function(): string
 
-   function json_encode(value: any): string
+   json_encode: function(value: any): string
 
-   function json_parse(value: string): any
+   json_parse: function(value: string): any
 
    ---This function logs the provided message string through WezTerm's logging layer at `'ERROR'`
    ---level, which can be displayed via the [`ShowDebugOverlay`](https://wezterm.org/config/lua/keyassignment/ShowDebugOverlay.html) action.
@@ -253,7 +444,7 @@ global record wezterm
    --- - [`wezterm.log_warn()`](lua://Wezterm.log_warn)
    ---@param msg string
    ---@param ... any
-   function log_error(msg, ...) end
+   log_error: function(msg, ...) end
 
    ---This function logs the provided message string through WezTerm's logging layer at the `'INFO'`
    ---level, which can be displayed via the [`ShowDebugOverlay`](https://wezterm.org/config/lua/keyassignment/ShowDebugOverlay.html) action.
@@ -268,7 +459,7 @@ global record wezterm
    --- - [`wezterm.log_warn()`](lua://Wezterm.log_warn)
    ---@param msg string
    ---@param ... any
-   function log_info(msg, ...) end
+   log_info: function(msg, ...) end
 
    ---This function logs the provided message string through WezTerm's logging layer at the `'WARN'`
    ---level, which can be displayed via the [`ShowDebugOverlay`](https://wezterm.org/config/lua/keyassignment/ShowDebugOverlay.html) action.
@@ -283,7 +474,7 @@ global record wezterm
    --- - [`wezterm.log_info()`](lua://Wezterm.log_info)
    ---@param msg string
    ---@param ... any
-   function log_warn(msg, ...) end
+   log_warn: function(msg, ...) end
 
 
    ---A custom declared event handler.
@@ -296,7 +487,7 @@ global record wezterm
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
    --- - [`wezterm.emit()`](lua://Wezterm.emit)
-   function on(event: string, callback: fun(...:any): any): nil
+   on: function(event: string, callback: fun(...:any): any): nil
 
    ---A custom declared event handler for events emitted by the `EmitEvent` key assignment.
    --- - The first event parameter is a `Window` object that represents the GUI window
@@ -306,7 +497,7 @@ global record wezterm
    --- - [`EmitEvent`](lua://KeyAssignment.EmitEvent)
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   function on(event: string, callback: CallbackWindowPane): nil
+   on: function(event: string, callback: CallbackWindowPane): nil
 
    ---This event is emitted when the Command Palette is shown.
    ---Its purpose is to enable you to add additional entries to the list of commands shown in the palette.
@@ -319,7 +510,7 @@ global record wezterm
    ---The return value is an `AugmentCommandPaletteReturn` table.
    ---See:
    --- - [`AugmentCommandPaletteReturn`](lua://AugmentCommandPaletteReturn)
-   function on(event: "augment-command-palette", callback: fun(window: Window, pane: Pane): AugmentCommandPaletteReturn): nil
+   on: function(event: "augment-command-palette", callback: fun(window: Window, pane: Pane): AugmentCommandPaletteReturn): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the pane
@@ -332,7 +523,7 @@ global record wezterm
    ---See:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   function on(event: "bell", callback: CallbackWindowPane): nil
+   on: function(event: "bell", callback: CallbackWindowPane): nil
 
    ---The parameters to the event are:
    --- - `config`: The effective configuration for the window
@@ -372,7 +563,7 @@ global record wezterm
    --- - [`FormatItem`](lua://FormatItem)
    --- - [`wezterm.format()`](lua://Wezterm.format)
    --- - [`wezterm.run_child_process()`](lua://Wezterm.run_child_process)
-   function on(event: "format-tab-title", callback: fun(tab: TabInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config, hover: boolean, max_width: integer): string|FormatItem): nil
+   on: function(event: "format-tab-title", callback: fun(tab: TabInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config, hover: boolean, max_width: integer): string|FormatItem): nil
 
    ---The parameters to the event are:
    --- - `config`: The effective configuration for the window
@@ -400,7 +591,7 @@ global record wezterm
    --- - [`wezterm.run_child_process()`](lua://Wezterm.run_child_process)
    ---Mirrors the `format-window-title` callback arguments in wezterm upstream:
    ---https://github.com/wezterm/wezterm/blob/main/wezterm-gui/src/termwindow/mod.rs
-   function on(event: "format-window-title", callback: fun(tab: TabInformation, pane: PaneInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config): string): nil
+   on: function(event: "format-window-title", callback: fun(tab: TabInformation, pane: PaneInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config): string): nil
 
    ---This event is triggered when the GUI is starting up after attaching the selected domain.
    ---For example, when running `wezterm connect DOMAIN` or `wezterm start --domain DOMAIN`
@@ -410,7 +601,7 @@ global record wezterm
    ---This event fires after the `gui-startup` event.
    ---Note that the `gui-startup` event does not fire when invoking
    ---`wezterm connect DOMAIN` or `wezterm start --domain DOMAIN --attach`.
-   function on(event: "gui-attached", callback: fun(domain: MuxDomain|ExecDomain)): nil
+   on: function(event: "gui-attached", callback: fun(domain: MuxDomain|ExecDomain)): nil
 
    ---The `gui-startup` event is emitted once when the GUI server is starting up when running
    ---the `wezterm start` subcommand.
@@ -426,7 +617,7 @@ global record wezterm
    ---   that may have been passed via `wezterm start`
    ---The intent is for you to use the information in the command object to spawn a new window,
    ---but you can choose to use or ignore it as suits your purpose.
-   function on(event: "gui-startup", callback: fun(cmd?: SpawnCommand)): nil
+   on: function(event: "gui-startup", callback: fun(cmd?: SpawnCommand)): nil
 
    ---The `mux-is-process-stateful` event is emitted when the multiplexer layer wants to determine
    ---whether a given `Pane` can be closed without prompting the user.
@@ -440,7 +631,7 @@ global record wezterm
    ---         should be prompted before terminating the pane
    ---Any other value means to use the default behavior, which is to consider the configuration option:
    ----[`config.skip_close_confirmation_for_processes_named`](lua://Config.skip_close_confirmation_for_processes_named)
-   function on(event: "mux-is-process-stateful", callback: fun(info: LocalProcessInfo): boolean): nil
+   on: function(event: "mux-is-process-stateful", callback: fun(info: LocalProcessInfo): boolean): nil
 
    ---The `mux-startup` event is emitted once when the mux server is starting up.
    ---It is triggered before any default program is started.
@@ -466,7 +657,7 @@ global record wezterm
    ---```
    ---See also:
    --- - [`wezterm.mux`](lua://Wezterm.Mux)
-   function on(event: "mux-startup", callback: function): nil
+   on: function(event: "mux-startup", callback: function): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the active pane in the window
@@ -479,7 +670,7 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   function on(event: "new-tab-button-click", callback: fun(window: Window, pane: Pane, button: "Left"|"Middle"|"Right", default_action?: Action): false|nil|?): nil
+   on: function(event: "new-tab-button-click", callback: fun(window: Window, pane: Pane, button: "Left"|"Middle"|"Right", default_action?: Action): false|nil|?): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the pane
@@ -493,7 +684,7 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   function on(event: "open-uri", callback: fun(window: Window, pane: Pane, uri: string): false|nil|?): nil
+   on: function(event: "open-uri", callback: fun(window: Window, pane: Pane, uri: string): false|nil|?): nil
 
    ---This event is considered to be deprecated and you should migrate to using `"update-status"`,
    ---which behaves the same way, but doesn't overly focus on the right status area.
@@ -516,7 +707,7 @@ global record wezterm
    ---@param event "update-right-status"
    ---@param callback CallbackWindowPane
    ---@deprecated Use the `"update-status"` event instead
-   function on(event, callback) end
+   on: function(event, callback) end
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the active pane in that window
@@ -534,7 +725,7 @@ global record wezterm
    --- - [`Window`](lua://Window)
    --- - [`Window:set_left_status()`](lua://Window.set_left_status)
    --- - [`config.status_update_interval`](lua://Config.status_update_interval)
-   function on(event: "update-status", callback: CallbackWindowPane): nil
+   on: function(event: "update-status", callback: CallbackWindowPane): nil
 
    ---You can use something like the following from your shell
    ---to set the user var named `foo` to the value `bar`:
@@ -556,7 +747,7 @@ global record wezterm
    ------
    ---The `"user-var-changed"` event is emitted when a _user var escape sequence_
    ---is used to set a user var.
-   function on(event: "user-var-changed", callback: fun(window: Window, pane: Pane, name: string, value: string)): nil
+   on: function(event: "user-var-changed", callback: fun(window: Window, pane: Pane, name: string, value: string)): nil
 
    ---This event is _fire-and-forget_ from Wezterm's perspective; it fires the event to advise
    ---of the config change, but has no other expectations.
@@ -578,7 +769,7 @@ global record wezterm
    --- - [`Window`](lua://Window)
    --- - [`Window:set_config_overrides()`](lua://Window.set_config_overrides)
    --- - [`config.automatically_reload_config`](lua://Config.automatically_reload_config)
-   function on(event: "window-config-reloaded", callback: CallbackWindowPane): nil
+   on: function(event: "window-config-reloaded", callback: CallbackWindowPane): nil
 
    ---This event is _fire-and-forget_ from WezTerm's perspective; it fires the event to advise
    ---of the config change, but has no other expectations.
@@ -589,7 +780,7 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   function on(event: "window-focus-changed", callback: CallbackWindowPane): nil
+   on: function(event: "window-focus-changed", callback: CallbackWindowPane): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the active pane in that window
@@ -601,93 +792,93 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   function on(event: "window-resized", callback: CallbackWindowPane): nil
+   on: function(event: "window-resized", callback: CallbackWindowPane): nil
 
    ---=============================== dev.wezterm =====================================
 
    ---This is for `dev.wezterm` only!
    ------
    ---Either no `hashkey` or an invalid one provided.
-   function on(event: "dev.wezterm.invalid_hashkey" This is for `dev.wezterm` only!, callback: function): nil
+   on: function(event: "dev.wezterm.invalid_hashkey" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---Invalid options provided to plugin setup.
-   function on(event: "dev.wezterm.invalid_opts" This is for `dev.wezterm` only!, callback: function): nil
+   on: function(event: "dev.wezterm.invalid_opts" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---No keywords were provided for searching the plugin.
-   function on(event: "dev.wezterm.no_keywords" This is for `dev.wezterm` only!, callback: function): nil
+   on: function(event: "dev.wezterm.no_keywords" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---The plugin was not found and thus `package.path` could not be set.
-   function on(event: "dev.wezterm.require_path_not_set" This is for `dev.wezterm` only!, callback: function): nil
+   on: function(event: "dev.wezterm.require_path_not_set" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---The provided keywords did not allow for the plugin to be found.
-   function on(event: "dev.wezterm-plugin-not-found" This is for `dev.wezterm` only!, callback: function): nil
+   on: function(event: "dev.wezterm-plugin-not-found" This is for `dev.wezterm` only!, callback: function): nil
 
    ---=================================================================================
 
    ---============================== modal.wezterm ====================================
 
    ---This is for `modal.wezterm` only!
-   function on(event: "modal.enter" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
+   on: function(event: "modal.enter" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
 
    ---This is for `modal.wezterm` only!
-   function on(event: "modal.exit" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
+   on: function(event: "modal.exit" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
 
    ---=================================================================================
 
    ---===================== smart_workspace_switcher.wezterm ==========================
 
    ---This is for `smart_workspace_switcher.wezterm` only!
-   function on(event: "smart_workspace_switcher.workspace_switcher.chosen" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
+   on: function(event: "smart_workspace_switcher.workspace_switcher.chosen" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
 
    ---This is for `smart_workspace_switcher.wezterm` only!
-   function on(event: "smart_workspace_switcher.workspace_switcher.created" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
+   on: function(event: "smart_workspace_switcher.workspace_switcher.created" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
 
    ---=================================================================================
 
    ---============================= tabsets.wezterm ===================================
 
    ---This is for `tabsets.wezterm` only!
-   function on(event: "delete_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   on: function(event: "delete_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---This is for `tabsets.wezterm` only!
-   function on(event: "load_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   on: function(event: "load_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---This is for `tabsets.wezterm` only!
-   function on(event: "rename_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   on: function(event: "rename_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---This is for `tabsets.wezterm` only!
-   function on(event: "save_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   on: function(event: "save_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---============================= wezterm-sessions ==================================
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "delete_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   on: function(event: "delete_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "edit_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   on: function(event: "edit_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "fork_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   on: function(event: "fork_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "load_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   on: function(event: "load_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "restore_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
+   on: function(event: "restore_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "save_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
+   on: function(event: "save_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
 
    ---This is for `wezterm-sessions` only!
-   function on(event: "toggle_autosave" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
+   on: function(event: "toggle_autosave" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
 
    ---This function opens the specified `path_or_url` with either the specified application,
    ---or the default application if `application` was not passed in.
@@ -698,7 +889,7 @@ global record wezterm
    ---```
    ---@param path_or_url string
    ---@param application? string
-   function open_with(path_or_url, application) end
+   open_with: function(path_or_url, application) end
 
    ---Returns a copy of a string `s` that is at least `min_width` columns as measured
    ---by `wezterm.column_width()`.
@@ -708,7 +899,7 @@ global record wezterm
    --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
    --- - [`wezterm.pad_right()`](lua://Wezterm.pad_right)
    --- - [`wezterm.truncate_left()`](lua://Wezterm.truncate_left)
-   function pad_left(s: string, min_width: integer): string
+   pad_left: function(s: string, min_width: integer): string
 
    ---Returns a copy of a string `s` that is at least `min_width` columns as measured
    ---by `wezterm.column_width()`.
@@ -718,7 +909,7 @@ global record wezterm
    --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
    --- - [`wezterm.pad_left()`](lua://Wezterm.pad_left)
    --- - [`wezterm.truncate_right()`](lua://Wezterm.truncate_right)
-   function pad_right(s: string, min_width: integer): string
+   pad_right: function(s: string, min_width: integer): string
 
    ---This function is intended to help with generating `KeyBinding` entries.
    ---These should apply regardless of the combination of modifier keys pressed.
@@ -736,7 +927,7 @@ global record wezterm
    --- - [`KeyBinding`](lua://KeyBinding)
    --- - [`MouseBinding`](lua://MouseBinding)
    --- - [`wezterm.permute_any_or_no_mods()`](lua://Wezterm.permute_any_or_no_mods)
-   function permute_any_mods(T: table): MouseBinding[]|KeyBinding[]
+   permute_any_mods: function(T: table): MouseBinding[]|KeyBinding[]
 
    ---This function is intended to help with generating `KeyBinding` entries.
    ---These should apply regardless of the combination of modifier keys pressed.
@@ -751,7 +942,7 @@ global record wezterm
    --- - [`KeyBinding`](lua://KeyBinding)
    --- - [`table.unpack()`](lua://table.unpack)
    --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-   function permute_any_or_no_mods(T: table): KeyBinding[]
+   permute_any_or_no_mods: function(T: table): KeyBinding[]
 
    ---This function is intended to help with generating `MouseBinding` entries.
    ---These should apply regardless of the combination of modifier keys pressed.
@@ -766,18 +957,18 @@ global record wezterm
    --- - [`MouseBinding`](lua://MouseBinding)
    --- - [`table.unpack()`](lua://table.unpack)
    --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-   function permute_any_or_no_mods(T: table): MouseBinding[]
+   permute_any_or_no_mods: function(T: table): MouseBinding[]
 
    ---Returns an array containing the absolute file name paths of the directory `path` specified.
    ---Due to limitations in the Lua bindings, all of the paths must be able to be represented as `UTF-8`
    ---or this function will generate an error.
-   function read_dir(path: string): string[]
+   read_dir: function(path: string): string[]
 
    ---Immediately causes the configuration to be reloaded and re-applied.
    ---**If you call this at the file scope in your config you are in danger of creating an infinite loop
    ---that renders WezTerm unresponsive.**
    ---The intent is for this to be used from an event or timer callback function.
-   function reload_configuration(): nil
+   reload_configuration: function(): nil
 
    ---This function accepts an argument list; it will attempt to spawn that command.
    ---It will return a tuple consisting of the boolean `success` of the invocation,
@@ -791,7 +982,7 @@ global record wezterm
    ---@param args string[]
    ---@return boolean success A `boolean` to denote a successful invocation
    ---@return string stdout The `stdout` data as a `string`
-   function run_child_process(args): string
+   run_child_process: function(args): string
 
    ---This function returns a `boolean` indicating whether it is believed that WezTerm runs
    ---in a WSL container.
@@ -810,32 +1001,32 @@ global record wezterm
    ---See:
    --- - [`wezterm.log_error()`](lua://Wezterm.log_error)
    --- - [`wezterm.target_triple`](lua://Wezterm.target_triple)
-   function running_under_wsl(): boolean
+   running_under_wsl: function(): boolean
 
    ---Joins together its array arguments by applying POSIX-style shell quoting on each argument
    ---and then adding a space.
-   function shell_join_args(args: string[]): string
+   shell_join_args: function(args: string[]): string
 
    ---Quotes its single argument `s` using POSIX shell quoting rules.
-   function shell_quote_arg(s: string): string
+   shell_quote_arg: function(s: string): string
 
    ---Splits a command line into a `string` argument array in accordance with POSIX shell rules.
-   function shell_split(line: string): string[]
+   shell_split: function(line: string): string[]
 
    ---Suspends the execution of the script for `ms` milliseconds.
    ---When the time period has elapsed, the script continues running at the next statement.
-   function sleep_ms(ms: integer): nil
+   sleep_ms: function(ms: integer): nil
 
    ---Takes the input string and splits it by newlines.
    ---The result as an array of strings with the newlines removed.
    ---Both `\n` (LF) and `\r\n` (CRLF) are recognized as newlines.
-   function split_by_newlines(s: string): string[]
+   split_by_newlines: function(s: string): string[]
 
    ---Formats the current local date/time into a string using the Rust `chrono strftime` syntax.
-   function strftime(format: string): string
+   strftime: function(format: string): string
 
    ---Formats the current UTC date/time into a string using the Rust `chrono strftime` syntax.
-   function strftime_utc(format: string): string
+   strftime_utc: function(format: string): string
 
    ---Returns a copy of a string that is no longer than `max_width` columns as measured
    ---by `wezterm.column_width()`. Truncation occurs by removing excess characters from the left end
@@ -845,7 +1036,7 @@ global record wezterm
    --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
    --- - [`wezterm.pad_right()`](lua://Wezterm.pad_right)
    --- - [`wezterm.truncate_right()`](lua://Wezterm.truncate_right)
-   function truncate_left(s: string, max_width: integer): string
+   truncate_left: function(s: string, max_width: integer): string
 
    ---Returns a copy of a string that is no longer than `max_width` columns as measured
    ---by `wezterm.column_width()`.
@@ -855,7 +1046,7 @@ global record wezterm
    --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
    --- - [`wezterm.pad_left()`](lua://Wezterm.pad_left)
    --- - [`wezterm.truncate_left()`](lua://Wezterm.truncate_left)
-   function truncate_right(s: string, max_width: integer): string
+   truncate_right: function(s: string, max_width: integer): string
 
    ---Overly specific and exists primarily to workaround this `wsl.exe` issue.
    ---It takes as input a string and attempts to convert it from `utf16` to `utf8`.
