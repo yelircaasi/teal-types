@@ -271,9 +271,9 @@ local record Pane
 	--- - `"Input"`
 	--- - `"Output"`
 	--- - `"Prompt"`
-	get_semantic_zones: function(self: Pane): SemanticZone[]
+	get_semantic_zones: function(self: Pane): {SemanticZone}
 
-	get_semantic_zones: function(self: Pane, zone_type: SemanticZoneType): SemanticZone[]
+	get_semantic_zones: function(self: Pane, zone_type: SemanticZoneType): {SemanticZone}
 
 	---Returns the text from the specified region.
 	--- - `start_x` and `end_x` are the starting and ending cell column, where `0` is the left-most cell

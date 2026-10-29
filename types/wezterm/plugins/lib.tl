@@ -12,7 +12,7 @@ local type LibWezterm.Env.Separator =
 ---Process information returned from `get_pane_process()`.
 local record LibWeztermProcessInfo
 	---Process arguments (if available).
-	args: string[]
+	args: {string}
 	---Current working directory if available.
 	cwd: string
 	---Whether this appears to be a shell process.
@@ -72,7 +72,7 @@ local S = {}
 ---then applying the DJB2 hashing algorithm.
 --
 ---@generic T
-function S.array_hash(arr: T[] Array of values to hash): string
+function S.array_hash(arr: {T} Array of values to hash): string
 
 ---Get basename for dir/file.
 function S.basename(str: string string with the dir/file): string|nil|? | nil
@@ -112,7 +112,7 @@ function W.get_cwd(pane: Pane WezTerm pane object): string
 
 ---Determines the process running in a pane.
 ---@param pane Pane WezTerm pane object
----@param shell_list? string[] Optional list of shell names to check against
+---@param shell_list? {string} Optional list of shell names to check against
 function W.get_pane_process(pane, shell_list): LibWeztermProcessInfo
 
 ---Determines if two panes are adjacent and their split orientation.

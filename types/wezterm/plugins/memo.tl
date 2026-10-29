@@ -20,7 +20,7 @@ function NS.has(key: string): boolean
 function NS.is_fresh(key: string): boolean
 
 ---@param selector? table
-function NS.keys(selector): string[]
+function NS.keys(selector): {string}
 
 ---@param key string
 ---@param value any
@@ -101,7 +101,7 @@ function C.is_fresh(key: string Cache key.)(): boolean
 
 ---Return all cache keys, optionally filtered.
 ---@param selector? table `{ prefix = "foo" }` to filter.
-function C.keys(selector): string[]
+function C.keys(selector): {string}
 
 ---Create a namespaced cache wrapper.
 ---All keys are automatically prefixed with `name .. ":"`.

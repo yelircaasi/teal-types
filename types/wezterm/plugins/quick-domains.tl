@@ -41,11 +41,11 @@ end
 
 local record QuickDomainsOpts
 	---Auto-configuration.
-	auto: QuickDomainsOpts | nil.Auto
+	auto: QuickDomainsOpts |Auto | nil
 	docker_shell: string | nil
 	---Swap in and out icons for specific domains.
-	icons: QuickDomainsOpts | nil.Icons
-	keys: QuickDomainsOpts | nil.Keys
+	icons: QuickDomainsOpts |Icons | nil
+	keys: QuickDomainsOpts |Keys | nil
 	kubernetes_shell: string | nil
 end
 

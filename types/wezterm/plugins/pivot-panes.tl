@@ -2,7 +2,7 @@
 
 local record PivotPaneState
 	---Command arguments.
-	args: string[]
+	args: {string}
 	---Command running in the pane.
 	command: string
 	---Current working directory.
@@ -26,14 +26,14 @@ local record PivotConfig
 	---Table mapping application names to priority values.
 	priority_apps: table | nil<string, number>
 	---List of shell names to identify shell panes.
-	shell_detection: string | nil[]
+	shell_detection: string | {nil}
 end
 
 local record Pivot.Pivot
 local Pivot = {}
 
 ---Determine if a set of panes can be pivoted.
----@param panes Pane[] Array of panes to check
+---@param panes {Pane} Array of panes to check
 ---@return boolean can_pivot
 function Pivot.can_pivot(panes): string|nil|? | nil
 
@@ -41,7 +41,7 @@ function Pivot.can_pivot(panes): string|nil|? | nil
 function Pivot.capture_pane_state(pane: Pane The `Pane` object.): PivotPaneState
 
 ---Pivot two panes, toggling their orientation.
-function Pivot.pivot_panes(panes: Pane[] Array of panes to pivot, current_orientation: "horizontal"|"vertical" Current orientation.): boolean
+function Pivot.pivot_panes(panes: {Pane} Array of panes to pivot, current_orientation: "horizontal"|"vertical" Current orientation.): boolean
 
 ---Restore pane state.
 function Pivot.restore_pane_state(pane: Pane The `Pane` object., state: PivotPaneState): nil

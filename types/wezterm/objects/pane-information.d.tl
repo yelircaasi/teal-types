@@ -46,7 +46,7 @@ local record PaneInformation
 	---The user variables defined for the pane,
 	---per [`Pane:get_user_vars()`](lua://Pane.get_user_vars)
 	---at the time the pane information was captured.
-	user_vars: table<string, string>
+	user_vars: {string: string}
 	---The width of the pane in cells.
 	width: integer
 	---The path to the executable image, per `Pane:get_foreground_process_name()`.

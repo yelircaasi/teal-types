@@ -19,8 +19,8 @@ end
 
 local record QuotaLimitOpts
 	colors: "auto"|"dark"|"light"|QuotaLimitOpts.Colors | nil
-	dashboard_key: QuotaLimitOpts | nil.DashboardKey
-	icons: QuotaLimitOpts | nil.Icons
+	dashboard_key: QuotaLimitOpts |DashboardKey | nil
+	icons: QuotaLimitOpts |Icons | nil
 	poll_interval_secs: integer | nil
 position: "left"|"right" | nil
 

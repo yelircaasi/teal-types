@@ -18,8 +18,8 @@ end
 local record PassRelayOpts
 	debug: integer | nil
 	get_password: string|fun(user: string): password: string
-	get_userlist: string | nil|fun(): user_list: string[]
-	hotkey: PassRelayOpts | nil.Hotkey
+	get_userlist: string | nil|fun(): user_list: {string}
+	hotkey: PassRelayOpts |Hotkey | nil
 	toast_time: integer | nil
 end
 

@@ -26,7 +26,7 @@ local enum EasingFunction
 	"EaseInOut"
 	"EaseOut"
 	"Linear"
-	{ CubicBezier: number[] }
+	{ CubicBezier: {number} }
 end
 
 local enum Stretch
@@ -430,20 +430,6 @@ local enum KeyAssignmentLiterals
 	"TogglePaneZoomState"
 end
 
-local enum Action
-	Actions
-	|KeyAssignmentLiterals
-	|CharSelect
-	|Multiple
-	|PaneSelect
-	|QuickSelectArgs
-	|SpawnCommandInNewTab
-	|SpawnCommandInNewWindow
-	|SplitHorizontal
-	|SplitVertical
-	|SwitchToWorkspace
-end
-
 local enum CharGroup
 	"Activities"
 	"AnimalsAndNature"
@@ -497,24 +483,48 @@ local enum CopyModeStr
 	"PriorMatchPage"
 end
 
-local enum CopyModeParams
-	CopyModeStr
-	{ JumpBackward: { prev_char: boolean } }
-	{ JumpForward: { prev_char: boolean } }
-	{ MoveBackwardZoneOfType: "Input"
+local enum MovementType
+	"Input"
 	"Output"
-	"Prompt" }
-	{ MoveByPage: number }
-	{ MoveForwardZoneOfType: "Input"
-	"Output"
-	"Prompt" }
-	{ SetSelectionMode: SelectionMode }
+	"Prompt"
 end
 
+-- LOCAL FOR CopyModeParams
+local record PrevChar 
+	prev_char: boolean
+end
+
+local record BackwardJump
+	JumpBackward: PrevChar
+end
+
+local record ForwardJump
+	JumpForward: PrevChar
+end
+
+local record BackwardJumpZone -- TODO: revisit name
+	MoveBackwardZoneOfType: MovementType
+end
+
+local record ForwardJumpZone -- TODO: revisit name
+	MoveForwardZoneOfType: MovementType
+end
+
+local record PageMovement
+	MoveByPage: number
+end
+
+local record SelectionModeSetter
+	SetSelectionMode: SelectionMode
+end
+
+local type CopyModeParams = CopyModeStr|BackwardJump|ForwardJump|BackwardJumpZone|ForwardJumpZone|PageMovement|SelectionModeSetter
+
 local record ConfirmationParams
----Event callback registered via `wezterm.action_callback()`.
----The callback's function signature is `(window, pane)` where `window` and `pane`
----are the `Window` and `Pane` objects from the current pane and window, respectively.
+	---Event callback registered via `wezterm.action_callback()`.
+	---The callback's function signature is `(window, pane)` where `window` and `pane`
+	---are the `Window` and `Pane` objects from the current pane and window, respectively.
+
 	---This callback is called when the user selects `Yes`.
 	---```lua
 	---wezterm.action.Confirmation({
@@ -528,19 +538,20 @@ local record ConfirmationParams
 	---You may embed escape sequences and/or use `wezterm.format()`.
 	---Defaults to: `"🛑 Really continue?"`.
 	message: string | nil
----Event callback registered via `wezterm.action_callback()`.
----The callback's function signature is `(window, pane)` where `window` and `pane`
----are the `Window` and `Pane`.
----This is an optional argument. If present, this callback is called
----when the user selects `No` or closes the confirmation menu.
----```lua
----wezterm.action.Confirmation({
----  cancel = wezterm.action_callback(function(window, pane)
----    --- ...
----  end),
----})
----```
-cancel: { EmitEvent: string } | nil
+	---Event callback registered via `wezterm.action_callback()`.
+	---The callback's function signature is `(window, pane)` where `window` and `pane`
+	---are the `Window` and `Pane`.
+	---This is an optional argument. If present, this callback is called
+	---when the user selects `No` or closes the confirmation menu.
+	---```lua
+	---wezterm.action.Confirmation({
+	---  cancel = wezterm.action_callback(function(window, pane)
+	---    --- ...
+	---  end),
+	---})
+	---```
+	cancel: { EmitEvent: string } | nil
+end
 
 ---Activates a named key table.
 local record ActivateKeyTableParams
@@ -583,7 +594,7 @@ local record ActivateKeyTableParams
 	---and will need to reload the configuration file
 	---(e.g. by re-saving it) to get back in.
 	prevent_fallback: boolean | nil
-
+end
 
 --[[NOTE: use totality in tl?
 
@@ -598,7 +609,170 @@ local flags <total>: {LauncherArgsFlag: boolean} = {
 }
 
 ]]
+
 ---@enum (key) LauncherArgsFlags
+local enum LauncherArgsFlags
+	"COMMANDS"
+	"DOMAINS"
+	"FUZZY"
+	"KEY_ASSIGNMENTS"
+	"LAUNCH_MENU_ITEMS"
+	"TABS"
+	"WORKSPACES"
+    "COMMANDS|DOMAINS"
+    "COMMANDS|FUZZY"
+    "COMMANDS|KEY_ASSIGNMENTS"
+    "COMMANDS|LAUNCH_MENU_ITEMS"
+    "COMMANDS|TABS"
+    "COMMANDS|WORKSPACES"
+    "DOMAINS|COMMANDS"
+    "DOMAINS|FUZZY"
+    "DOMAINS|KEY_ASSIGNMENTS"
+    "DOMAINS|LAUNCH_MENU_ITEMS"
+    "DOMAINS|TABS"
+    "DOMAINS|WORKSPACES"
+    "FUZZY|COMMANDS"
+    "FUZZY|DOMAINS"
+    "FUZZY|KEY_ASSIGNMENTS"
+    "FUZZY|LAUNCH_MENU_ITEMS"
+    "FUZZY|TABS"
+    "FUZZY|WORKSPACES"
+    "KEY_ASSIGNMENTS|COMMANDS"
+    "KEY_ASSIGNMENTS|DOMAINS"
+    "KEY_ASSIGNMENTS|FUZZY"
+    "KEY_ASSIGNMENTS|LAUNCH_MENU_ITEMS"
+    "KEY_ASSIGNMENTS|TABS"
+    "KEY_ASSIGNMENTS|WORKSPACES"
+    "LAUNCH_MENU_ITEMS|COMMANDS"
+    "LAUNCH_MENU_ITEMS|DOMAINS"
+    "LAUNCH_MENU_ITEMS|FUZZY"
+    "LAUNCH_MENU_ITEMS|KEY_ASSIGNMENTS"
+    "LAUNCH_MENU_ITEMS|TABS"
+    "LAUNCH_MENU_ITEMS|WORKSPACES"
+    "TABS|COMMANDS"
+    "TABS|DOMAINS"
+    "TABS|FUZZY"
+    "TABS|KEY_ASSIGNMENTS"
+    "TABS|LAUNCH_MENU_ITEMS"
+    "TABS|WORKSPACES"
+    "WORKSPACES|COMMANDS"
+    "WORKSPACES|DOMAINS"
+    "WORKSPACES|FUZZY"
+    "WORKSPACES|KEY_ASSIGNMENTS"
+    "WORKSPACES|LAUNCH_MENU_ITEMS"
+    "WORKSPACES|TABS"
+    "COMMANDS|DOMAINS|FUZZY"
+    "COMMANDS|DOMAINS|KEY_ASSIGNMENTS"
+    "COMMANDS|DOMAINS|LAUNCH_MENU_ITEMS"
+    "COMMANDS|DOMAINS|TABS"
+    "COMMANDS|DOMAINS|WORKSPACES"
+    "COMMANDS|FUZZY|KEY_ASSIGNMENTS"
+    "COMMANDS|FUZZY|LAUNCH_MENU_ITEMS"
+    "COMMANDS|FUZZY|TABS"
+    "COMMANDS|FUZZY|WORKSPACES"
+    "COMMANDS|KEY_ASSIGNMENTS|DOMAINS"
+    "COMMANDS|KEY_ASSIGNMENTS|FUZZY"
+    "COMMANDS|KEY_ASSIGNMENTS|LAUNCH_MENU_ITEMS"
+    "COMMANDS|KEY_ASSIGNMENTS|TABS"
+    "COMMANDS|KEY_ASSIGNMENTS|WORKSPACES"
+    "COMMANDS|LAUNCH_MENU_ITEMS|DOMAINS"
+    "COMMANDS|LAUNCH_MENU_ITEMS|FUZZY"
+    "COMMANDS|LAUNCH_MENU_ITEMS|KEY_ASSIGNMENTS"
+    "COMMANDS|LAUNCH_MENU_ITEMS|TABS"
+    "COMMANDS|LAUNCH_MENU_ITEMS|WORKSPACES"
+    "COMMANDS|TABS|DOMAINS"
+    "COMMANDS|TABS|FUZZY"
+    "COMMANDS|TABS|KEY_ASSIGNMENTS"
+    "COMMANDS|TABS|LAUNCH_MENU_ITEMS"
+    "COMMANDS|TABS|WORKSPACES"
+    "COMMANDS|WORKSPACES|DOMAINS"
+    "COMMANDS|WORKSPACES|FUZZY"
+    "COMMANDS|WORKSPACES|KEY_ASSIGNMENTS"
+    "COMMANDS|WORKSPACES|LAUNCH_MENU_ITEMS"
+    "COMMANDS|WORKSPACES|TABS"
+    "DOMAINS|COMMANDS|FUZZY"
+    "DOMAINS|COMMANDS|KEY_ASSIGNMENTS"
+    "DOMAINS|COMMANDS|LAUNCH_MENU_ITEMS"
+    "DOMAINS|COMMANDS|TABS"
+    "DOMAINS|COMMANDS|WORKSPACES"
+    "DOMAINS|FUZZY|COMMANDS"
+    "DOMAINS|FUZZY|KEY_ASSIGNMENTS"
+    "DOMAINS|FUZZY|LAUNCH_MENU_ITEMS"
+    "DOMAINS|FUZZY|TABS"
+    "DOMAINS|FUZZY|WORKSPACES"
+    "DOMAINS|KEY_ASSIGNMENTS|COMMANDS"
+    "DOMAINS|KEY_ASSIGNMENTS|FUZZY"
+    "DOMAINS|KEY_ASSIGNMENTS|LAUNCH_MENU_ITEMS"
+    "DOMAINS|KEY_ASSIGNMENTS|TABS"
+    "DOMAINS|KEY_ASSIGNMENTS|WORKSPACES"
+    "DOMAINS|LAUNCH_MENU_ITEMS|COMMANDS"
+    "DOMAINS|LAUNCH_MENU_ITEMS|FUZZY"
+    "DOMAINS|LAUNCH_MENU_ITEMS|KEY_ASSIGNMENTS"
+    "DOMAINS|LAUNCH_MENU_ITEMS|TABS"
+    "DOMAINS|LAUNCH_MENU_ITEMS|WORKSPACES"
+    "DOMAINS|TABS|COMMANDS"
+    "DOMAINS|TABS|FUZZY"
+    "DOMAINS|TABS|KEY_ASSIGNMENTS"
+    "DOMAINS|TABS|LAUNCH_MENU_ITEMS"
+    "DOMAINS|TABS|WORKSPACES"
+    "DOMAINS|WORKSPACES|COMMANDS"
+    "DOMAINS|WORKSPACES|FUZZY"
+    "DOMAINS|WORKSPACES|KEY_ASSIGNMENTS"
+    "DOMAINS|WORKSPACES|LAUNCH_MENU_ITEMS"
+    "DOMAINS|WORKSPACES|TABS"
+    "FUZZY|COMMANDS|DOMAINS"
+    "FUZZY|COMMANDS|KEY_ASSIGNMENTS"
+    "FUZZY|COMMANDS|LAUNCH_MENU_ITEMS"
+    "FUZZY|COMMANDS|TABS"
+    "FUZZY|COMMANDS|WORKSPACES"
+    "FUZZY|DOMAINS|COMMANDS"
+    "FUZZY|DOMAINS|KEY_ASSIGNMENTS"
+    "FUZZY|DOMAINS|LAUNCH_MENU_ITEMS"
+    "FUZZY|DOMAINS|TABS"
+    "FUZZY|DOMAINS|WORKSPACES"
+    "FUZZY|KEY_ASSIGNMENTS|COMMANDS"
+    "FUZZY|KEY_ASSIGNMENTS|DOMAINS"
+    "FUZZY|KEY_ASSIGNMENTS|LAUNCH_MENU_ITEMS"
+    "FUZZY|KEY_ASSIGNMENTS|TABS"
+    "FUZZY|KEY_ASSIGNMENTS|WORKSPACES"
+    "FUZZY|LAUNCH_MENU_ITEMS|COMMANDS"
+    "FUZZY|LAUNCH_MENU_ITEMS|DOMAINS"
+    "FUZZY|LAUNCH_MENU_ITEMS|KEY_ASSIGNMENTS"
+    "FUZZY|LAUNCH_MENU_ITEMS|TABS"
+    "FUZZY|LAUNCH_MENU_ITEMS|WORKSPACES"
+    "FUZZY|TABS|COMMANDS"
+    "FUZZY|TABS|DOMAINS"
+    "FUZZY|TABS|KEY_ASSIGNMENTS"
+    "FUZZY|TABS|LAUNCH_MENU_ITEMS"
+    "FUZZY|TABS|WORKSPACES"
+    "FUZZY|WORKSPACES|COMMANDS"
+    "FUZZY|WORKSPACES|DOMAINS"
+    "FUZZY|WORKSPACES|KEY_ASSIGNMENTS"
+    "FUZZY|WORKSPACES|LAUNCH_MENU_ITEMS"
+    "FUZZY|WORKSPACES|TABS"
+    "KEY_ASSIGNMENTS|COMMANDS|DOMAINS"
+    "KEY_ASSIGNMENTS|COMMANDS|FUZZY"
+    "KEY_ASSIGNMENTS|COMMANDS|LAUNCH_MENU_ITEMS"
+    "KEY_ASSIGNMENTS|COMMANDS|TABS"
+    "KEY_ASSIGNMENTS|COMMANDS|WORKSPACES"
+    "LAUNCH_MENU_ITEMS|COMMANDS|DOMAINS"
+    "LAUNCH_MENU_ITEMS|COMMANDS|FUZZY"
+    "LAUNCH_MENU_ITEMS|COMMANDS|KEY_ASSIGNMENTS"
+    "LAUNCH_MENU_ITEMS|COMMANDS|TABS"
+    "LAUNCH_MENU_ITEMS|COMMANDS|WORKSPACES"
+    "TABS|COMMANDS|DOMAINS"
+    "TABS|COMMANDS|FUZZY"
+    "TABS|COMMANDS|KEY_ASSIGNMENTS"
+    "TABS|COMMANDS|LAUNCH_MENU_ITEMS"
+    "TABS|COMMANDS|WORKSPACES"
+    "WORKSPACES|COMMANDS|DOMAINS"
+    "WORKSPACES|COMMANDS|FUZZY"
+    "WORKSPACES|COMMANDS|KEY_ASSIGNMENTS"
+    "WORKSPACES|COMMANDS|LAUNCH_MENU_ITEMS"
+    "WORKSPACES|COMMANDS|TABS"
+end
+
+
 local launcher_args_flags {
   COMMANDS = 1,
   DOMAINS = 1,
@@ -796,7 +970,7 @@ end
 local record QuickSelectArgsParams
 	---If present, completely overrides the normal set of patterns
 	---and uses only the patterns specified.
-	patterns: string | nil[]
+	patterns: string | {nil}
 	---If present, this alphabet is used instead of `config.quick_select_alphabet`.
 	---See:
 	--- - [`config.quick_select_alphabet`](lua://Config.quick_select_alphabet)
@@ -868,16 +1042,7 @@ local record SplitPaneParams
 	top_level: boolean | nil
 end
 
-local record SwitchToWorkspaceParams
-	---The name of the workspace.
-	---If omitted, a randomly generated name will be chosen.
-	name: string | nil
-	---A `SpawnCommand` describing the command that should be started in the workspace
-	---if it doesn't already exist.
-	---If omitted, the default program will be spawned in the newly created workspace.
-	---For more information, see:
-	--- - [`SpawnCommand`](lua://SpawnCommand)
-	spawn: SpawnCommand | nil
+
 
 ---@generic T
 local type ActivateKeyTable fun(params: ActivateKeyTableParams): { ActivateKeyTable: ActivateKeyTableParams }
@@ -909,7 +1074,7 @@ local type InputSelector fun(params: InputSelectorParams): { InputSelector: Inpu
 local type MoveTab fun(index: T<integer>): { MoveTab: T<integer> }
 local type MoveTabRelative fun(index: T<integer>): { MoveTabRelative: T<integer> }
 local type Multiple
-	{ Multiple: Action[] }|fun(events: Action[]): { Multiple: Action[] }
+	{ Multiple: {Action} }|fun(events: {Action}): { Multiple: {Action} }
 local type OpenUri fun(uri: T<string>): { OpenUri: T<string> }
 local type PaneSelect
 	{ PaneSelect: PaneSelectParams }|fun(params: PaneSelectParams): { PaneSelect: PaneSelectParams }
@@ -983,7 +1148,7 @@ local enum Actions
 	{ InputSelector: InputSelectorParams }
 	{ MoveTab: integer }
 	{ MoveTabRelative: integer }
-	{ Multiple: Action[] }
+	{ Multiple: {Action} }
 	{ OpenUri: string }
 	{ PaneSelect: PaneSelectParams }
 	{ PasteFrom: ClipboardPasteDestination }

@@ -19,7 +19,7 @@ local M = {}
 ---Will return a `PluginSpec` array listing all the plugin repos in the plugin directory.
 ---For info on the returned array, see:
 --- - [`PluginSpec`](lua://PluginSpec)
-list: function(): PluginSpec[]
+list: function(): {PluginSpec}
 
 ---Will clone the plugin repo if it doesn't already exist and store it in the runtime directory
 ---under `plugins/NAME` where `NAME` is derived from the repo URL.

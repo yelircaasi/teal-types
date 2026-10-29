@@ -13,8 +13,8 @@ local record ModalWeztermMode
 end
 
 local record ModalWezterm
-	key_tables: Key[]
-	modes: table<string, ModalWeztermMode>
+	key_tables: {Key}
+	modes: {string: ModalWeztermMode}
 local M = {}
 
 ---Activates mode.
@@ -23,7 +23,7 @@ local M = {}
 activate_mode: function(name, activate_key_table_params): Action
 
 ---@param name string
----@param key_table Key[]
+---@param key_table {Key}
 ---@param key_table_name? string
 ---@param status_text? string
 add_mode: function(name, key_table, status_text, key_table_name) end

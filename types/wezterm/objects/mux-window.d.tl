@@ -9,7 +9,7 @@ local record MuxWindow.TabInfo
 local record SpawnTab
 	---Specifies the argument array for the command that should be spawned.
 	---If omitted the default program for the domain will be spawned.
-	args: string | nil[]
+	args: string | {nil}
 	---Specifies the current working directory that should be used for the program.
 	---If unspecified, it'll follow the spec from `config.default_cwd`.
 	---See:
@@ -82,11 +82,11 @@ local record MuxWindow
 	spawn_tab: function(self: MuxWindow, args: SpawnTab | nil): (MuxTab, Pane)
 
 	---Returns an array table holding each of the `MuxTab` objects contained within this window.
-	tabs: function(self: MuxWindow): MuxTab[]
+	tabs: function(self: MuxWindow): {MuxTab}
 
 	---Returns an array table holding an extended info entry for each of the tabs contained
 	---within this window.
-	tabs_with_info: function(self: MuxWindow): MuxWindow.TabInfo[]
+	tabs_with_info: function(self: MuxWindow): MuxWindow.{TabInfo}
 
 	---Returns the window multiplexer ID.
 	window_id: function(self: MuxWindow): integer

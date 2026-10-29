@@ -14,9 +14,9 @@ local record WorkspacesionizerOpts
 	---in the directories to switch into.
 	git_repos: boolean | nil
 	---The paths that contains the directories you want to switch into.
-	paths: string | nil[]
+	paths: string | {nil}
 	---Wether to show directories base or full name.
-	show: WorkspacesionizerOpts | nil.Show
+	show: WorkspacesionizerOpts |Show | nil
 end
 
 local record Workspacesionizer

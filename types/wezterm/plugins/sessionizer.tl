@@ -5,7 +5,7 @@ local type Schema SchemaScope|(string|Entry)[]
 local record SchemaScope
 	---@field [integer] Schema
 	options: SchemaOptions
-processing: (fun(schema: Entry[]): entries: Entry[])[]
+processing: (fun(schema: {Entry}): entries: {Entry})[]
 
 local record SchemaOptions
 	always_fuzzy: boolean | nil
@@ -31,8 +31,8 @@ end
 
 local record Sessionizer.FdSearchOpts
 	---@field [1] string
-	exclude: string | nil[]
-	extra_args: string | nil[]
+	exclude: string | {nil}
+	extra_args: string | {nil}
 	fd_path: string | nil
 	format: string | nil
 	include_submodules: boolean | nil

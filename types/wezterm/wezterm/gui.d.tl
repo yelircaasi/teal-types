@@ -42,18 +42,18 @@ local M = {}
 ---  },
 ---}
 ---```
-default_key_tables: function(): Key[]|{
+default_key_tables: function(): {Key}|{
 
 ---Returns a table holding the effective default values
 ---for key assignments.
 ---That is the set of keys that is used as a base
 ---if there was no configuration file.
-default_keys: function(): Key[]
+default_keys: function(): {Key}
 
 ---Returns the list of available GPUs supported by WebGpu.
 ---[`config.webgpu_preferred_adapter`](lua://Config.webgpu_preferred_adapter)
 ---is useful in conjunction with this function.
-enumerate_gpus: function(): GpuInfo[]
+enumerate_gpus: function(): {GpuInfo}
 
 ---This function returns the appearance of the window environment.
 ---The appearance can be one of the following 4 values:
@@ -78,7 +78,7 @@ gui_window_for_mux_window: function(window_id: integer): userdata
 
 ---Returns an array table listing all `GUI Window` objects
 ---in a stable/consistent order.
-gui_windows: function(): Window[]
+gui_windows: function(): {Window}
 
 ---Returns information about the screens connected to the system.
 screens: function(): GuiScreensInfo

@@ -2,13 +2,13 @@
 
 local record TabsetsData
 	colors: table
-	tabs: Tabsets.TabData[]
+	tabs: Tabsets.{TabData}
 	window_height: integer
 	window_width: integer
 end
 
 local record Tabsets.TabData
-	panes: TabsetPaneData[]
+	panes: {TabsetPaneData}
 	title: string
 end
 

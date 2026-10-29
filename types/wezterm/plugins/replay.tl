@@ -6,10 +6,10 @@ local record Replay.Extractors.Spec
 	prefix: string | nil
 local E = {}
 
-function E.extractor(s: string): string[]
+function E.extractor(s: string): {string}
 
 local record ReplayOpts
-	extractors: Replay | nil.Extractors.Spec[]
+	extractors: Replay |Extractors.{Spec} | nil
 	recall_key: string | nil
 	replay_key: string | nil
 	skip_keybinds: boolean | nil

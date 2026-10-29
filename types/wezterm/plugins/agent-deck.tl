@@ -25,18 +25,18 @@ local type AgentDeck.Notifications.Backend
 end
 
 local record AgentDeck.AgentsSpec.StatusPatterns
-	idle: string | nil[]
-	inactive: string | nil[]
-	waiting: string | nil[]
-	working: string | nil[]
+	idle: string | {nil}
+	inactive: string | {nil}
+	waiting: string | {nil}
+	working: string | {nil}
 end
 
 local record AgentDeck.AgentsSpec
-	argv_patterns: string | nil[]
-	executable_patterns: string | nil[]
-	patterns: string | nil[]
-	status_patterns: AgentDeck | nil.AgentsSpec.StatusPatterns
-	title_patterns: string | nil[]
+	argv_patterns: string | {nil}
+	executable_patterns: string | {nil}
+	patterns: string | {nil}
+	status_patterns: AgentDeck |AgentsSpec.StatusPatterns | nil
+	title_patterns: string | {nil}
 end
 
 local record AgentDeckOpenCodeOpts: AgentDeck.AgentsSpec
@@ -61,16 +61,16 @@ local record AgentDeck.ComponentSpec
 	filter: AgentDeckStatus | nil
 	label: string | nil
 	text: string | nil
-	type: AgentDeck | nil.ComponentSpec.Type
+	type: AgentDeck | ComponentSpec.Type | nil
 end
 
 local record AgentDeckOpts.RightStatus
-	components: AgentDeck | nil.ComponentSpec[]
+	components: AgentDeck | {ComponentSpec} | nil
 	enabled: boolean | nil
 end
 
 local record AgentDeckOpts.TabTitle
-	components: AgentDeck | nil.ComponentSpec[]
+	components: AgentDeck | {ComponentSpec} | nil
 	enabled: boolean | nil
 position: "left"|string | nil
 
@@ -84,10 +84,10 @@ end
 local record AgentDeck.IconStyleSpec: AgentDeckOpts.Colors
 
 local record AgentDeckOpts.Icons
-	emoji: AgentDeck | nil.IconStyleSpec
-	nerd: AgentDeck | nil.IconStyleSpec
-	style: AgentDeckOpts | nil.Icons.Style
-	unicode: AgentDeck | nil.IconStyleSpec
+	emoji: AgentDeck |IconStyleSpec | nil
+	nerd: AgentDeck |IconStyleSpec | nil
+	style: AgentDeckOpts |Icons.Style | nil
+	unicode: AgentDeck |IconStyleSpec | nil
 end
 
 local record AgentDeck.Notifications.TerminalNotifier
@@ -99,24 +99,24 @@ local record AgentDeck.Notifications.TerminalNotifier
 end
 
 local record AgentDeckOpts.Notifications
-	backend: AgentDeck | nil.Notifications.Backend
+	backend: AgentDeck |Notifications.Backend | nil
 	enabled: boolean | nil
 	on_waiting: boolean | nil
 	suppress_osc_notifications: boolean | nil
-	terminal_notifier: AgentDeck | nil.Notifications.TerminalNotifier
+	terminal_notifier: AgentDeck |Notifications.TerminalNotifier | nil
 	timeout_ms: integer | nil
 end
 
 local record AgentDeckOpts
-	agents: AgentDeckOpts | nil.Agents|table<string, AgentDeck.AgentsSpec>
-	colors: AgentDeckOpts | nil.Colors
+	agents: AgentDeckOpts |Agents|{string: | nil AgentDeck.AgentsSpec}
+	colors: AgentDeckOpts |Colors | nil
 	cooldown_ms: integer | nil
-	enabled_agents: nil | nil|string[]
-	icons: AgentDeckOpts | nil.Icons
+	enabled_agents: nil | nil|{string}
+	icons: AgentDeckOpts |Icons | nil
 	max_lines: integer | nil
-	right_status: AgentDeckOpts | nil.RightStatus
+	right_status: AgentDeckOpts |RightStatus | nil
 	update_interval: integer | nil
-	notifications: AgentDeckOpts | nil.Notifications
+	notifications: AgentDeckOpts |Notifications | nil
 end
 
 local record AgentDeckState

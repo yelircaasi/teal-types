@@ -2,13 +2,13 @@
 
 local record ListenersOpts
 	---Default options for state functions.
-	function_options: Listeners | nil.FunctionOpts
+	function_options: Listeners |FunctionOpts | nil
 	toast_timeout: integer | nil
 
 ---@generic T
 local record Listeners.EventListener
 	error: boolean | nil
-	fn: fun | nil(args: T[])
+	fn: fun | nil(args: {T})
 	info: boolean | nil
 	log_message: string | nil
 	max_time: integer | nil
@@ -19,13 +19,13 @@ local record Listeners.EventListener
 	warn: boolean | nil
 end
 
-local type Listeners.EventListeners table<string, Listeners.EventListener[]|Listeners.EventListener>
+local type Listeners.EventListeners {string: Listeners.{EventListener}|Listeners.EventListener}
 
 local record Listeners.InternalState
-	counters: table<string, integer>
-	data: table<string, any>
-	flags: table<string, boolean>
-	functions: table<string, function>
+	counters: {string: integer}
+	data: {string: any}
+	flags: {string: boolean}
+	functions: {string: function}
 
 local record Listeners.Flags
 local G = {}

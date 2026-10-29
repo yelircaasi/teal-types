@@ -8,7 +8,7 @@ end
 local record RosePinePalette
 	ansi: table<integer, PaletteAnsi>
 	background: string
-	brights: table<string, PaletteBrights>
+	brights: {string: PaletteBrights}
 	cursor_bg: string
 	cursor_border: string
 	cursor_fg: string

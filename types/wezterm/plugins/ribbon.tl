@@ -1,6 +1,6 @@
 ---@diagnostic disable:unused-local
 
-local type Ribbon.Attribute string|string[]
+local type Ribbon.Attribute string|{string}
 local type Ribbon.FormatItem string|table
 
 local record Ribbon.LogConfig
@@ -12,8 +12,8 @@ end
 local record Ribbon.Defaults
 	foreground: string | nil Default foreground color.
 	background: string | nil Default background color.
-	attributes: table<string, table|string> Named text attributes.
-	colors: table<string, boolean> ANSI color-name lookup table.
+	attributes: {string: table|string} Named text attributes.
+	colors: {string: boolean} ANSI color-name lookup table.
 
 local record Ribbon.TextConfig
 	strip: boolean Trim text before inserting it.
@@ -24,7 +24,7 @@ end
 local record Ribbon.Config
 	log: Ribbon.LogConfig
 	defaults: Ribbon.Defaults
-	attribute_aliases: table<string, string|string[]> Attribute aliases.
+	attribute_aliases: {string: string|{string}} Attribute aliases.
 	validate_attributes: boolean Warn or error on unknown attributes.
 	strict_mode: boolean Error on unknown attributes when validation is enabled.
 	text: Ribbon.TextConfig
@@ -71,11 +71,11 @@ function R:append(background, foreground, text, attributes): Ribbon|nil|? | nil
 function R:prepend(background, foreground, text, attributes): Ribbon|nil|? | nil
 
 ---Append raw `wezterm.format` items.
----@param items? Ribbon.FormatItem[]|Ribbon.FormatItem Format item or list of items.
+---@param items? Ribbon.{FormatItem}|Ribbon.FormatItem Format item or list of items.
 function R:append_items(items): Ribbon
 
 ---Prepend raw `wezterm.format` items.
----@param items? Ribbon.FormatItem[]|Ribbon.FormatItem Format item or list of items.
+---@param items? Ribbon.{FormatItem}|Ribbon.FormatItem Format item or list of items.
 function R:prepend_items(items): Ribbon
 
 ---Clear all ribbon items.
@@ -91,7 +91,7 @@ function R:format(): string
 function R:debug(formatted: boolean Log rendered text when true, raw items when false.) end
 
 ---Return the raw format items.
-function R:items(): Ribbon.FormatItem[]
+function R:items(): Ribbon.{FormatItem}
 
 local record Ribbon.Api
 	config: Ribbon.ConfigModule Configuration helpers.

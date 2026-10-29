@@ -242,11 +242,11 @@ global record wezterm
    add_to_config_reload_watch_list: function(path: string): nil
 
    ---Accepts an argument list; it will attempt to spawn that command in the background.
-   background_child_process: function(args: string[]): nil
+   background_child_process: function(args: {string}): nil
 
    ---Returns the battery information for each of the installed batteries on the system.
    ---This is useful for example to assemble status information for the status bar.
-   battery_info: function(): BatteryInfo[]
+   battery_info: function(): {BatteryInfo}
 
    ---Given a `string` parameter, returns the number of columns that text occupies
    ---in the terminal.
@@ -262,7 +262,7 @@ global record wezterm
    ---Returns the compiled-in default hyperlink rules as a table.
    ---For more information, see:
    --- - [`HyperLinkRule`](lua://HyperLinkRule)
-   default_hyperlink_rules: function(): HyperLinkRule[]
+   default_hyperlink_rules: function(): {HyperLinkRule}
 
    ---Computes a list of `SshDomain` objects based on the set of hosts
    ---discovered in `~/.ssh/config`.
@@ -274,7 +274,7 @@ global record wezterm
    ---to edit/adjust the returned information before assigning it to your config.
    ---For more information, see:
    --- - [SshDomain](lua://SshDomain)
-   default_ssh_domains: function(): SshDomain[]
+   default_ssh_domains: function(): {SshDomain}
 
    ---Computes a list of `WslDomain` objects, each one representing
    ---an installed WSL distribution on your system.
@@ -285,7 +285,7 @@ global record wezterm
    ---See:
    --- - [`WslDomain`](lua://WslDomain)
    --- - [`config.wsl_domains`](lua://Config.wsl_domains)
-   default_wsl_domains: function(): WslDomain[]
+   default_wsl_domains: function(): {WslDomain}
 
    ---`wezterm.emit()` resolves the registered callback(s) for the specified event name
    ---and calls each of them in turn, passing the additional arguments through to the callback.
@@ -309,7 +309,7 @@ global record wezterm
    ---and return a mapping from the hostname to the effective ssh config options for that host.
    ---You may optionally pass a list of ssh configuration files that should be read
    ---in case you have a special configuration.
-   ---@param ssh_config_file_name? string[]|string
+   ---@param ssh_config_file_name? {string}|string
    enumerate_ssh_hosts: function(ssh_config_file_name): table<string>,
 
    ---This function constructs a Lua table that corresponds to the internal
@@ -398,7 +398,7 @@ global record wezterm
    ---Can be used to produce a formatted string with terminal graphic attributes
    ---such as `bold`, `italic` and `colors`.
    ---The result is a string with WezTerm-compatible escape sequences embedded.
-   ---@param ... FormatItem[]
+   ---@param ... {FormatItem}
    format: function(...): string
 
    ---While this function is still valid, it is recommended to use instead:
@@ -408,7 +408,7 @@ global record wezterm
    ---of the builtin color schemes.
    ---This is useful for programmatically deciding things about the scheme to use based on its color,
    ---or for taking a scheme and overriding a couple of entries from your configuration file.
-   ---@return table<string, Palette> builtin
+   ---@return {string: Palette} builtin
    ---@deprecated Use `wezterm.color.get_builtin_color_schemes()` instead
    get_builtin_color_schemes: function() end
 
@@ -418,7 +418,7 @@ global record wezterm
    ---or this function will generate an error.
    ---@param pattern string
    ---@param relative_to? string
-   glob: function(pattern, relative_to): string[]
+   glob: function(pattern, relative_to): {string}
 
    ---This function was moved to `wezterm.color.gradient`.
    ---In addition, the returned colors are now of `Color` type.
@@ -430,7 +430,7 @@ global record wezterm
    ---See:
    --- - [`Color`](lua://Color)
    --- - [`wezterm.color.gradient`](lua://Wezterm.Color.gradient)
-   gradient_colors: function(gradient: Gradient, num_colors: number): Color[]
+   gradient_colors: function(gradient: Gradient, num_colors: number): {Color}
    ---@deprecated
    has_acti---<UNUSABLE> on: function(action: string): boolean
 
@@ -573,7 +573,7 @@ global record wezterm
    --- - [`FormatItem`](lua://FormatItem)
    --- - [`wezterm.format()`](lua://Wezterm.format)
    --- - [`wezterm.run_child_process()`](lua://Wezterm.run_child_process)
-   ---<UNUSABLE> on: function(event: "format-tab-title", callback: fun(tab: TabInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config, hover: boolean, max_width: integer): string|FormatItem): nil
+   ---<UNUSABLE> on: function(event: "format-tab-title", callback: fun(tab: TabInformation, tabs: {TabInformation}, panes: {PaneInformation}, config: Config, hover: boolean, max_width: integer): string|FormatItem): nil
 
    ---The parameters to the event are:
    --- - `config`: The effective configuration for the window
@@ -601,7 +601,7 @@ global record wezterm
    --- - [`wezterm.run_child_process()`](lua://Wezterm.run_child_process)
    ---Mirrors the `format-window-title` callback arguments in wezterm upstream:
    ---https://github.com/wezterm/wezterm/blob/main/wezterm-gui/src/termwindow/mod.rs
-   ---<UNUSABLE> on: function(event: "format-window-title", callback: fun(tab: TabInformation, pane: PaneInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config): string): nil
+   ---<UNUSABLE> on: function(event: "format-window-title", callback: fun(tab: TabInformation, pane: PaneInformation, tabs: {TabInformation}, panes: {PaneInformation}, config: Config): string): nil
 
    ---This event is triggered when the GUI is starting up after attaching the selected domain.
    ---For example, when running `wezterm connect DOMAIN` or `wezterm start --domain DOMAIN`
@@ -937,7 +937,7 @@ global record wezterm
    --- - [`KeyBinding`](lua://KeyBinding)
    --- - [`MouseBinding`](lua://MouseBinding)
    --- - [`wezterm.permute_any_or_no_mods()`](lua://Wezterm.permute_any_or_no_mods)
-   permute_any_mods: function(T: table): MouseBinding[]|KeyBinding[]
+   permute_any_mods: function(T: table): {MouseBinding}|{KeyBinding}
 
    ---This function is intended to help with generating `KeyBinding` entries.
    ---These should apply regardless of the combination of modifier keys pressed.
@@ -952,7 +952,7 @@ global record wezterm
    --- - [`KeyBinding`](lua://KeyBinding)
    --- - [`table.unpack()`](lua://table.unpack)
    --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-   permute_any_or_no_mods: function(T: table): KeyBinding[]
+   permute_any_or_no_mods: function(T: table): {KeyBinding}
 
    ---This function is intended to help with generating `MouseBinding` entries.
    ---These should apply regardless of the combination of modifier keys pressed.
@@ -967,12 +967,12 @@ global record wezterm
    --- - [`MouseBinding`](lua://MouseBinding)
    --- - [`table.unpack()`](lua://table.unpack)
    --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-   permute_any_or_no_mods: function(T: table): MouseBinding[]
+   permute_any_or_no_mods: function(T: table): {MouseBinding}
 
    ---Returns an array containing the absolute file name paths of the directory `path` specified.
    ---Due to limitations in the Lua bindings, all of the paths must be able to be represented as `UTF-8`
    ---or this function will generate an error.
-   read_dir: function(path: string): string[]
+   read_dir: function(path: string): {string}
 
    ---Immediately causes the configuration to be reloaded and re-applied.
    ---**If you call this at the file scope in your config you are in danger of creating an infinite loop
@@ -989,7 +989,7 @@ global record wezterm
    ---```
    ---See also:
    --- - [`wezterm.background_child_process()`](lua://Wezterm.background_child_process)
-   ---@param args string[]
+   ---@param args {string}
    ---@return boolean success A `boolean` to denote a successful invocation
    ---@return string stdout The `stdout` data as a `string`
    run_child_process: function(args): string
@@ -1015,13 +1015,13 @@ global record wezterm
 
    ---Joins together its array arguments by applying POSIX-style shell quoting on each argument
    ---and then adding a space.
-   shell_join_args: function(args: string[]): string
+   shell_join_args: function(args: {string}): string
 
    ---Quotes its single argument `s` using POSIX shell quoting rules.
    shell_quote_arg: function(s: string): string
 
    ---Splits a command line into a `string` argument array in accordance with POSIX shell rules.
-   shell_split: function(line: string): string[]
+   shell_split: function(line: string): {string}
 
    ---Suspends the execution of the script for `ms` milliseconds.
    ---When the time period has elapsed, the script continues running at the next statement.
@@ -1030,7 +1030,7 @@ global record wezterm
    ---Takes the input string and splits it by newlines.
    ---The result as an array of strings with the newlines removed.
    ---Both `\n` (LF) and `\r\n` (CRLF) are recognized as newlines.
-   split_by_newlines: function(s: string): string[]
+   split_by_newlines: function(s: string): {string}
 
    ---Formats the current local date/time into a string using the Rust `chrono strftime` syntax.
    strftime: function(format: string): string

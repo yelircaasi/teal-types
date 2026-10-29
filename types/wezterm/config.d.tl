@@ -268,14 +268,14 @@ local record BackgroundLayer
 end
 
 local record FontRules
-	blink: FontRules | nil.Blink
+	blink: FontRules |Blink | nil
 	font: TextStyle | nil
-	intensity: FormatItemAttribute | nil.Intensity
+	intensity: FormatItemAttribute |Intensity | nil
 	invisible: boolean | nil
 	italic: boolean | nil
 	reverse: boolean | nil
 	strikethrough: boolean | nil
-	underline: TabBarColor | nil.Underline
+	underline: TabBarColor |Underline | nil
 
 ---The `return` statement at the end of your `wezterm.lua` file returns a table that is interpreted
 ---as the internal `Config` struct type.
@@ -369,7 +369,7 @@ local record Config
 	---or to tile, and also to scroll with optional parallax as the viewport is scrolled.
 	---This option is a table that lists the desired layers starting with the deepest/back-most layer.
 	---Subsequent layers are composited over the top of preceding layers.
-	background: BackgroundLayer | nil[]
+	background: BackgroundLayer | {nil}
 	bidi_direction: BidiDirection | nil
 	bidi_enabled: boolean | nil
 	---When `true` (the default), PaletteIndex 0-7 are shifted to **bright**
@@ -465,7 +465,7 @@ local record Config
 	---and shells like Bash or Zsh determine character width based on the `glibc` locale.
 	---See also:
 	--- - [`config.treat_east_asian_ambiguous_width_as_wide`](lua://Config.treat_east_asian_ambiguous_width_as_wide)
-	cell_widths: CellWidth | nil[]
+	cell_widths: CellWidth | {nil}
 	---Specifies the background color used by [`CharSelect`](https://wezterm.org/config/lua/keyassignment/CharSelect.html).
 	char_select_bg_color: string | nil
 	---Specifies the text color used by [`CharSelect`](https://wezterm.org/config/lua/keyassignment/CharSelect.html).
@@ -506,7 +506,7 @@ local record Config
 	---Note that `0` is always treated as a clean exit code and can be omitted from the list.
 	---See:
 	--- - [`config.exit_behavior`](lua://Config.exit_behavior)
-	clean_exit_codes: integer | nil[]
+	clean_exit_codes: integer | {nil}
 	---The color scheme to be used.
 	---For more info, see:
 	--- - [Colors & Appearance](https://wezterm.org/config/appearance.html)
@@ -519,7 +519,7 @@ local record Config
 	---```
 	---Color scheme names that are defined in files in `config.color_scheme_dirs` take precedence
 	---over the built-in color schemes.
-	color_scheme_dirs: string | nil[]
+	color_scheme_dirs: string | {nil}
 	---Specifies various named color schemes in your configuration file.
 	---Described in more detail in [Colors & Appearance](https://wezterm.org/config/appearance.html).
 	color_schemes: table | nil<string, Palette>
@@ -662,7 +662,7 @@ local record Config
 	---the command line arguments always take precedence._
 	---Depending on your desktop environment, you may find it simpler to use your operating system
 	---shortcut or alias function to set up a shortcut that runs the subcommand you desire.
-	default_gui_startup_args: string | nil[]|{ [1]: "start" }
+	default_gui_startup_args: string | {nil}|{ [1]: "start" }
 	---**Note: This option only applies to the standalone mux server.**
 	---For the equivalent option in the GUI, see:
 	--- - [`config.default_domain`](lua://Config.default_domain).
@@ -680,7 +680,7 @@ local record Config
 	---If no `prog` is specified on the command line, use this instead of running the user's shell.
 	---`config.default_prog` is implemented as an array where the 0th element is the command to run
 	---and the rest of the elements are passed as the positional arguments to that command.
-	default_prog: string | nil[]
+	default_prog: string | {nil}
 	---Setting this value will cause wezterm to replace the the value of the `SSH_AUTH_SOCK` environment
 	---when it first starts up, and to use this value for the auth socket registered
 	---with the multiplexer server (visible via `wezterm cli list-clients`).
@@ -779,7 +779,7 @@ local record Config
 	enq_answerback: string | nil
 	---An array of `ExecDomain` tables.
 	---For more info read the [`ExecDomain`](https://wezterm.org/config/lua/ExecDomain.html) docs.
-	exec_domains: ExecDomain | nil[]
+	exec_domains: ExecDomain | {nil}
 	---Controls the behavior when the shell program spawned by the terminal exits.
 	---There are three possible values:
 	--- - `"Close"`: Close the corresponding pane as soon as the program exits
@@ -854,14 +854,14 @@ local record Config
 	---```lua
 	---config.font_locator = 'ConfigDirsOnly'
 	---```
-	font_dirs: string | nil[]
+	font_dirs: string | {nil}
 	---Specifies the method by which system fonts are located and loaded.
 	---You may specify `"ConfigDirsOnly"` to disable loading system fonts
 	---and use only the fonts found in the directories that you specify in your
 	---[`config.font_dirs`](lua://Config.font_dirs)
 	---configuration option.
 	---Otherwise, it is recommended to omit this setting.
-	font_locator: Config | nil.FontLocator
+	font_locator: Config |FontLocator | nil
 	---Specifies the method by which fonts are rendered on screen.
 	---Possible values are `"FreeType"` and `"Harfbuzz"`.
 	font_rasterizer: FontRasterizer | nil
@@ -889,7 +889,7 @@ local record Config
 	---and will match based on the attributes that were listed.
 	---See:
 	--- - [`FontRules`](lua://FontRules).
-	font_rules: FontRules | nil[]
+	font_rules: FontRules | {nil}
 	---Specifies the method by which text is mapped to glyphs
 	---in the available fonts.
 	---The shaper is responsible for handling kerning, ligatures
@@ -1064,14 +1064,14 @@ local record Config
 	--- - Metal (on macOS)
 	--- - Vulkan
 	--- - DirectX 12 (on Windows)
-	front_end: Config | nil.FrontEnd
+	front_end: Config |FrontEnd | nil
 	glyph_cache_image_cache_size: integer | nil
 	---When `config.font_shaper = "Harfbuzz"`, this setting affects how font shaping takes place.
 	---See [Font Shaping](https://wezterm.org/config/font-shaping.html)
 	---for more information and examples.
 	---The _OpenType_ spec lists a number of features [here](https://docs.microsoft.com/en-us/typography/opentype/spec/featurelist).
 	---See [Font Shaping](https://wezterm.org/config/font-shaping.html) for more information and examples.
-	harfbuzz_features: HarfbuzzFeatures | nil[]
+	harfbuzz_features: HarfbuzzFeatures | {nil}
 	---If `true`, the mouse cursor will be hidden while typing.
 	---This option is `true` by default.
 	hide_mouse_cursor_when_typing: boolean | nil
@@ -1081,7 +1081,7 @@ local record Config
 	hide_tab_bar_if_only_one_tab: boolean | nil
 	---Defines rules to match text from the terminal output
 	---and generate clickable links.
-	hyperlink_rules: HyperlinkRule | nil[]
+	hyperlink_rules: HyperlinkRule | {nil}
 	ignore_svg_fonts: boolean | nil
 	---Control IME preedit rendering. IME preedit is an area that is used to display the string being preedited in IME. WezTerm supports the following IME preedit rendering.
 	--- - `"Builtin"`: (Default) IME preedit is rendered by WezTerm itself
@@ -1169,9 +1169,9 @@ local record Config
 	---Default key assignments also respect `config.key_map_preference`.
 	key_map_preference: "Mapped"|"Physical" | nil
 	---See the main [Key Tables docs](https://wezterm.org/config/key-tables.html).
-	key_tables: table | nil<string, Key[]>
+	key_tables: table | nil<string, {Key}>
 	---Holds an array of tables that assign keys to WezTerm.
-	keys: Key | nil[]
+	keys: Key | {nil}
 	---Specify a string of unique characters.
 	---The characters in the string are used to calculate one or two key press
 	---shortcuts that can be used to quickly choose from the Launcher when in the default mode.
@@ -1182,7 +1182,7 @@ local record Config
 	---using this configuration setting.
 	---Each entry in `config.launch_menu` is an instance
 	---of a [`SpawnCommand`](lua://SpawnCommand) object.
-	launch_menu: SpawnCommand | nil[]
+	launch_menu: SpawnCommand | {nil}
 	---A leader key is a a modal modifier key. If leader is specified in the configuration then pressing
 	---that key combination will enable a virtual LEADER modifier.
 	---If `config.leader` is specified in the configuration then pressing
@@ -1264,7 +1264,7 @@ local record Config
 	---A list containing tables of type
 	---[`MouseBindingBase`](lua://MouseBindingBase).
 	---For more info please check the [Mouse Binding](https://wezterm.org/config/mouse.html?h=mouse_report#configuring-mouse-assignments) docs.
-	mouse_bindings: MouseBindingBase | nil[]
+	mouse_bindings: MouseBindingBase | {nil}
 	---If `true`, the vertical mouse wheel will switch between tabs
 	---when the mouse cursor is over the tab bar.
 	---The default is `true`.
@@ -1293,7 +1293,7 @@ local record Config
 	---  'SSH_CONNECTION',
 	---}
 	---```
-	mux_env_remove: string | nil[]
+	mux_env_remove: string | {nil}
 	---The buffer size used by `parse_buffered_data` in the mux output parser.
 	---Values that are too large can make output application less responsive.
 	mux_output_parser_buffer_size: integer | nil
@@ -1393,7 +1393,7 @@ local record Config
 	---The regex syntax now supports backreferences and look around assertions.
 	---See [Fancy Regex Syntax](https://docs.rs/fancy-regex/latest/fancy_regex/#syntax) for the extended syntax,
 	---which builds atop the underlying [Regex syntax](https://docs.rs/regex/latest/regex/#syntax).
-	quick_select_patterns: string | nil[]
+	quick_select_patterns: string | {nil}
 	---When set to `true`, all color and styling is removed from the pane
 	---prior to performing matching and highlighting any matching text
 	---in quick select mode.
@@ -1467,7 +1467,7 @@ local record Config
 	---}
 	---```
 	---See [this page](https://wezterm.org/config/lua/config/serial_ports.html) for more complete info.
-	serial_ports: SerialDomain | nil[]
+	serial_ports: SerialDomain | {nil}
 	---Specifies a map of environment variables that should be set
 	---when spawning commands in the local domain.
 	---This is not used when working with remote domains.
@@ -1517,7 +1517,7 @@ local record Config
 	---```
 	---More advanced control over this behavior can be achieved by defining a
 	---[`"mux-is-process-stateful"`](https://wezterm.org/config/lua/mux-events/mux-is-process-stateful.html) event handler.
-	skip_close_confirmation_for_processes_named: string | nil[]
+	skip_close_confirmation_for_processes_named: string | {nil}
 	sort_fallback_fonts_by_coverage: boolean | nil
 	---Sets which ssh backend should be used by default for the integrated ssh client.
 	---Possible values are:
@@ -1539,7 +1539,7 @@ local record Config
 	---```
 	---See also:
 	--- - [`wezterm.default_ssh_domains()`](lua://Wezterm.default_ssh_domains)
-	ssh_domains: SshDomain | nil[]
+	ssh_domains: SshDomain | {nil}
 	---Specifies the number of milliseconds that need to elapse between triggering
 	---the [`update-status`](https://wezterm.org/config/lua/window-events/update-status.html) and the [`update-right-status`](https://wezterm.org/config/lua/window-events/update-right-status.html)
 	---hooks.
@@ -1714,17 +1714,17 @@ local record Config
 	---The contents of this list are used to determine a reasonable default for the
 	---[`config.adjust_window_size_when_changing_font_size`](lua://Config.adjust_window_size_when_changing_font_size)
 	---configuration field.
-	tiling_desktop_environments: string | nil[]
+	tiling_desktop_environments: string | {nil}
 	---Configures TLS multiplexing domains.
 	---Read more about TLS Domains [here](https://wezterm.org/multiplexing.html#tls-domains).
 	---This option accepts an array of tables of type
 	---[`TlsDomainClient`](lua://TlsDomainClient).
-	tls_clients: TlsDomainClient | nil[]
+	tls_clients: TlsDomainClient | {nil}
 	---Configures TLS multiplexing domains.
 	---Read more about TLS Domains [here](https://wezterm.org/multiplexing.html#tls-domains).
 	---This option accepts an array of tables of type
 	---[`TlsDomainServer`](lua://TlsDomainServer).
-	tls_servers: TlsDomainServer | nil[]
+	tls_servers: TlsDomainServer | {nil}
 	---Unicode defines a number of codepoints as having [Ambiguous Width](http://www.unicode.org/reports/tr11/#Ambiguous).
 	---These are characters whose width resolves differently according to
 	---context that is typically absent from the monospaced world
@@ -1817,7 +1817,7 @@ local record Config
 	---More info can be found [here](https://wezterm.org/config/lua/config/unicode_version.html).
 	unicode_version: integer | nil
 	---The set of UNIX domains.
-	unix_domains: UnixDomain | nil[]
+	unix_domains: UnixDomain | {nil}
 	---If set to `false`, the [`ActivatePaneDirection`](https://wezterm.org/config/lua/keyassignment/ActivatePaneDirection.html) command
 	---will have no effect if the active pane is zoomed.
 	---If `true`, the active pane will be unzoomed first and then switched.
@@ -1932,7 +1932,7 @@ local record Config
 	---Whether to select the higher powered discrete GPU when the system has
 	---a choice of _integrated_ or _discrete_.
 	---Defaults to `"LowPower"`.
-	webgpu_power_preference: Config | nil.WebGpuPowerPreference
+	webgpu_power_preference: Config |WebGpuPowerPreference | nil
 	---Specifies which `WebGpu` adapter should be used.
 	---This option is only applicable when you have set `"WebGpu"` to
 	---[`config.front_end`](lua://Config.front_end).
@@ -2073,7 +2073,7 @@ local record Config
 	---The default is a list derived from parsing the output of `wsl -l -v`.
 	---For more info about that list, and how to override it, see:
 	--- - [`wezterm.default_wsl_domains()`](lua://Wezterm.default_wsl_domains)
-	wsl_domains: WslDomain | nil[]
+	wsl_domains: WslDomain | {nil}
 	xcursor_size: integer | nil
 	xcursor_theme: string | nil
     ---Explicitly set the name of the IME server to which wezterm

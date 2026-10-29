@@ -26,7 +26,7 @@ local record TlsDomainClient
 	---If an entry is a directory, then its contents will be loaded as CA certs and added
 	---to the trust store.
 	---Omit this if you are using `bootstrap_via_ssh`.
-	pem_root_certs: string | nil[]
+	pem_root_certs: string | {nil}
 	---Identifies the `host:port` pair of the remote server.
 	remote_address: string
 	---The hostname string that we expect to match against the common name field in the certificate

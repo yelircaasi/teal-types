@@ -16,14 +16,14 @@ local record ToggleTerminalOpts
 	---Change invoker pane on every toggle.
 	change_invoker_id_everytime: boolean | nil
 	---Direction to split the pane.
-	direction: ToggleTerminalOpts | nil.Direction
+	direction: ToggleTerminalOpts |Direction | nil
 	---Key for the toggle action.
 	key: string | nil
 	---Modifier keys for the toggle action.
 	mods: string | nil
 	---Size of the split pane.
 	size: { Percent: integer } | nil
-	zoom: ToggleTerminalOpts | nil.Zoom
+	zoom: ToggleTerminalOpts |Zoom | nil
 end
 
 local record ToggleTerminal

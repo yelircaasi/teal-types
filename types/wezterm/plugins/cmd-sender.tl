@@ -14,7 +14,7 @@ local M = {}
 apply_to_config: function(config, opts) end
 
 ---Send command to panes.
-send_cmd_to_panes: function(cmd: string, panes: Pane[]): nil
+send_cmd_to_panes: function(cmd: string, panes: {Pane}): nil
 
 ---Send command to tab's panes.
 send_cmd_to_tab_panes: function(cmd: string, tab: MuxTab): nil

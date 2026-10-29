@@ -44,7 +44,7 @@ local record Log.Config
 	---Whether logging is globally enabled.
 	enabled: boolean | nil
 	---Sink-related settings.
-	sinks: Log | nil.Config.Sinks
+	sinks: Log |Config.Sinks | nil
 	---Minimum log level.
 	threshold: string | nil|integer
 end
@@ -64,7 +64,7 @@ function ConfigModule.setup(overrides) end
 local record Log.Sinks.FileOpts
 	---Output format.
 	---Defaults to `"json"`.
-	format: Log | nil.Sinks.FileFormat
+	format: Log |Sinks.FileFormat | nil
 	---Custom formatter. When provided, it overrides `format`.
 	formatter: fun | nil(event: Log.Event): string
 	---Destination file path. Auto-resolved when omitted.
@@ -116,7 +116,7 @@ end
 
 local record Log.Sinks.MemorySink
 	---Stored log events.
-	entries: Log.Event[]
+	entries: Log.{Event}
 	---Maximum stored entries (`0` == unlimited).
 	max_entries: integer
 ---@overload fun(event: Log.Event)
@@ -130,7 +130,7 @@ function MemorySink:write(event: Log.Event Log event to store.): nil
 function MemorySink:clear(): nil
 
 ---Return shallow copy of stored entries.
-function MemorySink:get_entries(): Log.Event[]
+function MemorySink:get_entries(): Log.{Event}
 
 ---Get number of entries in memory.
 function MemorySink:count(): integer

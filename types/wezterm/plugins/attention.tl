@@ -7,13 +7,13 @@ local type WeztermAttentionOpts.Renderer =
 local type WeztermAttention.TitleFormatter fun(tab: TabInformation, ctx: WeztermAttention.WrapTitleFormatterCtx): title: string
 
 local record WeztermAttention.WrapTitleFormatterCtx
-	attention: string[]|string
+	attention: {string}|string
 	config: Config
 	default_title: string
 	hover: boolean
 	max_width: integer
-	panes: PaneInformation[]
-	tabs: TabInformation[]
+	panes: {PaneInformation}
+	tabs: {TabInformation}
 
 local record WeztermAttentionOpts.ReviewKey: SendKeyParams
 	key: string | nil
@@ -30,20 +30,20 @@ local record WeztermAttentionOpts.Indicators
 	notify: string | nil
 	review: string | nil
 	stop: string | nil
-	thinking_frames: string | nil[]
+	thinking_frames: string | {nil}
 end
 
 local record WeztermAttentionOpts
 	acknowledge_types: ("notify"|"stop"|string)[] | nil
-	auto_clear: WeztermAttentionOpts | nil.Attention[]
-	colors: WeztermAttentionOpts | nil.Colors
+	auto_clear: WeztermAttentionOpts |{Attention} | nil
+	colors: WeztermAttentionOpts |Colors | nil
 	dir: string | nil
-	indicators: WeztermAttentionOpts | nil.Indicators
-	priority: WeztermAttentionOpts | nil.Attention[]
-	renderer: WeztermAttentionOpts | nil.Renderer
-	review_key: WeztermAttentionOpts | nil.ReviewKey
+	indicators: WeztermAttentionOpts |Indicators | nil
+	priority: WeztermAttentionOpts |{Attention} | nil
+	renderer: WeztermAttentionOpts |Renderer | nil
+	review_key: WeztermAttentionOpts |ReviewKey | nil
 	stale_after_ms: { thinking: integer }|false | nil
-	title_formatter: WeztermAttention | nil.TitleFormatter
+	title_formatter: WeztermAttention |TitleFormatter | nil
 end
 
 local record WeztermAttention.Internal
@@ -53,12 +53,12 @@ local I = {}
 ---@param opts? WeztermAttentionOpts|{ now_ms?: integer }|{ write_acknowledgement?: fun(dir: string, pane_id: string, identity: string): success: boolean }
 function I.acknowledge_focused_pane(pane_id, opts): "absent"|"acknowledged"|"failed"|"kept"
 
----@param pane_ids string[]
+---@param pane_ids {string}
 ---@param opts? WeztermAttentionOpts
 function I.resolve_visible_attention(pane_ids, opts): {
 
 local record WeztermAttention
-	private: _active_acknowledge_set table<string, boolean>
+	private: _active_acknowledge_set {string: boolean}
 	private: _active_colors WeztermAttentionOpts.Colors
 	private: _active_dir string
 	private: _internal WeztermAttention.Internal

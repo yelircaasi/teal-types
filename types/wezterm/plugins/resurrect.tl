@@ -20,20 +20,20 @@ local record Resurrect.TabSize
 end
 
 local record Resurrect.WorkspaceState
-	window_states: Resurrect.WindowState[]
+	window_states: Resurrect.{WindowState}
 	workspace: string
 end
 
 local record Resurrect.WindowState
 	size: Resurrect.TabState
-	tabs: Resurrect.TabState[]
+	tabs: Resurrect.{TabState}
 	title: string
 	workspace: string
 end
 
 local record Resurrect.PaneTree
 	alt_screen_active: boolean
-	bottom: Resurrect | nil.PaneTree
+	bottom: Resurrect |PaneTree | nil
 	cwd: string
 	domain: string | nil
 	height: integer
@@ -42,7 +42,7 @@ local record Resurrect.PaneTree
 	left: integer
 	pane: Pane | nil
 	process: LocalProcessInfo | nil
-	right: Resurrect | nil.PaneTree
+	right: Resurrect |PaneTree | nil
 	text: string
 	top: integer
 	width: integer

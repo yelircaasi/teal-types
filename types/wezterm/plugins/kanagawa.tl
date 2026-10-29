@@ -30,7 +30,7 @@ local record kanagawa.AppearanceApplyOpts
 	---Defaults to `"lotus"`.
 	light: string | nil
 	---Role-based overrides.
-	overrides: kanagawa | nil.AppearanceOverrides
+	overrides: kanagawa |AppearanceOverrides | nil
 
 ---Options for `kanagawa.register()`.
 ---See:
@@ -46,7 +46,7 @@ local record KanagawaOpts
 	---Partial overrides deep-merged into the scheme.
 	overrides: Palette | nil
 	---Scheme name. Defaults to `"wave"`.
-	scheme: Kanagawa | nil.PaletteName
+	scheme: Kanagawa |PaletteName | nil
 end
 
 local record Kanagawa

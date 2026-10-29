@@ -1,6 +1,6 @@
 local record WeztermStatus.UiConfig
 	---Visual separators used in the status bar.
-	separators: WeztermStatus | nil.SeparatorConfig
+	separators: WeztermStatus |SeparatorConfig | nil
 	---Theme for the status bar.
 	theme: TabBarColor | nil
 end
@@ -18,19 +18,19 @@ end
 
 local record WeztermStatus.CellsConfig
 	---Battery indicator configuration.
-	battery: WeztermStatus | nil.BatteryConfig
+	battery: WeztermStatus |BatteryConfig | nil
 	---Current working directory configuration.
-	cwd: WeztermStatus | nil.CwdConfig
+	cwd: WeztermStatus |CwdConfig | nil
 	---Date and time display configuration.
-	date: WeztermStatus | nil.DateConfig
+	date: WeztermStatus |DateConfig | nil
 	---Hostname display configuration.
-	hostname: WeztermStatus | nil.HostnameConfig
+	hostname: WeztermStatus |HostnameConfig | nil
 	---Kubernetes context configuration.
 	k8s_context: WeztermStatus.K8SContextConfig | nil
 	---Mode indicator configuration.
-	mode: WeztermStatus | nil.ModeConfig
+	mode: WeztermStatus |ModeConfig | nil
 	---WezTerm workspace configuration.
-	workspace: WeztermStatus | nil.WorkspaceConfig
+	workspace: WeztermStatus |WorkspaceConfig | nil
 end
 
 local record WeztermStatus.ModeConfig
@@ -56,7 +56,7 @@ local record WeztermStatus.CwdConfig
 	---Whether to show current directory.
 	enabled: boolean | nil
 	---Array of path alias configurations.
-	path_aliases: WeztermStatus | nil.PathAliasConfig[]
+	path_aliases: WeztermStatus |{PathAliasConfig} | nil
 	---Whether to replace home directory with tilde.
 	tilde_prefix: boolean | nil
 end
@@ -93,9 +93,9 @@ end
 
 local record WeztermStatusConfig
 	---Status cells configuration.
-	cells: WeztermStatus | nil.CellsConfig
+	cells: WeztermStatus |CellsConfig | nil
 	---UI-related configuration.
-	ui: WeztermStatus | nil.UiConfig
+	ui: WeztermStatus |UiConfig | nil
 end
 
 local record WeztermStatus

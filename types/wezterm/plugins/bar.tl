@@ -35,17 +35,17 @@ local record BarWeztermOpts.Clock: BarWeztermOpts.Module
 end
 
 local record BarWeztermOpts.Modules
-	clock: BarWeztermOpts | nil.Clock
-	cwd: BarWeztermOpts | nil.Module
-	hostname: BarWeztermOpts | nil.Module
-	leader: BarWeztermOpts | nil.Module
-	pane: BarWeztermOpts | nil.Module
-	ssh: BarWeztermOpts | nil.Module
-	spotify: BarWeztermOpts | nil.Spotify
-	tabs: BarWeztermOpts | nil.Tabs
-	username: BarWeztermOpts | nil.Module
-	workspace: BarWeztermOpts | nil.Module
-	zoom: BarWeztermOpts | nil.Module
+	clock: BarWeztermOpts |Clock | nil
+	cwd: BarWeztermOpts |Module | nil
+	hostname: BarWeztermOpts |Module | nil
+	leader: BarWeztermOpts |Module | nil
+	pane: BarWeztermOpts |Module | nil
+	ssh: BarWeztermOpts |Module | nil
+	spotify: BarWeztermOpts |Spotify | nil
+	tabs: BarWeztermOpts |Tabs | nil
+	username: BarWeztermOpts |Module | nil
+	workspace: BarWeztermOpts |Module | nil
+	zoom: BarWeztermOpts |Module | nil
 end
 
 local record BarWeztermOpts.Padding.Tabs
@@ -54,15 +54,15 @@ local record BarWeztermOpts.Padding.Tabs
 end
 
 local record BarWeztermOpts.Padding: BarWeztermOpts.Padding.Tabs
-	tabs: BarWeztermOpts | nil.Padding.Tabs
+	tabs: BarWeztermOpts |Padding.Tabs | nil
 end
 
 local record BarWeztermOpts
 	max_width: integer | nil
-	modules: BarWeztermOpts | nil.Modules
-	padding: BarWeztermOpts | nil.Padding
-	position: BarWeztermOpts | nil.Position
-	separator: BarWeztermOpts | nil.Separator
+	modules: BarWeztermOpts |Modules | nil
+	padding: BarWeztermOpts |Padding | nil
+	position: BarWeztermOpts |Position | nil
+	separator: BarWeztermOpts |Separator | nil
 end
 
 local record BarWezterm

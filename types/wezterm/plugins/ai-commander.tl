@@ -13,7 +13,7 @@ end
 local record AICommanderConfig.Model: AICommanderConfig.APIKey
 
 local record AICommanderConfig
-	api_key: AICommanderConfig | nil.APIKey
+	api_key: AICommanderConfig |APIKey | nil
 	---Number of commands to generate (default: `5`).
 	command_count: integer | nil
 	---History file location.
@@ -22,9 +22,9 @@ local record AICommanderConfig
 	max_history: integer | nil
 	---Maximum response length.
 	max_tokens: integer | nil
-	model: AICommanderConfig | nil.Model
+	model: AICommanderConfig |Model | nil
 	---`"anthropic"` or `"openai"` (default: `"anthropic"`).
-	provider: AICommanderConfig | nil.Provider
+	provider: AICommanderConfig |Provider | nil
 	---Response creativity (`0.0` - `1.0`).
 	temperature: number | nil
 end

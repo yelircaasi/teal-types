@@ -1,7 +1,7 @@
 ---@diagnostic disable:unused-local
 
 local record PinnedTabsCreateOpts
-	args: string | nil[]
+	args: string | {nil}
 	cwd: string | nil
 	name: string | nil
 	program: string | nil
@@ -16,7 +16,7 @@ local record PinnedTabsOpts
 	create: boolean | nil
 	---You don't want any debug logs (errors will still be logged).
 	debug: boolean | nil
-	keys: PinnedTabsKey | nil[]
+	keys: PinnedTabsKey | {nil}
 end
 
 local record PinnedTabs

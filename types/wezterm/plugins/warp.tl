@@ -8,7 +8,7 @@ local type Warp.Table.MergeBehavior =
 	"error"|"force"|"keep"
 
 local record Warp.Table.MergeOpts
-	behavior: Warp | nil.Table.MergeBehavior
+	behavior: Warp |Table.MergeBehavior | nil
 	combine: boolean | nil
 end
 
@@ -95,7 +95,7 @@ local L = {}
 ---M.bisect(t, 3, { bound = "upper" }) -- 7 (past last)
 ---```
 ---@generic T
----@param list T[] Sorted list.
+---@param list {T} Sorted list.
 ---@param val T Value to search for.
 ---@param opts? Warp.List.BisectOpts Options.
 function L.bisect(list, val, opts): integer
@@ -103,7 +103,7 @@ function L.bisect(list, val, opts): integer
 ---Compute Cartesian product of multiple lists.
 ---Collects all combinations from `cartesian_iter_copy()` into a single table.
 ---Each entry is an independent table that can be safely stored or mutated.
-function L.cartesian(sets: any[][] List of sub-lists for the product.): any[][]
+function L.cartesian(sets: {any}[] List of sub-lists for the product.): {any}[]
 
 ---Compute Cartesian product of multiple lists (iterator).
 ---Returns an iterator yielding each combination as a shared table.
@@ -118,12 +118,12 @@ function L.cartesian(sets: any[][] List of sub-lists for the product.): any[][]
 ----- 3  2  a
 ----- 4  2  b
 ---```
-function L.cartesian_iter(sets: any[][] List of sub-lists for the product.): fun():
+function L.cartesian_iter(sets: {any}[] List of sub-lists for the product.): fun():
 
 ---Compute Cartesian product of multiple lists (copying iterator).
 ---Wraps `cartesian_iter()`, copying each yielded combination into a fresh table
 ---that the caller can safely store or mutate.
-function L.cartesian_iter_copy(sets: any[][] List of sub-lists for the product.): fun():
+function L.cartesian_iter_copy(sets: {any}[] List of sub-lists for the product.): fun():
 
 ---Check if a list contains a given value.
 ---Scans the array portion (`1` to `#list`) using a numeric `for`.
@@ -131,7 +131,7 @@ function L.cartesian_iter_copy(sets: any[][] List of sub-lists for the product.)
 ---For general tables (hash keys, predicate matching) use:
 --- - [warp.table.contains()](lua://Warp.Table.contains).
 ---@generic T
-function L.contains(list: T[] List to search., value: T Value to find.): boolean
+function L.contains(list: {T} List to search., value: T Value to find.): boolean
 
 ---Append elements from one list into another in-place.
 ---Inserts elements from `src` (from index `start` to `finish`, inclusive)
@@ -151,14 +151,14 @@ function L.extend(dst, src, start, finish): T
 ----- { 1, 2, 3, 4, 5 }
 ---```
 ---@generic T: table
-function L.extend_unique(dst: T Destination list (modified in-place)., src: any[] Source list.): T
+function L.extend_unique(dst: T Destination list (modified in-place)., src: {any} Source list.): T
 
 ---Find the first element matching a predicate.
 ---Scans the array portion (`1` to `#list`) and returns the first element
 ---for which `fn` returns a truthy value, along with its index.
 ---Returns `nil` if no match is found.
 ---@generic T
----@param list T[] List to search.
+---@param list {T} List to search.
 ---@param fn fun(v: T): any Predicate function.
 ---@return T|nil|? value First matching element, or `nil`.
 function L.find(list, fn): integer|nil|? | nil
@@ -167,24 +167,24 @@ function L.find(list, fn): integer|nil|? | nil
 ---Recursively flattens sub-lists up to `depth` levels deep.
 ---When `depth` is `nil`, flattens completely.
 ---@generic T
----@param list any[] List to flatten.
+---@param list {any} List to flatten.
 ---@param depth? integer Maximum nesting depth (default: unlimited).
-function L.flatten(list, depth): T[]
+function L.flatten(list, depth): {T}
 
 ---Reverse list elements in-place.
 ---Swaps elements from both ends toward the center.
 ---Only the array portion (`1` to `#list`) is affected; hash keys are untouched.
 ---@generic T
-function L.reverse(list: T[] List to reverse.): T[]
+function L.reverse(list: {T} List to reverse.): {T}
 
 ---Create a sub-list copy.
 ---Returns a new list containing elements from `start` to `finish` (inclusive).
 ---Does not modify the original list.
 ---@generic T
----@param list T[] Source list.
+---@param list {T} Source list.
 ---@param start? integer First index (default `1`).
 ---@param finish? integer Last index (default `#list`).
-function L.slice(list, start, finish): T[]
+function L.slice(list, start, finish): {T}
 
 ---Remove duplicate values from a list in-place.
 ---Only the first occurrence of each value is kept.
@@ -201,15 +201,15 @@ function L.slice(list, start, finish): T[]
 ----- { { id = 1 }, { id = 2 } }
 ---```
 ---@generic T
----@param list T[] List to deduplicate (modified in-place).
+---@param list {T} List to deduplicate (modified in-place).
 ---@param key? fun(x: T): any Optional uniqueness key function.
-function L.unique(list, key): T[]
+function L.unique(list, key): {T}
 
 ---Zip parallel lists into a list of tuples.
 ---Combines elements at the same index from each input list.
 ---Stops at the length of the shortest list.
----@param ... any[][] Lists to zip.
-function L.zip(...): any[][]
+---@param ... {any}[] Lists to zip.
+function L.zip(...): {any}[]
 
 local record Warp.Maths
 local MT = {}
@@ -351,7 +351,7 @@ function S.rjust(s, total_width, ch): string
 ---@param s string Input string to split.
 ---@param sep string Separator pattern.
 ---@param opts? Warp.String.SplitOpts Optional splitting behavior.
-function S.split(s, sep, opts): string[]
+function S.split(s, sep, opts): {string}
 
 ---Check whether `s` starts with the given prefix.
 function S.starts_with(s: string Input string., prefix: string Prefix to test.): boolean
@@ -450,7 +450,7 @@ function T.extend(behavior, ...): table
 ---Keys are discarded — the result is always a flat list.
 ---Iteration follows `pairs()` order (not guaranteed to be stable).
 ---@generic V
-function T.filter(tbl: table<any, V> Table to filter., fn: fun(value: V): boolean Predicate function.): V[]
+function T.filter(tbl: table<any, V> Table to filter., fn: fun(value: V): boolean Predicate function.): {V}
 
 ---Index into a table via successive keys.
 ---Traverses nested tables by indexing with each key in order.
@@ -504,7 +504,7 @@ function T.islist(tbl: any Value to check.): boolean
 ---The order is not guaranteed (follows `pairs()` traversal).
 ---Works on both list-like and hash tables.
 ---@generic K
-function T.keys(tbl: table<K, any> Table to extract keys from.): K[]
+function T.keys(tbl: table<K, any> Table to extract keys from.): {K}
 
 ---Apply a function to every value of a table.
 ---Creates a new table where each value is the result of calling `fn` on
@@ -548,7 +548,7 @@ function T.spairs(tbl: table<K, V> Table to iterate.): fun():
 ---The order is not guaranteed (follows `pairs()` traversal).
 ---Works for both list-like and hash tables.
 ---@generic V
-function T.values(tbl: table<any, V> Table to extract values from.): V[]
+function T.values(tbl: table<any, V> Table to extract values from.): {V}
 
 ---Public API surface for the Warp plugin.
 local record Warp

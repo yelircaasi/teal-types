@@ -23,7 +23,7 @@ end
 
 local record WeztermTabs.TabUIConfig
 	---Configuration for the zoom indicator.
-	zoom_indicator: WeztermTabs | nil.ZoomIndicatorConfig
+	zoom_indicator: WeztermTabs |ZoomIndicatorConfig | nil
 end
 
 local record WeztermTabs.SeparatorConfig
@@ -41,16 +41,16 @@ local record WeztermTabs.UIConfig
 	---Process-specific icons for tabs.
 	icons: table | nil<string, string>
 	---Visual separators used in the tab bar.
-	separators: WeztermTabs | nil.SeparatorConfig
+	separators: WeztermTabs |SeparatorConfig | nil
 	---Tab-specific UI configuration.
-	tab: WeztermTabs | nil.TabUIConfig
+	tab: WeztermTabs |TabUIConfig | nil
 end
 
 local record WeztermTabsOpts
 	---Configuration for tab bar behavior.
-	tabs: WeztermTabs | nil.TabConfig
+	tabs: WeztermTabs |TabConfig | nil
 	---Configuration for visual elements.
-	ui: WeztermTabs | nil.UIConfig
+	ui: WeztermTabs |UIConfig | nil
 end
 
 local record WeztermTabs

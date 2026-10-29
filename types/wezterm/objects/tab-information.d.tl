@@ -10,7 +10,7 @@ local record TabInformation
 	---The `PaneInformation` array for all panes in the tab.
 	---See:
 	--- - [`PaneInformation`](lua://PaneInformation)
-	panes: PaneInformation[]
+	panes: {PaneInformation}
 	---Is `true` if this tab is the active tab.
 	is_active: boolean
 	---Is `true` if this tab is the previously active tab.

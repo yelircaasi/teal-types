@@ -59,13 +59,13 @@ local record MuxTab
 	---Returns an array table containing the set of `Pane` objects contained by this tab.
 	---See:
 	--- - [`Pane`](lua://Pane)
-	panes: function(self: MuxTab): Pane[]
+	panes: function(self: MuxTab): {Pane}
 
 	---Returns an array table containing an extended info entry for each of the panes contained
 	---by this tab.
 	---See:
 	--- - [`MuxTab.PaneInfo`](lua://MuxTab.PaneInfo)
-	panes_with_info: function(self: MuxTab): MuxTab.PaneInfo[]
+	panes_with_info: function(self: MuxTab): MuxTab.{PaneInfo}
 
 	---Rotates the panes in the clockwise direction.
 	rotate_clockwise: function(self: MuxTab): nil

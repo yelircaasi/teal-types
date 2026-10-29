@@ -8,7 +8,7 @@ local record Sigil.Entry
 	name: string | nil Human-readable display name.
 	icon: string Icon glyph.
 	color: string | nil Icon color.
-	aliases: string | nil[] Alternative lookup names.
+	aliases: string | {nil} Alternative lookup names.
 end
 
 local record Sigil.FallbackConfig
@@ -24,15 +24,15 @@ local record Sigil.FormattingConfig
 local record Sigil.Config
 	fallback: Sigil.FallbackConfig
 	formatting: Sigil.FormattingConfig
-	overrides: table<string, Sigil.Entry> Entry overrides merged into defaults.
-	symbols: table<string, any> Symbol overrides merged into defaults.
+	overrides: {string: Sigil.Entry} Entry overrides merged into defaults.
+	symbols: {string: any} Symbol overrides merged into defaults.
 
 local record Sigil.LookupOptions
 	fallback: boolean | nil Return fallback entry when no key matches.
 end
 
 local record Sigil.ItemsOptions: Sigil.LookupOptions
-	padding: Sigil | nil.Padding Padding to apply around the icon.
+	padding: Sigil |Padding | nil Padding to apply around the icon.
 	reset: boolean | nil Append `ResetAttributes` after the icon.
 end
 
@@ -65,7 +65,7 @@ color: function(key, opts): string|nil|? | nil
 ---Return raw `wezterm.format` items for a key or alias.
 ---@param key any Lookup key.
 ---@param opts? Sigil.ItemsOptions Formatting options.
-items: function(key, opts): Sigil.FormatItem[]
+items: function(key, opts): Sigil.{FormatItem}
 
 ---Render a key or alias with `wezterm.format`.
 ---@param key any Lookup key.

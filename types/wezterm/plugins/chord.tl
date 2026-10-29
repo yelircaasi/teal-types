@@ -17,7 +17,7 @@ local record Chord.ConflictEntry
 end
 
 local record Chord.Conflict
-	entries: Chord.ConflictEntry[]
+	entries: Chord.{ConflictEntry}
 	key: string
 	lhs: string
 	mods: string | nil
@@ -55,7 +55,7 @@ end
 
 local record Chord.OverrideSpec
 	---Mappings to append.
-	add: Chord | nil.VimMapping[]
+	add: Chord |{VimMapping} | nil
 	---Mappings to remove.
 	disable: (string|Chord.KeyEntry|Chord.VimMapping)[] | nil
 	---Disable a mapping group when set to `false`.
@@ -67,7 +67,7 @@ end
 local record Chord.Overrides
 	enabled: { key_tables?: boolean, keys?: boolean } | nil
 	key_tables: table | nil<string, Chord.OverrideSpec>
-	keys: Chord | nil.OverrideSpec
+	keys: Chord |OverrideSpec | nil
 end
 
 local record Chord.KeyMeta
@@ -85,9 +85,9 @@ end
 
 local record Chord.KeyTableDef
 	---Key definitions in Vim-style notation.
-	keys: Chord | nil.VimMapping[]
+	keys: Chord |{VimMapping} | nil
 	---Key-table metadata used by hints and mode displays.
-	meta: Chord | nil.KeyMeta
+	meta: Chord |KeyMeta | nil
 end
 
 local record Chord.HintsConfig
@@ -136,11 +136,11 @@ end
 local record Chord.Config
 	---Vim-style key aliases mapped to WezTerm key names.
 	aliases: table | nil<string, string>
-	command: Chord | nil.CommandConfig
-	hints: Chord | nil.HintsConfig
+	command: Chord |CommandConfig | nil
+	hints: Chord |HintsConfig | nil
 	---Leader token used in Vim-style key notation.
 	leader: string
-	log: Chord | nil.LogConfig
+	log: Chord |LogConfig | nil
 	---Vim-style modifier aliases mapped to WezTerm modifiers.
 	modifiers: table | nil<string, string>
 end
@@ -219,18 +219,18 @@ function C.clear(): nil
 ---Collect commands from registered entries, config keys, key tables, and defaults.
 ---@param config_table Config WezTerm config table.
 ---@param opts? Chord.CommandConfig Command options merged over `Chord.CommandConfig`.
-function C.collect(config_table, opts): Chord.Command[]
+function C.collect(config_table, opts): Chord.{Command}
 
 ---Register an action-only command or a key-backed command.
 function C.register(spec: Chord.CommandSpec): Chord.Command|nil|? | nil
 
 ---Register many commands.
-function C.register_many(specs: Chord.CommandSpec[]): nil
+function C.register_many(specs: Chord.{CommandSpec}): nil
 
 local record Chord
-	aliases: table<string, string>
+	aliases: {string: string}
 	command: Chord.CommandApi
-	modifiers: table<string, string>
+	modifiers: {string: string}
 local M = {}
 
 ---Apply user overrides to already-built keys and key tables.
@@ -241,7 +241,7 @@ config: function(): Chord.Config
 
 ---@param config Config
 ---@param opts? Chord.ConflictOptions
-conflicts: function(config, opts): Chord.Conflict[]
+conflicts: function(config, opts): Chord.{Conflict}
 
 ---Return registered key-table metadata for mode displays.
 get_modes: function(theme: table Theme or color table passed to key-table definition functions.): table<string,
@@ -289,10 +289,10 @@ normalize: function(lhs): string|nil|? | nil
 setup: function(opts): Chord
 
 ---Convert Vim-style mappings to a WezTerm key table.
-table: function(mappings: (Chord.VimMapping|Chord.KeyEntry)[]): Chord.KeyEntry[]
+table: function(mappings: (Chord.VimMapping|Chord.KeyEntry)[]): Chord.{KeyEntry}
 
 ---Register modal key tables and write them into `config.key_tables`.
-tables: function(config_table: Config WezTerm config table., defs: table<string, Chord.KeyTableDef|fun(theme: table): Chord.KeyTableDef>): nil
+tables: function(config_table: Config WezTerm config table., defs: {string: Chord.KeyTableDef|fun(theme: table): Chord.KeyTableDef}): nil
 
 ---Validate a Vim-style key expression.
 ---@param lhs string Vim-style key expression.

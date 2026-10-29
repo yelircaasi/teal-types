@@ -26,7 +26,7 @@ end
 
 local record Url
 	---The URL scheme such as `"file"`, or `"https"`.
-	scheme: string|nil|UrlType
+	scheme: UrlType | nil
 	---Decodes the path field and interprets it as a file path.
 	file_path: string | nil
 	---The `username` portion of the URL, or an empty string

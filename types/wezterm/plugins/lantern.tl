@@ -2,7 +2,7 @@
 
 local type Lantern.ResetBehavior =
 	"clear"|"persist"
-local type Lantern.GlowResult Lantern.Choice[]|Lantern.Choice|string|number
+local type Lantern.GlowResult Lantern.{Choice}|Lantern.Choice|string|number
 
 local record Lantern.Choice
 	id: string
@@ -16,7 +16,7 @@ local record Lantern.BuildContext
 local record Lantern.Context
 	choice: Lantern.Choice
 	pane: Pane | nil
-	wick: Lantern | nil.Wick
+	wick: Lantern |Wick | nil
 	window: Window | nil
 end
 
@@ -42,7 +42,7 @@ local record Lantern.InternalChoice
 	module_path: string | nil
 	choice: Lantern.Choice
 
-local type Lantern.FormatChoices fun(choices: table<string, Lantern.InternalChoice>, ctx: Lantern.BuildContext): Lantern.Choice[]
+local type Lantern.FormatChoices fun(choices: {string: Lantern.InternalChoice}, ctx: Lantern.BuildContext): Lantern.{Choice}
 
 local type Lantern.FormatDescription fun(desc: string, fuzzy: boolean, icons: Lantern.Icons): string
 
@@ -74,7 +74,7 @@ local record Lantern.PersistenceOpts
 	enabled: boolean | nil
 	path: string | nil
 	legacy_path: string | nil
-	reset_behavior: Lantern | nil.ResetBehavior
+	reset_behavior: Lantern |ResetBehavior | nil
 end
 
 local record Lantern.ColorConfig
@@ -87,7 +87,7 @@ end
 
 local record Lantern.DefaultFontConfig
 	font: TextStyle | nil
-	font_rules: FontRules | nil[]
+	font_rules: FontRules | {nil}
 	font_size: number | nil
 	line_height: number | nil
 end
@@ -113,10 +113,10 @@ local record Lantern.DefaultOpts
 	description: string | nil
 	fuzzy_description: string | nil
 	alphabet: string | nil
-	icons: Lantern | nil.Icons
+	icons: Lantern |Icons | nil
 	comp: fun | nil(sort_by: string): fun(a: Lantern.Choice, b: Lantern.Choice): boolean
-	format_choices: Lantern | nil.FormatChoices
-	format_description: Lantern | nil.FormatDescription
+	format_choices: Lantern |FormatChoices | nil
+	format_description: Lantern |FormatDescription | nil
 end
 
 local record Lantern.Config
@@ -127,18 +127,18 @@ local record Lantern.Config
 	color: Lantern.ColorConfig
 
 local record Lantern.SetupOpts
-	log: Lantern | nil.LogOpts
-	persistence: Lantern | nil.PersistenceOpts
-	defaults: Lantern | nil.DefaultOpts
-	default_font: Lantern | nil.DefaultFontConfig
-	color: Lantern | nil.ColorOpts
+	log: Lantern |LogOpts | nil
+	persistence: Lantern |PersistenceOpts | nil
+	defaults: Lantern |DefaultOpts | nil
+	default_font: Lantern |DefaultFontConfig | nil
+	color: Lantern |ColorOpts | nil
 end
 
 local record Lantern.WickSpec
 	name: string | nil
 	title: string | nil
 	flames: (string|Lantern.Flame)[] | nil
-	flame_dirs: (string[]|string)[] | nil
+	flame_dirs: ({string}|string)[] | nil
 	sort_by: string | nil
 	fuzzy: boolean | nil
 	alphabet: string | nil
@@ -146,8 +146,8 @@ local record Lantern.WickSpec
 	fuzzy_description: string | nil
 	persist: boolean | nil
 	comp: fun | nil(a: Lantern.Choice, b: Lantern.Choice): boolean
-	format_choices: Lantern | nil.FormatChoices
-	format_description: Lantern | nil.FormatDescription
+	format_choices: Lantern |FormatChoices | nil
+	format_description: Lantern |FormatDescription | nil
 end
 
 local record Lantern.Wick
@@ -215,10 +215,10 @@ local F = {}
 ---Return cached flame module paths from one directory.
 ---Pass a string for an absolute/custom directory, or path segments for a
 ---built-in Lantern flame directory under `plugin/lantern/flames`.
-function F.from_dir(dir: string[]|string): string[]
+function F.from_dir(dir: {string}|string): {string}
 
 ---Return cached flame module paths from multiple directories.
-function F.from_dirs(dirs: (string[]|string)[]): string[]
+function F.from_dirs(dirs: ({string}|string)[]): {string}
 
 local record Lantern.ColorApi
 local C = {}

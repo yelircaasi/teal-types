@@ -30,7 +30,7 @@ apply_to_config: function(config: Config WezTerm configuration table): nil
 
 ---Returns battery components for each battery.
 ---If no batteries are detected, an empty table is returned.
-get_batteries: function(): BatteryComponent[]
+get_batteries: function(): {BatteryComponent}
 
 ---Returns battery icons for all batteries.
 ---If no batteries are detected, an empty string is returned.

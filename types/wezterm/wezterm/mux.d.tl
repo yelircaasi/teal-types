@@ -23,12 +23,12 @@ local M = {}
 ---Returns an array table holding all of the known`MuxDomain` objects.
 ---See:
 --- - [`MuxDomain`](lua://MuxDomain)
-all_domains: function(): MuxDomain[]
+all_domains: function(): {MuxDomain}
 
 ---Returns an array table holding all of the known `MuxWindow` objects.
 ---See:
 --- - [`MuxWindow`](lua://MuxWindow)
-all_windows: function(): MuxWindow[]
+all_windows: function(): {MuxWindow}
 
 ---Returns the name of the active workspace.
 get_active_workspace: function(): string
@@ -81,7 +81,7 @@ get_tab: function(tab_id: integer): MuxTab
 get_window: function(id: integer): MuxWindow
 
 ---Returns a table containing the names of the workspaces known to the mux.
-get_workspace_names: function(): string[]
+get_workspace_names: function(): {string}
 
 ---Renames the workspace `old` to `new`.
 ---```lua

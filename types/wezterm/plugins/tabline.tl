@@ -133,7 +133,7 @@ local record TablineWezParentComponent: TablineWezCWDComponent
 
 local record TablineWezProcessComponent: TablineWezComponentSpec
 	---@field [1] 'process'
-	process_to_icon: string | nil|table<string, { [1]: string, color?: { fg?: string } }>
+	process_to_icon: string | nil|{string: { [1]: string, color?: { fg?: string } }}
 end
 
 local record TablineWezRAMComponent: TablineWezCPUComponent
@@ -185,15 +185,15 @@ tabline_z:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
 local record TablineWezExtensionSpec.Events
 	callback: fun | nil(window: Window)
 	delay: integer | nil
-	hide: string | nil[]|string
-	show: string | nil[]|string
+	hide: string | {nil}|string
+	show: string | {nil}|string
 end
 
 local record TablineWezExtensionSpec
 	---@field [1] string
 	colors: TablineWezThemeColors | nil
 	events: TablineWezExtensionSpec.Events
-	sections: TablineWezOpts | nil.Sections
+	sections: TablineWezOpts |Sections | nil
 end
 
 local record TablineWezOpts.Options
@@ -233,8 +233,8 @@ end
 
 local record TablineWezOpts
 	extensions: (TablineWezExtension|TablineWezExtensionSpec)[] | nil
-	options: TablineWezOpts | nil.Options
-	sections: TablineWezOpts | nil.Sections
+	options: TablineWezOpts |Options | nil
+	sections: TablineWezOpts |Sections | nil
 end
 
 local record TablineWez

@@ -9,11 +9,11 @@ local A = {}
 function A.action(selection: string, pane, selection, opts: Quick_SelectOpts) end
 
 local record Quick_SelectOpts
-	actions: Quick_SelectOpts | nil.Action[]
+	actions: Quick_SelectOpts |{Action} | nil
 	direction: PaneDirection | nil
 	key: string | nil
 	mods: string | nil
-	patterns: string | nil[]
+	patterns: string | {nil}
 	text_extensions: table | nil<string, boolean>
 end
 

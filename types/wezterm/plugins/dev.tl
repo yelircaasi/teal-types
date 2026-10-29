@@ -6,8 +6,8 @@ local type Behavior =
 local record DevOpts
 	auto: boolean | nil
 	fetch_branch: boolean | nil
-	ignore_branch: string | nil[]|string
-	keywords: string | nil[]
+	ignore_branch: string | {nil}|string
+	keywords: string | {nil}
 end
 
 local record CacheElement
@@ -16,15 +16,15 @@ local record CacheElement
 	error: boolean | nil
 	fetch_branch: boolean | nil
 	file: string | nil
-	ignore_branch: string | nil[]|string
-	keywords: string | nil[]
+	ignore_branch: string | {nil}|string
+	keywords: string | {nil}
 	plugin_path: string | nil
 	require_path: string | nil
 end
 
 local record Dev
 	bootstrap: boolean
-	cache: table<string, CacheElement>
+	cache: {string: CacheElement}
 	dev_cache_element: CacheElement
 	substitutions: table | nil<string, string>
 	utils: boolean
@@ -38,7 +38,7 @@ get_require_path: function(hashkey: string): string|nil|? | nil
 ---@param opts? DevOpts
 require: function(url, opts)(): any?
 
-set_substitutions: function(substitute_dict: table<string, string>) end
+set_substitutions: function(substitute_dict: {string: string}) end
 
 ---Set the wezterm require path for the plugin.
 set_wezterm_require_path: function(hashkey: string): nil

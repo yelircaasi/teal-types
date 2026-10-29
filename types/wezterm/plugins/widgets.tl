@@ -5,8 +5,8 @@ local record Widgets.WidgetOpts
 end
 
 local record WidgetsOpts
-	left: Widgets | nil.Widget[]
-	right: Widgets | nil.Widget[]
+	left: Widgets |{Widget} | nil
+	right: Widgets |{Widget} | nil
 	separator: { color: string|nil, text: string|nil }|nil
 end
 

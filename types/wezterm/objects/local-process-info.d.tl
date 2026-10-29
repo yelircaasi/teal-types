@@ -18,10 +18,10 @@ end
 ---Represents a process running on the local machine.
 local record LocalProcessInfo
 	---A table holding the argument array for the process.
-	argv: string[]
+	argv: {string}
 	---A table keyed by child process id and whose values are themselves.
 	---`LocalProcessInfo` objects that describe the child processes.
-	children: LocalProcessInfo[]
+	children: {LocalProcessInfo}
 	---The current working directory for the process (may be empty).
 	cwd: string
 	---the full path to the executable image for the process (may be empty).

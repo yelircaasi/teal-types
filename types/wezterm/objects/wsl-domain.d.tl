@@ -17,7 +17,7 @@ local record WslDomain
 	---to avoid needing to specify it here.
 	---See:
 	--- - [`SpawnCommand`](lua://SpawnCommand)
-	default_prog: string | nil[]
+	default_prog: string | {nil}
 	---The name of the distribution. This identifies the WSL distribution.
 	---It must match a valid distribution from your `wsl -l -v` output in order for the domain
 	---to be useful.

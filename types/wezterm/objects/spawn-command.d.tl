@@ -9,7 +9,7 @@ local record SpawnPosition
 local record SpawnCommand
 	---The argument array specifying the command and its arguments.
 	---If omitted, the default program for the target domain will be spawned.
-	args: string | nil[]
+	args: string | {nil}
 	---The current working directory to set for the command.
 	---If omitted, wezterm will infer a value based on the active pane at the time this action
 	---is triggered.

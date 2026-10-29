@@ -13,13 +13,13 @@ end
 local record SWSChoices
 local C = {}
 
----@param choices SWSInputSelectorChoice[]
----@return SWSInputSelectorChoice[] choice_table
+---@param choices {SWSInputSelectorChoice}
+---@return {SWSInputSelectorChoice} choice_table
 function C.get_workspace_elements(choices): table<string,
 
----@param choices SWSInputSelectorChoice[]
+---@param choices {SWSInputSelectorChoice}
 ---@param opts? SWSChoiceOpts
-function C.get_zoxide_elements(choices, opts): SWSInputSelectorChoice[]
+function C.get_zoxide_elements(choices, opts): {SWSInputSelectorChoice}
 
 local record SWS
 	choices: SWSChoices
@@ -31,7 +31,7 @@ apply_to_config: function(config: Config): nil
 
 ---Returns choices for the InputSelector.
 ---@param opts? SWSChoiceOpts
-get_choices: function(opts): SWSInputSelectorChoice[]
+get_choices: function(opts): {SWSInputSelectorChoice}
 
 
 switch_to_prev_workspace: function(): {

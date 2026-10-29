@@ -1,8 +1,10 @@
 ---NOTE: (DrKJeff16) I am not touching this file ever again
 
-local type WezTerm.NerdFont Wezterm.NerdFont
+-- TODO
+-- local type WezTerm.NerdFont Wezterm.NerdFont
 
-local record Wezterm.NerdFont
+local type Wezterm.NerdFont = {string: char}
+--[[local record Wezterm.NerdFont
 	cod_account: ""
 	cod_activate_breakpoints: ""
 	cod_add: ""
@@ -10754,5 +10756,6 @@ local record Wezterm.NerdFont
 	weather_wind_south_west: ""
 	weather_wind_west: ""
 	weather_windy: ""
+]]
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:
