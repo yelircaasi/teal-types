@@ -1,8 +1,9 @@
-local record Time.SunTimes
+local record SunTimes
 	progression: number
 	rise: Time | nil
 	set: Time | nil
 	up: boolean
+end
 
 ---Represents a date and time that is tracked internally as UTC.
 ---Using `tostring()` on a Time object will show the internally tracked UTC time information.
@@ -27,7 +28,7 @@ local record Time
 	---the day or night may be longer than 24 hours. In that case the `rise` and `set` values
 	---will be `nil`, `progression` will be `0` and `up` will indicate either if it is polar daytime
 	---(`true`) or polar night time (`false`).
-	sun_times: function(self: Time, lat: number, lon: number): Time.SunTimes
+	sun_times: function(self: Time, lat: number, lon: number): SunTimes
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

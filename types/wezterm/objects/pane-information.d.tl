@@ -1,11 +1,21 @@
 ---Mirrors `Progress` in wezterm upstream:
 ---https://github.com/wezterm/wezterm/blob/main/term/src/terminal.rs
-local enum PaneProgress =
+
+local _tmp = require("_tmp")
+
+local enum ProgressType
+	"Error"
+	"Percentage"
+end
+
+local type ProgressNum = {ProgressType: integer}
+
+local enum PaneProgressNamed
 	"None"
 	"Indeterminate"
-	{ Percentage: integer }
-	{ Error: integer }
 end
+
+local type PaneProgress = PaneProgressNamed|ProgressNum
 
 ---Describes a `Pane` object.
 ---Unlike the `Pane` object, `PaneInformation` is a snapshot of some of the key characteristics
@@ -57,7 +67,7 @@ local record PaneInformation
 	---The current working directory, per `Pane:get_current_working_dir()`.
 	---For more information, see:
 	--- -[`Pane:get_current_working_dir()`](lua://Pane.get_current_working_dir)
-	current_working_dir: Url | nil
+	current_working_dir: _tmp.Url | nil
 	---Returns `true` if there has been output in the pane
 	---since the last time the pane was focused.
 	has_unseen_output: boolean

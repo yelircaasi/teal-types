@@ -1,3 +1,5 @@
+local _tmp = require("_tmp")
+
 local record MuxSize
 	rows: integer
 	cols: integer
@@ -5,9 +7,18 @@ local record MuxSize
 	pixel_height: integer
 	dpi: number
 end
+
+local enum Direction
+	"Down"
+	"Left"
+	"Next"
+	"Prev"
+	"Right"
+	"Up"
+end
 ---Mirrors `MuxPaneInfo` in WezTerm upstream:
 ---https://github.com/wezterm/wezterm/blob/main/lua-api-crates/mux/src/lib.rs
-local record MuxTab.PaneInfo
+local record PaneInfo --MuxTab.PaneInfo
 	---The topological pane index.
 	index: integer
 	---If `true` then this is the active pane within this tab.
@@ -29,7 +40,7 @@ local record MuxTab.PaneInfo
 	---The height of the pane in pixels.
 	pixel_height: integer
 	---A `Pane` object.
-	pane: Pane
+	pane: _tmp.Pane
 end
 
 ---`MuxTab` represents a tab that is managed by the multiplexer.
@@ -39,12 +50,12 @@ local record MuxTab
 	activate: function(self: MuxTab): nil
 
 	---A convenience accessor for returning the active pane in the tab.
-	active_pane: function(self: MuxTab): Pane
+	active_pane: function(self: MuxTab): _tmp.Pane
 
 	---Returns the pane adjacent to the active pane of the current tab, in the `direction` direction.
 	---See:
 	--- - [`ActivatePaneDirection`](https://wezterm.org/config/lua/keyassignment/ActivatePaneDirection.html)
-	get_pane_direction: function(self: MuxTab, direction: "Down"|"Left"|"Next"|"Prev"|"Right"|"Up"): Pane
+	get_pane_direction: function(self: MuxTab, direction: Direction): _tmp.Pane
 
 	---Returns the overall size of the tab, taking into account all of the contained panes.
 	---See:
@@ -59,13 +70,13 @@ local record MuxTab
 	---Returns an array table containing the set of `Pane` objects contained by this tab.
 	---See:
 	--- - [`Pane`](lua://Pane)
-	panes: function(self: MuxTab): {Pane}
+	panes: function(self: MuxTab): {_tmp.Pane}
 
 	---Returns an array table containing an extended info entry for each of the panes contained
 	---by this tab.
 	---See:
 	--- - [`MuxTab.PaneInfo`](lua://MuxTab.PaneInfo)
-	panes_with_info: function(self: MuxTab): MuxTab.{PaneInfo}
+	panes_with_info: function(self: MuxTab): {PaneInfo}
 
 	---Rotates the panes in the clockwise direction.
 	rotate_clockwise: function(self: MuxTab): nil
@@ -88,6 +99,6 @@ local record MuxTab
 	tab_id: function(self: MuxTab): integer
 
 	---Returns the `MuxWindow` bject that contains this tab.
-	window: function(self: MuxTab): MuxWindow
+	window: function(self: MuxTab): _tmp.MuxWindow
 end
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

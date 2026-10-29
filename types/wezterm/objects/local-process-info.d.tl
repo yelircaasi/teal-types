@@ -1,6 +1,6 @@
 ---@diagnostic disable:unused-local
 
-local enum LocalProcessStatus =
+local enum LocalProcessStatus
 	"Dead"
 	"Idle"
 	"LockBlocked"
@@ -49,5 +49,6 @@ local record LocalProcessInfo
 	--- - `"LockBlocked"`
 	--- - `"Unknown"`
 	status: LocalProcessStatus
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

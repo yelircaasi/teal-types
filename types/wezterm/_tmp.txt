@@ -1,0 +1,92 @@
+├── wezterm.d.tl
+│
+├── _enums.d.tl
+├── _shared.d.tl
+├── _tmp.d.tl
+│
+├── colorschemes.d.tl
+├── config.d.tl
+├── events.d.tl
+├── harfbuzz.d.tl
+├── lspconfig.d.tl
+│
+├── toplevel
+│   ├── gui.d.tl
+│   ├── mux.d.tl
+│   ├── nerdfonts.d.tl
+│   ├── plugin.d.tl
+│   ├── procinfo.d.tl
+│   ├── serde.d.tl
+│   ├── time.d.tl
+│   └── url.d.tl
+│
+├── objects
+│   ├── color.d.tl
+│   ├ ✔ exec-domain.d.tl
+│   ├ ✔ local-process-info.d.tl
+│   ├ ✔ mux-domain.d.tl
+│   ├ ✔ mux-tab.d.tl
+│   ├ ✔ mux-window.d.tl
+│   ├ ✔ pane-information.d.tl
+│   ├── pane.d.tl
+│   ├ ✔ spawn-command.d.tl
+│   ├ ✔ ssh-domain.d.tl
+│   ├── tab-information.d.tl
+│   ├ ✔ time.d.tl
+│   ├── tls-domain-client.d.tl
+│   ├── tls-domain-server.d.tl
+│   ├── window.d.tl
+│   └ ✔ wsl-domain.d.tl
+│
+└── plugins
+    ├── _common.d.tl
+    ├── agent-deck.tl
+    ├── ai-commander.tl
+    ├── ai-helper.tl
+    ├── attention.tl
+    ├── bar.tl
+    ├── battery.tl
+    ├── chord.tl
+    ├── cmd-sender.tl
+    ├── cmdpicker.tl
+    ├── dev.tl
+    ├── kanagawa.tl
+    ├── lantern.tl
+    ├── lib.tl
+    ├── listeners.tl
+    ├── log.tl
+    ├── memo.tl
+    ├── modal.tl
+    ├── nu-utf8-hack.tl
+    ├── passrelay.tl
+    ├── pinned-tabs.tl
+    ├── pivot-panes.tl
+    ├── presentation.tl
+    ├── quick-domains.tl
+    ├── quickselect.tl
+    ├── quota-limit.tl
+    ├── replay.tl
+    ├── resurrect.tl
+    ├── ribbon.tl
+    ├── rosepine.tl
+    ├── sessionizer.tl
+    ├── sigil.tl
+    ├── smart-workspace-switcher.tl
+    ├── stack.tl
+    ├── sync-panes.tl
+    ├── sync.tl
+    ├── tabline.tl
+    ├── tabsets.tl
+    ├── toggle-terminal.tl
+    ├── warp.tl
+    ├── wez-pain-control.tl
+    ├── wez-tmux.tl
+    ├── wezterm-config.tl
+    ├── wezterm-sessions.tl
+    ├── wezterm-status.tl
+    ├── wezterm-tabs.tl
+    ├── wezterm-theme-rotator.tl
+    ├── widgets.tl
+    ├── workspace-picker.tl
+    ├── workspacesionizer.tl
+    └── wsinit.tl

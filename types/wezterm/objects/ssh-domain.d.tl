@@ -5,6 +5,7 @@ local record SshHost
 	port: string
 	user: string
 	userknownhostsfile: string
+end
 
 ---The `SshDomain` struct specifies information about an individual SSH Domain.
 local record SshDomain

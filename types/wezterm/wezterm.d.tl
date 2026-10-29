@@ -1,222 +1,29 @@
 -- vim: ft=teal expandtab sw=3 ts=3
 
-require("_shared")
-require("_enums")
-
-global enum WeztermEvent
-   "TODO"
-end
-
-global enum EventCallback
-   (function(): TODO)
-end
-
-global record Config
-   --[[from docs: https://wezterm.org/config/lua/config/index.html
-
-   adjust_window_size_when_changing_font_size
-   allow_square_glyphs_to_overflow_width
-   allow_win32_input_mode
-   alternate_buffer_wheel_scroll_speed
-   animation_fps
-   anti_alias_custom_block_glyphs
-   audible_bell
-   automatically_reload_config
-   background
-   bold_brightens_ansi_colors
-   bypass_mouse_reporting_modifiers
-   canonicalize_pasted_newlines
-   cell_width
-   cell_widths
-   char_select_bg_color
-   char_select_fg_color
-   char_select_font
-   char_select_font_size
-   check_for_updates
-   clean_exit_codes
-   color_schemes
-   colors
-   command_palette_bg_color
-   command_palette_fg_color
-   command_palette_font
-   command_palette_font_size
-   command_palette_line_height
-   command_palette_rows
-   cursor_blink_ease_in
-   cursor_blink_ease_out
-   cursor_blink_rate
-   cursor_thickness
-   custom_block_glyphs
-   daemon_options
-   debug_key_events
-   default_cursor_style
-   default_cwd
-   default_domain
-   default_gui_startup_args
-   default_mux_server_domain
-   default_prog
-   default_ssh_auth_sock
-   default_workspace
-   detect_password_input
-   disable_default_mouse_bindings
-   disable_default_quick_select_patterns
-   display_pixel_geometry
-   dpi
-   enable_csi_u_key_encoding
-   enable_kitty_keyboard
-   enable_scroll_bar
-   enable_tab_bar
-   enable_wayland
-   exit_behavior
-   exit_behavior_messaging
-   font
-   font_antialias
-   font_dirs
-   font_hinting
-   font_locator
-   font_rasterizer
-   font_rules
-   font_shaper
-   font_size
-   force_reverse_video_cursor
-   foreground_text_hsb
-   freetype_interpreter_version
-   freetype_load_flags
-   freetype_load_target
-   freetype_pcf_long_family_names
-   freetype_render_target
-   front_end
-   harfbuzz_features
-   hide_mouse_cursor_when_typing
-   hide_tab_bar_if_only_one_tab
-   hyperlink_rules
-   ime_preedit_rendering
-   initial_cols
-   initial_rows
-   integrated_title_button_alignment
-   integrated_title_button_color
-   integrated_title_button_style
-   integrated_title_buttons
-   kde_window_background_blur
-   key_map_preference
-   key_tables
-   launch_menu
-   launcher_alphabet
-   line_height
-   log_unknown_escape_sequences
-   macos_forward_to_ime_modifier_mask
-   macos_fullscreen_extend_behind_notch
-   macos_window_background_blur
-   max_fps
-   min_scroll_bar_height
-   mouse_wheel_scrolls_tabs
-   mux_enable_ssh_agent
-   mux_env_remove
-   native_macos_fullscreen_mode
-   normalize_output_to_unicode_nfc
-   notification_handling
-   pane_focus_follows_mouse
-   pane_select_font
-   prefer_egl
-   prefer_to_spawn_tabs
-   quick_select_alphabet
-   quick_select_patterns
-   quick_select_remove_styling
-   quit_when_all_windows_are_closed
-   quote_dropped_files
-   reverse_video_cursor_min_contrast
-   scroll_to_bottom_on_input
-   scrollback_lines
-   selection_word_boundary
-   serial_ports
-   set_environment_variables
-   show_close_tab_button_in_tabs
-   show_new_tab_button_in_tab_bar
-   show_tab_index_in_tab_bar
-   show_tabs_in_tab_bar
-   show_update_window
-   skip_close_confirmation_for_processes_named
-   ssh_backend
-   ssh_domains
-   status_update_interval
-   strikethrough_position
-   swallow_mouse_click_on_pane_focus
-   swallow_mouse_click_on_window_focus
-   swap_backspace_and_delete
-   switch_to_last_active_tab_when_closing_tab
-   tab_and_split_indices_are_zero_based
-   tab_bar_at_bottom
-   tab_bar_style
-   tab_max_width
-   term
-   text_blink_ease_in
-   text_blink_ease_out
-   text_blink_rapid_ease_in
-   text_blink_rapid_ease_out
-   text_blink_rate
-   text_blink_rate_rapid
-   text_min_contrast_ratio
-   tiling_desktop_environments
-   tls_clients
-   tls_servers
-   treat_east_asian_ambiguous_width_as_wide
-   treat_left_ctrlalt_as_altgr
-   ui_key_cap_rendering
-   ulimit_nofile
-   ulimit_nproc
-   underline_position
-   underline_thickness
-   unicode_version
-   unix_domains
-   unzoom_on_switch_pane
-   use_cap_height_to_scale_fallback_fonts
-   use_fancy_tab_bar
-   use_ime
-   use_resize_increments
-   visual_bell
-   warn_about_missing_glyphs
-   wayland_window_background_blur
-   webgpu_force_fallback_adapter
-   webgpu_power_preference
-   webgpu_preferred_adapter
-   win32_acrylic_accent_color
-   win32_system_backdrop
-   window_background_gradient
-   window_background_image
-   window_background_image_hsb
-   window_background_opacity
-   window_close_confirmation
-   window_content_alignment
-   window_decorations
-   window_frame
-   window_padding
-   wsl_domains
-   xim_im_name
-   ]]
-end
+local _tmp = require("_tmp")
 
 global record wezterm
-   config: WeztermConfig
-   events: Events
-   harfbuzz: Harfbuzz
+   config: _tmp.WeztermConfig
+   events: _tmp.Events
+   harfbuzz: _tmp.Harfbuzz
 
-   color: Color
-   gui: Gui
-   mux: Mux
-   nerdfonts: Nerdfonts
-   plugin: WeztermPlugin
-   procinfo: ProcInfo
-   serde: Serde
-   time: Time
-   url: Url
-   window_decorations: WindowDecorations
+   -- local type WezTerm.Color Wezterm.Color
+   ---The `wezterm.color` module exposes functions that work with colors.
+   color: _tmp.Color
+   gui: _tmp.Gui
+   mux: _tmp.Mux
+   nerdfonts: _tmp.Nerdfonts
+   plugin: _tmp.WeztermPlugin
+   procinfo: _tmp.ProcInfo
+   serde: _tmp.Serde
+   time: _tmp.Time
+   url: _tmp.Url
+   window_decorations: _tmp.WindowDecorations
 
    -- enums:
-   action: KeyAssignment
+   action: _tmp.KeyAssignment
 
-   : function(event: WeztermEvent, callback: EventCallback): nil
-
-   ---<UNUSABLE> on: function(ActionString, callback): nil
+   on: function(event: _tmp.WeztermEvent, callback: _tmp.EventCallback): nil
 
 
    ---This function is a helper to register a custom event and return
@@ -231,7 +38,7 @@ global record wezterm
    ---  return wezterm.action.EmitEvent(event_id)
    ---end
    ---```
-   action_callback: function(callback: function|CallbackWindowPane|CallbackInputSelector|CallbackPromptInputLine): {
+   action_callback: function(callback: function(...:any): nil): nil --?
 
    ---Adds path to the list of files that are watched for config changes.
    ---If `config.automatically_reload_config`
@@ -246,7 +53,7 @@ global record wezterm
 
    ---Returns the battery information for each of the installed batteries on the system.
    ---This is useful for example to assemble status information for the status bar.
-   battery_info: function(): {BatteryInfo}
+   battery_info: function(): {_tmp.BatteryInfo}
 
    ---Given a `string` parameter, returns the number of columns that text occupies
    ---in the terminal.
@@ -257,12 +64,12 @@ global record wezterm
    ---Returns a `Config` object that can be used to define your configuration.
    ---See:
    --- - [`Config`](lua://Config)
-   config_builder: function(): Config
+   config_builder: function(): _tmp.Config
 
    ---Returns the compiled-in default hyperlink rules as a table.
    ---For more information, see:
    --- - [`HyperLinkRule`](lua://HyperLinkRule)
-   default_hyperlink_rules: function(): {HyperLinkRule}
+   default_hyperlink_rules: function(): {_tmp.HyperLinkRule}
 
    ---Computes a list of `SshDomain` objects based on the set of hosts
    ---discovered in `~/.ssh/config`.
@@ -274,7 +81,7 @@ global record wezterm
    ---to edit/adjust the returned information before assigning it to your config.
    ---For more information, see:
    --- - [SshDomain](lua://SshDomain)
-   default_ssh_domains: function(): {SshDomain}
+   default_ssh_domains: function(): {_tmp.SshDomain}
 
    ---Computes a list of `WslDomain` objects, each one representing
    ---an installed WSL distribution on your system.
@@ -285,7 +92,7 @@ global record wezterm
    ---See:
    --- - [`WslDomain`](lua://WslDomain)
    --- - [`config.wsl_domains`](lua://Config.wsl_domains)
-   default_wsl_domains: function(): {WslDomain}
+   default_wsl_domains: function(): {_tmp.WslDomain}
 
    ---`wezterm.emit()` resolves the registered callback(s) for the specified event name
    ---and calls each of them in turn, passing the additional arguments through to the callback.
@@ -299,9 +106,7 @@ global record wezterm
    ---For more information on event handling, see:
    ---- [`wezterm.emit()`](lua://Wezterm.emit)
    ---- [`wezterm.on`](lua://Wezterm.on)
-   ---@param event string
-   ---@param ... any
-   emit: function(event, ...): boolean
+   emit: function(event: string, ...:any): boolean
 
    ---This function will parse your ssh configuration file(s) and extract from them
    ---the set of literal (non-pattern, non-negated) host names that are specified
@@ -309,8 +114,7 @@ global record wezterm
    ---and return a mapping from the hostname to the effective ssh config options for that host.
    ---You may optionally pass a list of ssh configuration files that should be read
    ---in case you have a special configuration.
-   ---@param ssh_config_file_name? {string}|string
-   enumerate_ssh_hosts: function(ssh_config_file_name): table<string>,
+   enumerate_ssh_hosts: function(ssh_config_file_name: {string}|string|nil): {string}
 
    ---This function constructs a Lua table that corresponds to the internal
    ---`FontAttributes` struct that is used to select a single named font:
@@ -332,9 +136,7 @@ global record wezterm
    ---See:
    --- - [`TextStyleAttributes`](lua://TextStyleAttributes)
    --- - [`TextStyle`](lua://TextStyle)
-   ---@param font string|FontFamilyAttributes
-   ---@param attributes? TextStyleAttributes
-   font: function(font, attributes)(): TextStyle
+   font: function(font: string|_tmp.FontFamilyAttributes, attributes: {_tmp.TextStyleAttributes}|nil): _tmp.TextStyle
 
    ---This function constructs a Lua table that corresponds to the internal
    ---`FontAttributes` struct that is used to select a single named font.
@@ -360,9 +162,7 @@ global record wezterm
    --- - [`TextStyleAttributes`](lua://TextStyleAttributes)
    --- - [`TextStyle`](lua://TextStyle)
    --- - [`wezterm.font()`](lua://Wezterm.font)
-   ---@param font FontFamilyAttributes
-   ---@param attributes? TextStyleAttributes
-   font: function(font, attributes)(): TextStyle
+   font: function(font: _tmp.FontFamilyAttributes, attributes: _tmp.TextStyleAttributes|nil): _tmp.TextStyle
 
    ---This function constructs a Lua table that configures a font with fallback processing.
    ---Glyphs are looked up in the first font in the list but if missing the next font is checked and so on.
@@ -391,15 +191,12 @@ global record wezterm
    --- - [`FontFamilyAttributes`](lua://FontFamilyAttributes)
    --- - [`TextStyleAttributes`](lua://TextStyleAttributes)
    --- - [`TextStyle`](lua://TextStyle)
-   ---@param fonts (string|FontFamilyAttributes)[]
-   ---@param attributes? TextStyleAttributes
-   font_with_fallback: function(fonts, attributes)(): TextStyle
+   font_with_fallback: function(fonts: {string|_tmp.FontFamilyAttributes}, attributes: _tmp.TextStyleAttributes|nil): _tmp.TextStyle
 
    ---Can be used to produce a formatted string with terminal graphic attributes
    ---such as `bold`, `italic` and `colors`.
    ---The result is a string with WezTerm-compatible escape sequences embedded.
-   ---@param ... {FormatItem}
-   format: function(...): string
+   format: function(...: {_tmp.FormatItem}): string
 
    ---While this function is still valid, it is recommended to use instead:
    --- - [`wezterm.color.get_builtin_schemes()`](lua://Wezterm.Color.get_builtin_schemes)
@@ -408,17 +205,14 @@ global record wezterm
    ---of the builtin color schemes.
    ---This is useful for programmatically deciding things about the scheme to use based on its color,
    ---or for taking a scheme and overriding a couple of entries from your configuration file.
-   ---@return {string: Palette} builtin
    ---@deprecated Use `wezterm.color.get_builtin_color_schemes()` instead
-   get_builtin_color_schemes: function() end
+   get_builtin_color_schemes: function(): {string: _tmp.Palette}
 
    ---This function evalutes the glob pattern and returns an array containing the absolute file names
    ---of the matching results.
    ---Due to limitations in the Lua bindings, all of the paths must be able to be represented as `UTF-8`
    ---or this function will generate an error.
-   ---@param pattern string
-   ---@param relative_to? string
-   glob: function(pattern, relative_to): {string}
+   glob: function(pattern: string, relative_to: string|nil): {string}
 
    ---This function was moved to `wezterm.color.gradient`.
    ---In addition, the returned colors are now of `Color` type.
@@ -430,10 +224,9 @@ global record wezterm
    ---See:
    --- - [`Color`](lua://Color)
    --- - [`wezterm.color.gradient`](lua://Wezterm.Color.gradient)
-   gradient_colors: function(gradient: Gradient, num_colors: number): {Color}
+   gradient_colors: function(gradient: _tmp.Gradient, num_colors: number): {_tmp.Color}
    ---@deprecated
-   has_acti---<UNUSABLE> on: function(action: string): boolean
-
+   has_action: function(action: string): boolean
 
    hostname: function(): string
 
@@ -452,9 +245,7 @@ global record wezterm
    ---See also:
    --- - [`wezterm.log_info()`](lua://Wezterm.log_info)
    --- - [`wezterm.log_warn()`](lua://Wezterm.log_warn)
-   ---@param msg string
-   ---@param ... any
-   log_error: function(msg, ...) end
+   log_error: function(msg: string, ...: any): nil
 
    ---This function logs the provided message string through WezTerm's logging layer at the `'INFO'`
    ---level, which can be displayed via the [`ShowDebugOverlay`](https://wezterm.org/config/lua/keyassignment/ShowDebugOverlay.html) action.
@@ -467,9 +258,7 @@ global record wezterm
    ---See also:
    --- - [`wezterm.log_error()`](lua://Wezterm.log_error)
    --- - [`wezterm.log_warn()`](lua://Wezterm.log_warn)
-   ---@param msg string
-   ---@param ... any
-   log_info: function(msg, ...) end
+   log_info: function(msg: string, ...: any): nil
 
    ---This function logs the provided message string through WezTerm's logging layer at the `'WARN'`
    ---level, which can be displayed via the [`ShowDebugOverlay`](https://wezterm.org/config/lua/keyassignment/ShowDebugOverlay.html) action.
@@ -482,10 +271,175 @@ global record wezterm
    ---See also:
    --- - [`wezterm.log_error()`](lua://Wezterm.log_error)
    --- - [`wezterm.log_info()`](lua://Wezterm.log_info)
-   ---@param msg string
-   ---@param ... any
-   log_warn: function(msg, ...) end
+   log_warn: function(msg: string, ...: any): nil
 
+
+   ---This function opens the specified `path_or_url` with either the specified application,
+   ---or the default application if `application` was not passed in.
+   ---```lua
+   ---local wezterm = require("wezterm") ---@type Wezterm
+   ---wezterm.open_with('http://example.com') -- Opens a URL in your default browser
+   ---wezterm.open_with('http://example.com', 'firefox') -- Opens a URL specifically in Firefox
+   ---```
+   open_with: function(path_or_url: string, application: string|nil): nil --?
+
+   ---Returns a copy of a string `s` that is at least `min_width` columns as measured
+   ---by `wezterm.column_width()`.
+   ---If the string `s` is shorter than `min_width`, spaces are added to the left end of the string.
+   ---For example, `wezterm.pad_left("o", 3)` returns `" o"`.
+   ---See also:
+   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
+   --- - [`wezterm.pad_right()`](lua://Wezterm.pad_right)
+   --- - [`wezterm.truncate_left()`](lua://Wezterm.truncate_left)
+   pad_left: function(s: string, min_width: integer): string
+
+   ---Returns a copy of a string `s` that is at least `min_width` columns as measured
+   ---by `wezterm.column_width()`.
+   ---If the string `s` is shorter than `min_width`, spaces are added to the right end of the string.
+   ---For example, `wezterm.pad_right("o", 3)` returns `"o "`.
+   ---See also:
+   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
+   --- - [`wezterm.pad_left()`](lua://Wezterm.pad_left)
+   --- - [`wezterm.truncate_right()`](lua://Wezterm.truncate_right)
+   pad_right: function(s: string, min_width: integer): string
+
+   ---This function is intended to help with generating `KeyBinding` entries.
+   ---These should apply regardless of the combination of modifier keys pressed.
+   ---For each combination of modifiers, the supplied `table` value `T` is copied with
+   ---a `mods = <value>` entry:
+   --- - `CTRL`
+   --- - `ALT`
+   --- - `SHIFT`
+   --- - `SUPER`
+   ---An entry for `NONE` is **NOT** generated.
+   ---This is the only difference between `wezterm.permute_any_or_no_mods()` and
+   ---`wezterm.permute_any_mods()`.
+   ---Either a `KeyBinding` or a `MouseBinding` array is returned.
+   ---For more information, see:
+   --- - [`KeyBinding`](lua://KeyBinding)
+   --- - [`MouseBinding`](lua://MouseBinding)
+   --- - [`wezterm.permute_any_or_no_mods()`](lua://Wezterm.permute_any_or_no_mods)
+   permute_any_mods: function(T: table): _tmp.KeyBinding|_tmp.MouseBinding -- SHOULD BE: {_tmp.MouseBinding}|{_tmp.KeyBinding}
+
+   ---This function is intended to help with generating `KeyBinding` entries.
+   ---These should apply regardless of the combination of modifier keys pressed.
+   ---For each combination of modifiers (`CTRL`, `ALT`, `SHIFT` and `SUPER`)
+   ---the supplied `table` value `T` is copied with a `mods = <value>` entry.
+   ---In addition, an entry for `NONE` is generated. This is the only difference
+   ---between `wezterm.permute_any_mods()` and `wezterm.permute_any_or_no_mods()`.
+   ---A `KeyBinding` array is returned.
+   ---If this is either the only binding or the last one, the resulting array
+   ---can be unpacked into a Lua table initializer by using `table.unpack()`.
+   ---See:
+   --- - [`KeyBinding`](lua://KeyBinding)
+   --- - [`table.unpack()`](lua://table.unpack)
+   --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
+   permute_any_or_no_mods: function(T: table): {_tmp.KeyBinding}
+
+   ---This function is intended to help with generating `MouseBinding` entries.
+   ---These should apply regardless of the combination of modifier keys pressed.
+   ---For each combination of modifiers (`CTRL`, `ALT`, `SHIFT` and `SUPER`),
+   ---the supplied `table` value `T` is copied with a `mods = <value>` entry.
+   ---In addition, an entry for `NONE` is generated. This is the only difference between
+   ---`wezterm.permute_any_mods()` and `wezterm.permute_any_or_no_mods()`.
+   ---A `MouseBinding` array is returned.
+   ---If this is either the only binding or the last one, the resulting array
+   ---can be unpacked into a Lua table initializer by using `table.unpack()`.
+   ---See:
+   --- - [`MouseBinding`](lua://MouseBinding)
+   --- - [`table.unpack()`](lua://table.unpack)
+   --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
+   permute_any_or_no_mods: function(T: table): {_tmp.MouseBinding}
+
+   ---Returns an array containing the absolute file name paths of the directory `path` specified.
+   ---Due to limitations in the Lua bindings, all of the paths must be able to be represented as `UTF-8`
+   ---or this function will generate an error.
+   read_dir: function(path: string): {string}
+
+   ---Immediately causes the configuration to be reloaded and re-applied.
+   ---**If you call this at the file scope in your config you are in danger of creating an infinite loop
+   ---that renders WezTerm unresponsive.**
+   ---The intent is for this to be used from an event or timer callback function.
+   reload_configuration: function(): nil
+
+   ---This function accepts an argument list; it will attempt to spawn that command.
+   ---It will return a tuple consisting of the boolean `success` of the invocation,
+   ---the `stdout` data and the `stderr` data.
+   ---```lua
+   ---local wezterm = require("wezterm") ---@type Wezterm
+   ---local success, stdout, stderr = wezterm.run_child_process({ 'ls', '-l' })
+   ---```
+   ---See also:
+   --- - [`wezterm.background_child_process()`](lua://Wezterm.background_child_process)
+   run_child_process: function(args: {string}): {boolean, string}
+
+   ---This function returns a `boolean` indicating whether it is believed that WezTerm runs
+   ---in a WSL container.
+   ---In such an environment, `wezterm.target_triple` will indicate that the process is running
+   ---in Linux with some slight differences in system behavior (such as filesystem capabilities)
+   ---that you may wish to probe for in the configuration.
+   ---```lua
+   ---local wezterm = require("wezterm") ---@type Wezterm
+   ---wezterm.log_error(
+   ---  'System '
+   ---  .. wezterm.target_triple
+   ---  .. ' '
+   ---  .. tostring(wezterm.running_under_wsl())
+   ---)
+   ---```
+   ---See:
+   --- - [`wezterm.log_error()`](lua://Wezterm.log_error)
+   --- - [`wezterm.target_triple`](lua://Wezterm.target_triple)
+   running_under_wsl: function(): boolean
+
+   ---Joins together its array arguments by applying POSIX-style shell quoting on each argument
+   ---and then adding a space.
+   shell_join_args: function(args: {string}): string
+
+   ---Quotes its single argument `s` using POSIX shell quoting rules.
+   shell_quote_arg: function(s: string): string
+
+   ---Splits a command line into a `string` argument array in accordance with POSIX shell rules.
+   shell_split: function(line: string): {string}
+
+   ---Suspends the execution of the script for `ms` milliseconds.
+   ---When the time period has elapsed, the script continues running at the next statement.
+   sleep_ms: function(ms: integer): nil
+
+   ---Takes the input string and splits it by newlines.
+   ---The result as an array of strings with the newlines removed.
+   ---Both `\n` (LF) and `\r\n` (CRLF) are recognized as newlines.
+   split_by_newlines: function(s: string): {string}
+
+   ---Formats the current local date/time into a string using the Rust `chrono strftime` syntax.
+   strftime: function(format: string): string
+
+   ---Formats the current UTC date/time into a string using the Rust `chrono strftime` syntax.
+   strftime_utc: function(format: string): string
+
+   ---Returns a copy of a string that is no longer than `max_width` columns as measured
+   ---by `wezterm.column_width()`. Truncation occurs by removing excess characters from the left end
+   ---of the string.
+   ---For example, `wezterm.truncate_left("hello", 3)` returns `"llo"`.
+   ---See also:
+   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
+   --- - [`wezterm.pad_right()`](lua://Wezterm.pad_right)
+   --- - [`wezterm.truncate_right()`](lua://Wezterm.truncate_right)
+   truncate_left: function(s: string, max_width: integer): string
+
+   ---Returns a copy of a string that is no longer than `max_width` columns as measured
+   ---by `wezterm.column_width()`.
+   ---Truncation occurs by reemoving excess characters from the right end of the string.
+   ---For example, `wezterm.truncate_right("hello", 3)` returns `"hel"`.
+   ---See also:
+   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
+   --- - [`wezterm.pad_left()`](lua://Wezterm.pad_left)
+   --- - [`wezterm.truncate_left()`](lua://Wezterm.truncate_left)
+   truncate_right: function(s: string, max_width: integer): string
+
+   ---Overly specific and exists primarily to workaround this `wsl.exe` issue.
+   ---It takes as input a string and attempts to convert it from `utf16` to `utf8`.
+   utf16_to_utf8: function(s: string): string
 
    ---A custom declared event handler.
    ---You may register handlers for arbitrary events for which Wezterm itself has no special knowledge.
@@ -889,225 +843,5 @@ global record wezterm
 
    ---This is for `wezterm-sessions` only!
    ---<UNUSABLE> on: function(event: "toggle_autosave" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
-
-   ---This function opens the specified `path_or_url` with either the specified application,
-   ---or the default application if `application` was not passed in.
-   ---```lua
-   ---local wezterm = require("wezterm") ---@type Wezterm
-   ---wezterm.open_with('http://example.com') -- Opens a URL in your default browser
-   ---wezterm.open_with('http://example.com', 'firefox') -- Opens a URL specifically in Firefox
-   ---```
-   ---@param path_or_url string
-   ---@param application? string
-   open_with: function(path_or_url, application) end
-
-   ---Returns a copy of a string `s` that is at least `min_width` columns as measured
-   ---by `wezterm.column_width()`.
-   ---If the string `s` is shorter than `min_width`, spaces are added to the left end of the string.
-   ---For example, `wezterm.pad_left("o", 3)` returns `" o"`.
-   ---See also:
-   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
-   --- - [`wezterm.pad_right()`](lua://Wezterm.pad_right)
-   --- - [`wezterm.truncate_left()`](lua://Wezterm.truncate_left)
-   pad_left: function(s: string, min_width: integer): string
-
-   ---Returns a copy of a string `s` that is at least `min_width` columns as measured
-   ---by `wezterm.column_width()`.
-   ---If the string `s` is shorter than `min_width`, spaces are added to the right end of the string.
-   ---For example, `wezterm.pad_right("o", 3)` returns `"o "`.
-   ---See also:
-   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
-   --- - [`wezterm.pad_left()`](lua://Wezterm.pad_left)
-   --- - [`wezterm.truncate_right()`](lua://Wezterm.truncate_right)
-   pad_right: function(s: string, min_width: integer): string
-
-   ---This function is intended to help with generating `KeyBinding` entries.
-   ---These should apply regardless of the combination of modifier keys pressed.
-   ---For each combination of modifiers, the supplied `table` value `T` is copied with
-   ---a `mods = <value>` entry:
-   --- - `CTRL`
-   --- - `ALT`
-   --- - `SHIFT`
-   --- - `SUPER`
-   ---An entry for `NONE` is **NOT** generated.
-   ---This is the only difference between `wezterm.permute_any_or_no_mods()` and
-   ---`wezterm.permute_any_mods()`.
-   ---Either a `KeyBinding` or a `MouseBinding` array is returned.
-   ---For more information, see:
-   --- - [`KeyBinding`](lua://KeyBinding)
-   --- - [`MouseBinding`](lua://MouseBinding)
-   --- - [`wezterm.permute_any_or_no_mods()`](lua://Wezterm.permute_any_or_no_mods)
-   permute_any_mods: function(T: table): {MouseBinding}|{KeyBinding}
-
-   ---This function is intended to help with generating `KeyBinding` entries.
-   ---These should apply regardless of the combination of modifier keys pressed.
-   ---For each combination of modifiers (`CTRL`, `ALT`, `SHIFT` and `SUPER`)
-   ---the supplied `table` value `T` is copied with a `mods = <value>` entry.
-   ---In addition, an entry for `NONE` is generated. This is the only difference
-   ---between `wezterm.permute_any_mods()` and `wezterm.permute_any_or_no_mods()`.
-   ---A `KeyBinding` array is returned.
-   ---If this is either the only binding or the last one, the resulting array
-   ---can be unpacked into a Lua table initializer by using `table.unpack()`.
-   ---See:
-   --- - [`KeyBinding`](lua://KeyBinding)
-   --- - [`table.unpack()`](lua://table.unpack)
-   --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-   permute_any_or_no_mods: function(T: table): {KeyBinding}
-
-   ---This function is intended to help with generating `MouseBinding` entries.
-   ---These should apply regardless of the combination of modifier keys pressed.
-   ---For each combination of modifiers (`CTRL`, `ALT`, `SHIFT` and `SUPER`),
-   ---the supplied `table` value `T` is copied with a `mods = <value>` entry.
-   ---In addition, an entry for `NONE` is generated. This is the only difference between
-   ---`wezterm.permute_any_mods()` and `wezterm.permute_any_or_no_mods()`.
-   ---A `MouseBinding` array is returned.
-   ---If this is either the only binding or the last one, the resulting array
-   ---can be unpacked into a Lua table initializer by using `table.unpack()`.
-   ---See:
-   --- - [`MouseBinding`](lua://MouseBinding)
-   --- - [`table.unpack()`](lua://table.unpack)
-   --- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-   permute_any_or_no_mods: function(T: table): {MouseBinding}
-
-   ---Returns an array containing the absolute file name paths of the directory `path` specified.
-   ---Due to limitations in the Lua bindings, all of the paths must be able to be represented as `UTF-8`
-   ---or this function will generate an error.
-   read_dir: function(path: string): {string}
-
-   ---Immediately causes the configuration to be reloaded and re-applied.
-   ---**If you call this at the file scope in your config you are in danger of creating an infinite loop
-   ---that renders WezTerm unresponsive.**
-   ---The intent is for this to be used from an event or timer callback function.
-   reload_configurati---<UNUSABLE> on: function(): nil
-
-   ---This function accepts an argument list; it will attempt to spawn that command.
-   ---It will return a tuple consisting of the boolean `success` of the invocation,
-   ---the `stdout` data and the `stderr` data.
-   ---```lua
-   ---local wezterm = require("wezterm") ---@type Wezterm
-   ---local success, stdout, stderr = wezterm.run_child_process({ 'ls', '-l' })
-   ---```
-   ---See also:
-   --- - [`wezterm.background_child_process()`](lua://Wezterm.background_child_process)
-   ---@param args {string}
-   ---@return boolean success A `boolean` to denote a successful invocation
-   ---@return string stdout The `stdout` data as a `string`
-   run_child_process: function(args): string
-
-   ---This function returns a `boolean` indicating whether it is believed that WezTerm runs
-   ---in a WSL container.
-   ---In such an environment, `wezterm.target_triple` will indicate that the process is running
-   ---in Linux with some slight differences in system behavior (such as filesystem capabilities)
-   ---that you may wish to probe for in the configuration.
-   ---```lua
-   ---local wezterm = require("wezterm") ---@type Wezterm
-   ---wezterm.log_error(
-   ---  'System '
-   ---  .. wezterm.target_triple
-   ---  .. ' '
-   ---  .. tostring(wezterm.running_under_wsl())
-   ---)
-   ---```
-   ---See:
-   --- - [`wezterm.log_error()`](lua://Wezterm.log_error)
-   --- - [`wezterm.target_triple`](lua://Wezterm.target_triple)
-   running_under_wsl: function(): boolean
-
-   ---Joins together its array arguments by applying POSIX-style shell quoting on each argument
-   ---and then adding a space.
-   shell_join_args: function(args: {string}): string
-
-   ---Quotes its single argument `s` using POSIX shell quoting rules.
-   shell_quote_arg: function(s: string): string
-
-   ---Splits a command line into a `string` argument array in accordance with POSIX shell rules.
-   shell_split: function(line: string): {string}
-
-   ---Suspends the execution of the script for `ms` milliseconds.
-   ---When the time period has elapsed, the script continues running at the next statement.
-   sleep_ms: function(ms: integer): nil
-
-   ---Takes the input string and splits it by newlines.
-   ---The result as an array of strings with the newlines removed.
-   ---Both `\n` (LF) and `\r\n` (CRLF) are recognized as newlines.
-   split_by_newlines: function(s: string): {string}
-
-   ---Formats the current local date/time into a string using the Rust `chrono strftime` syntax.
-   strftime: function(format: string): string
-
-   ---Formats the current UTC date/time into a string using the Rust `chrono strftime` syntax.
-   strftime_utc: function(format: string): string
-
-   ---Returns a copy of a string that is no longer than `max_width` columns as measured
-   ---by `wezterm.column_width()`. Truncation occurs by removing excess characters from the left end
-   ---of the string.
-   ---For example, `wezterm.truncate_left("hello", 3)` returns `"llo"`.
-   ---See also:
-   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
-   --- - [`wezterm.pad_right()`](lua://Wezterm.pad_right)
-   --- - [`wezterm.truncate_right()`](lua://Wezterm.truncate_right)
-   truncate_left: function(s: string, max_width: integer): string
-
-   ---Returns a copy of a string that is no longer than `max_width` columns as measured
-   ---by `wezterm.column_width()`.
-   ---Truncation occurs by reemoving excess characters from the right end of the string.
-   ---For example, `wezterm.truncate_right("hello", 3)` returns `"hel"`.
-   ---See also:
-   --- - [`wezterm.column_width()`](lua://Wezterm.column_width)
-   --- - [`wezterm.pad_left()`](lua://Wezterm.pad_left)
-   --- - [`wezterm.truncate_left()`](lua://Wezterm.truncate_left)
-   truncate_right: function(s: string, max_width: integer): string
-
-   ---Overly specific and exists primarily to workaround this `wsl.exe` issue.
-   ---It takes as input a string and attempts to convert it from `utf16` to `utf8`.
-   function utf16_to_utf8(s: string): string
-end
-
-
-global record WeztermConfig
-
-end
-
-global record Events
-
-end
-
-global record Harfbuzz
-
-end
-
-global record Color
-
-end
-
-global record Gui
-
-end
-
-global record Mux
-
-end
-
-global record Nerdfonts
-
-end
-
-global record ProcInfo
-
-end
-
-global record Serde
-
-end
-
-global record Time
-
-end
-
-global record Url
-
-end
-
-global record WindowDecorations
 
 end

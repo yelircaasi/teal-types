@@ -1,3 +1,8 @@
+local enum AttachedOrNot
+    "Attached"
+    "Detached"
+end
+
 ---Represents a domain that is managed by the multiplexer.
 local record MuxDomain
 
@@ -50,7 +55,7 @@ local record MuxDomain
     ---See also:
     --- - [`MuxDomain:attach()`](lua://MuxDomain.attach)
     --- - [`MuxDomain:detach()`](lua://MuxDomain.detach)
-    state: function(self: MuxDomain): "Attached"|"Detached"
+    state: function(self: MuxDomain): AttachedOrNot
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:
