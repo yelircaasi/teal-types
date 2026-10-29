@@ -120,6 +120,6 @@ local record Listeners
 	state: Listeners.State
 local M = {}
 
-function M.config(event_listeners: Listeners.EventListeners, opts: ListenersOpts) end
+config: function(event_listeners: Listeners.EventListeners, opts: ListenersOpts) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

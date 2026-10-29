@@ -28,5 +28,5 @@ local record WslDomain
 	---The username to use when spawning commands in the distribution.
 	---If omitted, the default user for that distribution will be used.
 	username: string | nil
-
+end
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

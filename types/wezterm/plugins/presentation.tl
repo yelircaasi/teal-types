@@ -17,6 +17,6 @@ local M = {}
 
 ---@param config Config
 ---@param opts? PresentationWezConfig
-function M.apply_to_config(config, opts): Config
+apply_to_config: function(config, opts): Config
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

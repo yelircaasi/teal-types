@@ -9,7 +9,6 @@
 ---Using an `ExecDomain` allows that preference to be associated with the pane so that things work
 ---more intuitively.
 local record ExecDomain
-local M = {}
 
 ---You must use `wezterm.exec_domain()` to define a domain.
 ---It accepts the following parameters:
@@ -20,7 +19,7 @@ local M = {}
 --- - `label` (optional): Can be either a `string` to serve as a label in the Launcher Menu,
 ---                     or a lua function that will return the label
 ---See `https://wezterm.org/config/lua/ExecDomain.html` for more info.
-function M.exec_domain(name: string, fixup: fun(cmd: SpawnCommand): command: SpawnCommand): ExecDomain
+exec_domain: function(name: string, fixup: fun(cmd: SpawnCommand): command: SpawnCommand): ExecDomain
 
 ---You must use `wezterm.exec_domain()` to define a domain.
 ---It accepts the following parameters:
@@ -34,6 +33,8 @@ function M.exec_domain(name: string, fixup: fun(cmd: SpawnCommand): command: Spa
 ---@param name string
 ---@param fixup fun(cmd: SpawnCommand): SpawnCommand
 ---@param label? string|fun(): label: string
-function M.exec_domain(name, fixup, label): ExecDomain
+exec_domain: function(name, fixup, label): ExecDomain
+
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

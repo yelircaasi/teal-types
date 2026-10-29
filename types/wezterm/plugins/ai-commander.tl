@@ -32,10 +32,10 @@ end
 local record AICommander
 local M = {}
 
-function M.apply_to_config(wezterm_config: Config, plugin_config: AICommanderConfig) end
+apply_to_config: function(wezterm_config: Config, plugin_config: AICommanderConfig) end
 
-function M.show_history(window: Window The `Window` object., pane: Pane The `Pane` object.) end
+show_history: function(window: Window The `Window` object., pane: Pane The `Pane` object.) end
 
-function M.show_prompt(window: Window The `Window` object., pane: Pane The `Pane` object.) end
+show_prompt: function(window: Window The `Window` object., pane: Pane The `Pane` object.) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

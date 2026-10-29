@@ -1,7 +1,7 @@
----@diagnostic disable:unused-local
-
-local type ZoomIndicatorType =
-	"icon"|"number"
+local enum ZoomIndicatorType
+	"icon"
+	"number"
+end
 
 local record WeztermTabs.TabConfig
 	---Whether to hide the tab bar when only one tab exists.
@@ -54,11 +54,8 @@ local record WeztermTabsOpts
 end
 
 local record WeztermTabs
-local M = {}
-
----Applies configuration to WezTerm.
----@param wezterm_config Config The WezTerm configuration table to modify.
----@param opts? WeztermTabsOpts Optional configuration overrides.
-function M.apply_to_config(wezterm_config, opts) end
+	---Applies configuration to WezTerm.
+	apply_to_config: function(wezterm_config: Config, opts: WeztermTabsOpts|nil): nil
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

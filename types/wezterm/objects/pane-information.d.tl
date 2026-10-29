@@ -1,10 +1,11 @@
 ---Mirrors `Progress` in wezterm upstream:
 ---https://github.com/wezterm/wezterm/blob/main/term/src/terminal.rs
-local type PaneProgress =
+local enum PaneProgress =
 	"None"
-	| "Indeterminate"
-	|{ Percentage: integer }
-	|{ Error: integer }
+	"Indeterminate"
+	{ Percentage: integer }
+	{ Error: integer }
+end
 
 ---Describes a `Pane` object.
 ---Unlike the `Pane` object, `PaneInformation` is a snapshot of some of the key characteristics
@@ -69,5 +70,5 @@ local record PaneInformation
 	---For more information, see:
 	--- - [`Pane:get_tty_name()`](lua://Pane.get_tty_name)
 	tty_name: string | nil
-
+end
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

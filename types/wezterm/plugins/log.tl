@@ -162,7 +162,7 @@ local record Log
 	---Whether this logger instance is currently enabled.
 	enabled: boolean
 	---List of active sinks.
-	---@field sinks (fun(entry: Log.Event): any)[]
+	sinks: (fun(entry: Log.Event): any)[]
 	---Printable name prefix included in each log line.
 	tag: string
 	---Minimum level required for logs to be emitted.

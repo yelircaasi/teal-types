@@ -9,6 +9,6 @@ local M = {}
 
 ---@param config Config
 ---@param opts? SyncOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

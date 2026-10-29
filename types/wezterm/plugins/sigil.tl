@@ -42,43 +42,43 @@ local M = {}
 
 ---Configure Sigil.
 ---@param opts? table Partial Sigil configuration.
-function M.setup(opts): Sigil.Config
+setup: function(opts): Sigil.Config
 
 ---Register or replace a Sigil entry.
-function M.add(key: string Lookup key., entry: Sigil.Entry Entry to register.): Sigil.Entry
+add: function(key: string Lookup key., entry: Sigil.Entry Entry to register.): Sigil.Entry
 
 ---Return a Sigil entry by key or alias.
 ---@param key any Lookup key.
 ---@param opts? Sigil.LookupOptions Lookup options.
-function M.get(key, opts): Sigil.Entry|nil|? | nil
+get: function(key, opts): Sigil.Entry|nil|? | nil
 
 ---Return only the icon for a key or alias.
 ---@param key any Lookup key.
 ---@param opts? Sigil.LookupOptions Lookup options.
-function M.icon(key, opts): string|nil|? | nil
+icon: function(key, opts): string|nil|? | nil
 
 ---Return only the color for a key or alias.
 ---@param key any Lookup key.
 ---@param opts? Sigil.LookupOptions Lookup options.
-function M.color(key, opts): string|nil|? | nil
+color: function(key, opts): string|nil|? | nil
 
 ---Return raw `wezterm.format` items for a key or alias.
 ---@param key any Lookup key.
 ---@param opts? Sigil.ItemsOptions Formatting options.
-function M.items(key, opts): Sigil.FormatItem[]
+items: function(key, opts): Sigil.FormatItem[]
 
 ---Render a key or alias with `wezterm.format`.
 ---@param key any Lookup key.
 ---@param opts? Sigil.ItemsOptions Formatting options.
-function M.format(key, opts): string
+format: function(key, opts): string
 
 ---Return a symbol by dotted path, such as `Sep.tb.left`.
-function M.symbol(path: string Dotted symbol path.): any
+symbol: function(path: string Dotted symbol path.): any
 
 ---Return all configured symbols.
-function M.symbols(): table
+symbols: function(): table
 
 ---Return all registered entries.
-function M.all(): table<string,
+all: function(): table<string,
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

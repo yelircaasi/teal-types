@@ -66,10 +66,7 @@ local record BarWeztermOpts
 end
 
 local record BarWezterm
-local M = {}
-
----@param c Config
----@param opts? BarWeztermOpts
-function M.apply_to_config(c, opts) end
+	apply_to_config: function(c: Config, opts: BarWeztermOpts | nil) end
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

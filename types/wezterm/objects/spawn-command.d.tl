@@ -1,5 +1,5 @@
 local record SpawnPosition
-	---@field origin? "ScreenCoordinateSystem"|"MainScreen"|"ActiveScreen"|{ Named: string }
+	origin: "ScreenCoordinateSystem"|"MainScreen"|"ActiveScreen"|{ Named: string } | nil
 	x: integer | nil
 	y: integer | nil
 
@@ -21,7 +21,7 @@ local record SpawnCommand
 	---Specifies that the multiplexer domain
 	---of the currently active pane should be used
 	---to start this process.
-	---@field domain? "DefaultDomain"|"local"|"CurrentPaneDomain"|{ DomainName: string }
+	domain: "DefaultDomain"|"local"|"CurrentPaneDomain"|{ DomainName: string } | nil
 	---An optional label.
 	---The `label` is only used for `SpawnCommand` instances that are listed in the `launch_menu`
 	---configuration section.
@@ -34,5 +34,6 @@ local record SpawnCommand
 	position: SpawnPosition | nil
 	---Sets additional environment variables in the environment for this command invocation.
 	set_environment_variables: table | nil<string, any>
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

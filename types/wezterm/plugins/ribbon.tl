@@ -101,10 +101,10 @@ local M = {}
 ---@param self_or_name? Ribbon.Api|string Ribbon API table when called with `:`, or a name when called with `.`.
 ---@param name_or_atomic? string|boolean Ribbon name when called with `:`, or atomic flag when called with `.`.
 ---@param atomic? boolean Atomic flag when called with `:`.
-function M.new(self_or_name, name_or_atomic, atomic): Ribbon
+new: function(self_or_name, name_or_atomic, atomic): Ribbon
 
 ---Configure Ribbon.
 ---@param opts? table Partial Ribbon configuration.
-function M.setup(opts): Ribbon.Config
+setup: function(opts): Ribbon.Config
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

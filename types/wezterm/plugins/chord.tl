@@ -57,7 +57,7 @@ local record Chord.OverrideSpec
 	---Mappings to append.
 	add: Chord | nil.VimMapping[]
 	---Mappings to remove.
-	---@field disable? (string|Chord.KeyEntry|Chord.VimMapping)[]
+	disable: (string|Chord.KeyEntry|Chord.VimMapping)[] | nil
 	---Disable a mapping group when set to `false`.
 	enabled: boolean | nil
 	---Mappings to replace by Vim-style lhs.
@@ -65,7 +65,7 @@ local record Chord.OverrideSpec
 end
 
 local record Chord.Overrides
-	---@field enabled? { key_tables?: boolean, keys?: boolean }
+	enabled: { key_tables?: boolean, keys?: boolean } | nil
 	key_tables: table | nil<string, Chord.OverrideSpec>
 	keys: Chord | nil.OverrideSpec
 end
@@ -234,69 +234,69 @@ local record Chord
 local M = {}
 
 ---Apply user overrides to already-built keys and key tables.
-function M.apply_overrides(config_table: Config WezTerm config table., overrides: Chord.Overrides): nil
+apply_overrides: function(config_table: Config WezTerm config table., overrides: Chord.Overrides): nil
 
 ---Return the active Chord configuration.
-function M.config(): Chord.Config
+config: function(): Chord.Config
 
 ---@param config Config
 ---@param opts? Chord.ConflictOptions
-function M.conflicts(config, opts): Chord.Conflict[]
+conflicts: function(config, opts): Chord.Conflict[]
 
 ---Return registered key-table metadata for mode displays.
-function M.get_modes(theme: table Theme or color table passed to key-table definition functions.): table<string,
+get_modes: function(theme: table Theme or color table passed to key-table definition functions.): table<string,
 
 ---Render a plain-text key-hint bar for the active key table.
 ---@param config_table Config WezTerm config table.
 ---@param name? string Key-table name. `nil` uses top-level keys.
-function M.hint(width_cols: integer Available terminal columns., name, width_cols, window: Window WezTerm window.): string
+hint: function(width_cols: integer Available terminal columns., name, width_cols, window: Window WezTerm window.): string
 
 ---Return an action callback that changes the visible hint page.
 ---@param name? string Key-table name.
-function M.hint_action(name, direction: integer Page delta.): Action
+hint_action: function(name, direction: integer Page delta.): Action
 
 ---Render a Ribbon key-hint bar for the active key table.
 ---@param config_table Config WezTerm config table.
 ---@param name? string Key-table name. `nil` uses top-level keys.
 ---@param width_cols integer Available terminal columns.
-function M.hint_layout(window: Window WezTerm window., name, width_cols, window, opts: { theme: table, mode_bg: string }): Ribbon
+hint_layout: function(window: Window WezTerm window., name, width_cols, window, opts: { theme: table, mode_bg: string }): Ribbon
 
 ---Create a WezTerm key entry from either native syntax or Vim-style syntax.
 ---@param lhs_or_spec string|Chord.VimMapping|Chord.KeyEntry
 ---@param action? Action WezTerm action when `lhs_or_spec` is a string.
 ---@param desc? string Optional description.
-function M.key(lhs_or_spec, action, desc): Chord.KeyEntry|nil|? | nil
+key: function(lhs_or_spec, action, desc): Chord.KeyEntry|nil|? | nil
 
 ---Append a single key mapping to a target table.
 ---@param lhs_or_spec string|Chord.VimMapping|Chord.KeyEntry
-function M.map(action: Action WezTerm action., action, target: table Target list to mutate.) end
+map: function(action: Action WezTerm action., action, target: table Target list to mutate.) end
 
 ---Append a batch of key mappings to a target table.
-function M.map_batch(mappings: (Chord.VimMapping|Chord.KeyEntry)[], target: table Target list to mutate.): nil
+map_batch: function(mappings: (Chord.VimMapping|Chord.KeyEntry)[], target: table Target list to mutate.): nil
 
 ---Append mappings to `config.keys`.
-function M.maps(config_table: Config WezTerm config table., mappings: (Chord.VimMapping|Chord.KeyEntry)[]): nil
+maps: function(config_table: Config WezTerm config table., mappings: (Chord.VimMapping|Chord.KeyEntry)[]): nil
 
-function M.mode(name: string, def: Chord.KeyTableDef|fun(theme: table): def: Chord.KeyTableDef): Chord.Mode
+mode: function(name: string, def: Chord.KeyTableDef|fun(theme: table): def: Chord.KeyTableDef): Chord.Mode
 
 ---Normalize a Vim-style key expression to a WezTerm key entry fragment.
 ---@param lhs string Vim-style key expression.
 ---@return table|nil|? entry
-function M.normalize(lhs): string|nil|? | nil
+normalize: function(lhs): string|nil|? | nil
 
 ---Configure Chord.
 ---@param opts? Chord.Config Partial Chord configuration.
-function M.setup(opts): Chord
+setup: function(opts): Chord
 
 ---Convert Vim-style mappings to a WezTerm key table.
-function M.table(mappings: (Chord.VimMapping|Chord.KeyEntry)[]): Chord.KeyEntry[]
+table: function(mappings: (Chord.VimMapping|Chord.KeyEntry)[]): Chord.KeyEntry[]
 
 ---Register modal key tables and write them into `config.key_tables`.
-function M.tables(config_table: Config WezTerm config table., defs: table<string, Chord.KeyTableDef|fun(theme: table): Chord.KeyTableDef>): nil
+tables: function(config_table: Config WezTerm config table., defs: table<string, Chord.KeyTableDef|fun(theme: table): Chord.KeyTableDef>): nil
 
 ---Validate a Vim-style key expression.
 ---@param lhs string Vim-style key expression.
 ---@return boolean valid
-function M.validate(lhs): string|nil|? | nil
+validate: function(lhs): string|nil|? | nil
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

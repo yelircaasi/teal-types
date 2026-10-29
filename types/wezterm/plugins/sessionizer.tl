@@ -5,7 +5,7 @@ local type Schema SchemaScope|(string|Entry)[]
 local record SchemaScope
 	---@field [integer] Schema
 	options: SchemaOptions
----@field processing (fun(schema: Entry[]): entries: Entry[])[]
+processing: (fun(schema: Entry[]): entries: Entry[])[]
 
 local record SchemaOptions
 	always_fuzzy: boolean | nil
@@ -42,20 +42,20 @@ end
 local record Sessionizer
 local M = {}
 
-function M.AllActiveWorkspaces(opts: Sessionizer.AllActiveWorkspacesOpts): (fun():
+AllActiveWorkspaces: function(opts: Sessionizer.AllActiveWorkspacesOpts): (fun():
 
 ---@param window Window The `Window` object.
 ---@param pane Pane The `Pane` object.
-function M.DefaultCallback(id: string, pane, id, label: string) end
+DefaultCallback: function(id: string, pane, id, label: string) end
 
-function M.DefaultWorkspace(opts: Sessionizer.DefaultWorkspaceOpts): (fun():
+DefaultWorkspace: function(opts: Sessionizer.DefaultWorkspaceOpts): (fun():
 
-function M.FdSearch(opts: string|Sessionizer.FdSearchOpts): (fun():
+FdSearch: function(opts: string|Sessionizer.FdSearchOpts): (fun():
 
-function M.apply_to_config(config: Config) end
+apply_to_config: function(config: Config) end
 
-function M.for_each_entry(f: fun(entry: Entry)): fun(entries:
+for_each_entry: function(f: fun(entry: Entry)): fun(entries:
 
-function M.show(schema: Schema) end
+show: function(schema: Schema) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

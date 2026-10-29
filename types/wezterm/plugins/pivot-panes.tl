@@ -58,13 +58,13 @@ local M = {}
 
 ---Configure the plugin with custom settings.
 --
-function M.setup(user_config: PivotConfig): Pivot
+setup: function(user_config: PivotConfig): Pivot
 
 ---Directly toggle pane orientation.
 ---@param tab_or_pane? Pane|MuxTab Optional `MuxTab` or `Pane` to use (defaults to current).
-function M.toggle_orientation(tab_or_pane): boolean
+toggle_orientation: function(tab_or_pane): boolean
 
 ---Callback function for keybindings.
-function M.toggle_orientation_callback(window: Window `Window` object., pane: Pane `Pane` object.): boolean
+toggle_orientation_callback: function(window: Window `Window` object., pane: Pane `Pane` object.): boolean
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

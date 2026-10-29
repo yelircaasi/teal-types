@@ -1,5 +1,3 @@
----@diagnostic disable:unused-local
-
 local record WorkspacePickerColors
 	current_indicator: string | nil
 	path: string | nil
@@ -37,19 +35,19 @@ local M = {}
 ---Add keybindings to your WezTerm config.
 ---@param config Config
 ---@param opts? WorkspacePickerConfig
-function M.apply_to_config(config, opts): Config
+apply_to_config: function(config, opts): Config
 
 ---Create new workspace manually.
-function M.create_workspace_manually(): {
+create_workspace_manually: function(): {
 
 ---Rename workspace.
-function M.rename_workspace(): {
+rename_workspace: function(): {
 
 ---Initialize configuration.
 ---@param opts? WorkspacePickerConfig
-function M.setup(opts): WorkspacePicker
+setup: function(opts): WorkspacePicker
 
 ---Display workspace selector.
-function M.show_workspace_selector(window: Window The `Window` object., pane: Pane The `Pane` object.): nil
+show_workspace_selector: function(window: Window The `Window` object., pane: Pane The `Pane` object.): nil
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

@@ -42,18 +42,18 @@ local M = {}
 ---  },
 ---}
 ---```
-function M.default_key_tables(): Key[]|{
+default_key_tables: function(): Key[]|{
 
 ---Returns a table holding the effective default values
 ---for key assignments.
 ---That is the set of keys that is used as a base
 ---if there was no configuration file.
-function M.default_keys(): Key[]
+default_keys: function(): Key[]
 
 ---Returns the list of available GPUs supported by WebGpu.
 ---[`config.webgpu_preferred_adapter`](lua://Config.webgpu_preferred_adapter)
 ---is useful in conjunction with this function.
-function M.enumerate_gpus(): GpuInfo[]
+enumerate_gpus: function(): GpuInfo[]
 
 ---This function returns the appearance of the window environment.
 ---The appearance can be one of the following 4 values:
@@ -66,7 +66,7 @@ function M.enumerate_gpus(): GpuInfo[]
 ---                        (not reported on all systems)
 ---WezTerm is able to detect when the appearance has changed and
 ---will reload the configuration when that happens.
-function M.get_appearance(): "Dark"|"DarkHighContrast"|"Light"|"LightHighContrast"
+get_appearance: function(): "Dark"|"DarkHighContrast"|"Light"|"LightHighContrast"
 
 ---Attempts to resolve a mux window to its corresponding GUI Window.
 ---This may not succeed for a couple of reasons:
@@ -74,13 +74,13 @@ function M.get_appearance(): "Dark"|"DarkHighContrast"|"Light"|"LightHighContras
 ---   so this will never succeed
 --- - If the mux window is part of a workspace that is not
 ---   the active workspace
-function M.gui_window_for_mux_window(window_id: integer): userdata
+gui_window_for_mux_window: function(window_id: integer): userdata
 
 ---Returns an array table listing all `GUI Window` objects
 ---in a stable/consistent order.
-function M.gui_windows(): Window[]
+gui_windows: function(): Window[]
 
 ---Returns information about the screens connected to the system.
-function M.screens(): GuiScreensInfo
+screens: function(): GuiScreensInfo
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

@@ -3,52 +3,152 @@
 ---@module "wezterm.types.wezterm"
 ---@module "wezterm.types.harfbuzz"
 
-local type AllowSquareGlyphs =
-	"Always"|"Never"|"WhenFollowedBySpace"
-local type AudibleBell =
-	"Disabled"|"SystemBeep"
-local type BidiDirection =
-	"AutoLeftToRight"|"AutoRightToLeft"|"LeftToRight"|"RightToLeft"
-local type DisplayPixelGeometry =
-	"BGR"|"RGB"
-local type ExitBehavior =
-	"Close"|"CloseOnCleanExit"|"Hold"
-local type ExitBehaviorMessaging =
-	"Brief"|"None"|"Terse"|"Verbose"
-local type VerticalAlign =
-	"Bottom"|"Middle"|"Top"
-local type HorizontalAlign =
-	"Center"|"Left"|"Right"
-local type FontRules.Blink =
-	"None"|"Rapid"|"Slow"
-local type BackgroundLayerAttachments =
-	"Fixed"|"Scroll"
-local type BackgroundLayerRepeat =
-	"Mirror"|"NoRepeat"|"Repeat"
-local type Config.FontLocator =
-	"ConfigDirsOnly"|"CoreText"|"FontConfig"|"Gdi"
-local type Config.FrontEnd =
-	"OpenGL"|"Software"|"WebGpu"
-local type Config.WebGpuPowerPreference =
-	"HighPerformance"|"LowPower"
-local type Config.Win32SystemBackdrop =
-	"Acrylic"|"Auto"|"Disable"|"Mica"|"Tabbed"
-local type DefaultCursorStyle =
-	"BlinkingBar"|"BlinkingBlock"|"BlinkingUnderline"|"SteadyBar"|"SteadyBlock"|"SteadyUnderline"
-local type DroppedFileQuoting =
-	"None"|"Posix"|"SpacesOnly"|"Windows"|"WindowsAlwaysQuoted"
-local type FontRasterizer =
-	"FreeType"|"Harfbuzz"
-local type FontShaper =
-	"Allsorts"|"Harfbuzz"
-local type FreeTypeLoadTarget =
-	"HorizontalLcd"|"Light"|"Mono"|"Normal"|"VerticalLcd"
-local type NotifyHandler =
-	"AlwaysShow"|"NeverShow"|"SuppressFromFocusedPane"|"SuppressFromFocusedTab"|"SuppressFromFocusedWindow"
-local type QuickSelectAlphabet =
-	"aoeuqjkxpyhtnsgcrlmwvzfidb"|"arstqwfpzxcvneioluymdhgjbk"|"asdfqweryxcvjkluiopmghtzbn"|"asdfqwerzxcvjklmiuopghtybn"|"qsdfazerwxcvjklmuiopghtybn"
-local type VBTarget =
-	"BackgroundColor"|"CursorColor"
+local enum AllowSquareGlyphs =
+	"Always"
+	"Never"
+	"WhenFollowedBySpace"
+end
+
+local enum AudibleBell
+	"Disabled"
+	"SystemBeep"
+end
+
+local enum BidiDirection
+	"AutoLeftToRight"
+	"AutoRightToLeft"
+	"LeftToRight"
+	"RightToLeft"
+end
+
+local enum DisplayPixelGeometry
+	"BGR"
+	"RGB"
+end
+
+local enum ExitBehavior
+	"Close"
+	"CloseOnCleanExit"
+	"Hold"
+end
+
+local enum ExitBehaviorMessaging
+	"Brief"
+	"None"
+	"Terse"
+	"Verbose"
+end
+
+local enum VerticalAlign
+	"Bottom"
+	"Middle"
+	"Top"
+end
+
+local enum HorizontalAlign
+	"Center"
+	"Left"
+	"Right"
+end
+
+local enum FontRules.Blink
+	"None"
+	"Rapid"
+	"Slow"
+end
+
+local enum BackgroundLayerAttachments
+	"Fixed"
+	"Scroll"
+end
+
+local enum BackgroundLayerRepeat
+	"Mirror"
+	"NoRepeat"
+	"Repeat"
+end
+
+local enum Config.FontLocator
+	"ConfigDirsOnly"
+	"CoreText"
+	"FontConfig"
+	"Gdi"
+end
+
+local enum Config.FrontEnd
+	"OpenGL"
+	"Software"
+	"WebGpu"
+end
+
+local enum Config.WebGpuPowerPreference
+	"HighPerformance"
+	"LowPower"
+end
+
+local enum Config.Win32SystemBackdrop
+	"Acrylic"
+	"Auto"
+	"Disable"
+	"Mica"
+	"Tabbed"
+end
+
+local enum DefaultCursorStyle
+	"BlinkingBar"
+	"BlinkingBlock"
+	"BlinkingUnderline"
+	"SteadyBar"
+	"SteadyBlock"
+	"SteadyUnderline"
+end
+
+local enum DroppedFileQuoting
+	"None"
+	"Posix"
+	"SpacesOnly"
+	"Windows"
+	"WindowsAlwaysQuoted"
+end
+
+local enum FontRasterizer
+	"FreeType"
+	"Harfbuzz"
+end
+
+local enum FontShaper
+	"Allsorts"
+	"Harfbuzz"
+end
+
+local enum FreeTypeLoadTarget
+	"HorizontalLcd"
+	"Light"
+	"Mono"
+	"Normal"
+	"VerticalLcd"
+end
+
+local enum NotifyHandler
+	"AlwaysShow"
+	"NeverShow"
+	"SuppressFromFocusedPane"
+	"SuppressFromFocusedTab"
+	"SuppressFromFocusedWindow"
+end
+
+local enum QuickSelectAlphabet
+	"aoeuqjkxpyhtnsgcrlmwvzfidb"
+	"arstqwfpzxcvneioluymdhgjbk"
+	"asdfqweryxcvjkluiopmghtzbn"
+	"asdfqwerzxcvjklmiuopghtybn"
+	"qsdfazerwxcvjklmuiopghtybn"
+end
+
+local enum VBTarget
+	"BackgroundColor"
+	"CursorColor"
+end
 
 local record HsbTransform
 	brightness: number | nil
@@ -81,6 +181,7 @@ local record CellWidth
 	first: integer
 	last: integer
 	width: integer
+end
 
 ---Represents the `BackgroundLayer` type.
 local record BackgroundLayer
@@ -91,8 +192,8 @@ local record BackgroundLayer
 	--- - `{ Parallax = 0.1 }`: To scroll `1:10` with the number of pixels
 	---                       scrolled in the viewport
 	attachment: BackgroundLayerAttachments | nil|{ Parallax: number }
----Controls the height of the image.
----The following values are accepted:
+	---Controls the height of the image.
+	---The following values are accepted:
 	--- - `"Cover"`: (default) scales the image, preserving aspect ratio, to the smallest
 	--- -          possible size to fill the viewport, leaving no empty space.
 	--- -          If the aspect ratio of the viewport differs from the image, the image is cropped
@@ -102,7 +203,7 @@ local record BackgroundLayer
 	--- - `123`: Specifies a height of `123` pixels
 	--- - `"50%"`: Specifies a size of `50%` of the viewport height
 	--- - `"2cell"`: Specifies a size equivalent to 2 rows
-	---@field height? "Cover"|"Contain"|number|string
+	height: "Cover"|"Contain"|number|string | nil
 	---Controls the initial horizontal position of the layer, relative to the viewport:
 	--- - `"Left"` (default)
 	--- - `"Center"`
@@ -148,7 +249,7 @@ local record BackgroundLayer
 	--- - [`repeat_x_size`](lua://BackgroundLayer.repeat_x_size)
 	repeat_y_size: number | nil|string
 	---Defines the source of the layer texture data.
-	---@field source? { File: string, speed?: number }|{ Gradient: Gradient, Color: string }
+	source: { File: string, speed?: number }|{ Gradient: Gradient, Color: string } | nil
 	---Controls the initial vertical position of the layer, relative to the viewport:
 	--- - `"Top"` (default)
 	--- - `"Middle"`
@@ -159,11 +260,12 @@ local record BackgroundLayer
 	--- - string values like `"100%"` to specify a size relative to the viewport
 	--- - `"10cell"`: to specify a size based on terminal cell metrics
 	vertical_offset: number | nil|string
----Controls the width of the image.
----Same details as `height` but applied to the x-direction.
----See:
---- - [`height`](lua://BackgroundLayer.height)
----@field width? "Cover"|"Contain"|number|string
+	---Controls the width of the image.
+	---Same details as `height` but applied to the x-direction.
+	---See:
+	--- - [`height`](lua://BackgroundLayer.height)
+	width: "Cover"|"Contain"|number|string | nil
+end
 
 local record FontRules
 	blink: FontRules | nil.Blink
@@ -270,25 +372,25 @@ local record Config
 	background: BackgroundLayer | nil[]
 	bidi_direction: BidiDirection | nil
 	bidi_enabled: boolean | nil
----When `true` (the default), PaletteIndex 0-7 are shifted to **bright**
----when the font intensity is bold.
----This brightening effect doesn't occur when the text is set to the default foreground color.
----This defaults to `true` for better compatibility with software; for instance,
----a lot of software assumes that `Black+Bold` renders as a `Dark Grey`, which is legible
----on a `Black` background, but if this option is set to `false`, it would render as
----`Black on Black`.
----This option can also have one of three `string` values:
---- - `"BrightAndBold"`: The _bold_ attribute will select a bright version
----                    of palette indices (`0-7`) and preserve the _bold_ attribute
----                    on the text, using both a bold font and a brighter color
---- - `"BrightOnly"`: The _bold_ attribute will select a bright version
----                 of palette indices (`0-7`), but the intensity will be
----                 treated as _normal_ and a non-bold font will be used
+	---When `true` (the default), PaletteIndex 0-7 are shifted to **bright**
+	---when the font intensity is bold.
+	---This brightening effect doesn't occur when the text is set to the default foreground color.
+	---This defaults to `true` for better compatibility with software; for instance,
+	---a lot of software assumes that `Black+Bold` renders as a `Dark Grey`, which is legible
+	---on a `Black` background, but if this option is set to `false`, it would render as
+	---`Black on Black`.
+	---This option can also have one of three `string` values:
+	--- - `"BrightAndBold"`: The _bold_ attribute will select a bright version
+	---                    of palette indices (`0-7`) and preserve the _bold_ attribute
+	---                    on the text, using both a bold font and a brighter color
+	--- - `"BrightOnly"`: The _bold_ attribute will select a bright version
+	---                 of palette indices (`0-7`), but the intensity will be
+	---                 treated as _normal_ and a non-bold font will be used
 	---                 for the text
 	--- - `"No"`: The _bold_ attribute will not influence palette selection
 	---You may use `true` or `false` for backwards compatibility.
 	---`true` is equivalent to `"BrightAndBold"`, while `false` is equivalent to `"No"`.
-	---@field bold_brightens_ansi_colors? "No"|"BrightAndBold"|"BrightOnly"|boolean
+	bold_brightens_ansi_colors: "No"|"BrightAndBold"|"BrightOnly"|boolean | nil
 	---If an application has enabled mouse reporting mode, mouse events are sent directly
 	---to the application, and do not get routed through the mouse assignment logic.
 	---Holding down the `config.bypass_mouse_reporting_modifiers` modifier key(s)
@@ -298,32 +400,32 @@ local record Config
 	---e.g. _vim running in mouse mode_, and will instead treat the event as though `"SHIFT"`
 	---was not pressed and then match it against the mouse assignments.
 	bypass_mouse_reporting_modifiers: Modifiers | nil
----Controls whether pasted text will have newlines normalized.
----If bracketed paste mode is enabled by the application the effective value
----of this configuration option is `"None"`.
----@field canonicalize_pasted_newlines? "None"|"LineFeed"|"CarriageReturn"|"CarriageReturnAndLineFeed"|boolean
----Scales the computed cell width to adjust the spacing between successive cells of text.
----If possible, you should prefer to specify the stretch parameter when selecting a font
----using either `wezterm.font()` or `wezterm.font_with_fallback()`, as that will generally
----look better and have fewer undesirable side effects.
----If your preferred font doesn't have variations with different stretches,
----or if the font spacing still doesn't look right to you, then `config.cell_width`
----gives you a simple way to influence the spacing.
----The default cell width is indirectly controlled by the `config.font` and `config.font_size`
----configuration options. The selected font and font size controls the height of the font,
----while the font designer controls the aspect ratio of the glyphs in the font.
----The base font (the first font resolved from `config.font`) defines the cell metrics
----for the terminal display grid. Those metrics are then then used to place glyphs, regardless of
----which fallback font might be resolved for a given glyph.
----If you feel that your chosen font feels too horizontally cramped then you can set this
----to `1.2` to increase the horizontal spacing by `20%`. Conversely, setting this to `0.9`
----will decrease the horizontal spacing by `10%`.
----This option doesn't adjust the rasterized width of glyphs, it just changes what WezTerm
----considers  to be the cell boundaries. When rendering _monospace_, WezTerm advances
----by the cell width to place successive glyphs.
----If you set the scale less than `1.0` then the glyphs won't be truncated or squished,
----rather they will render on top of each other. Conversely, if you set the scale
----to greater than `1.0`, the glyphs won't be stretched but will render further apart
+	---Controls whether pasted text will have newlines normalized.
+	---If bracketed paste mode is enabled by the application the effective value
+	---of this configuration option is `"None"`.
+	canonicalize_pasted_newlines: "None"|"LineFeed"|"CarriageReturn"|"CarriageReturnAndLineFeed"|boolean | nil
+	---Scales the computed cell width to adjust the spacing between successive cells of text.
+	---If possible, you should prefer to specify the stretch parameter when selecting a font
+	---using either `wezterm.font()` or `wezterm.font_with_fallback()`, as that will generally
+	---look better and have fewer undesirable side effects.
+	---If your preferred font doesn't have variations with different stretches,
+	---or if the font spacing still doesn't look right to you, then `config.cell_width`
+	---gives you a simple way to influence the spacing.
+	---The default cell width is indirectly controlled by the `config.font` and `config.font_size`
+	---configuration options. The selected font and font size controls the height of the font,
+	---while the font designer controls the aspect ratio of the glyphs in the font.
+	---The base font (the first font resolved from `config.font`) defines the cell metrics
+	---for the terminal display grid. Those metrics are then then used to place glyphs, regardless of
+	---which fallback font might be resolved for a given glyph.
+	---If you feel that your chosen font feels too horizontally cramped then you can set this
+	---to `1.2` to increase the horizontal spacing by `20%`. Conversely, setting this to `0.9`
+	---will decrease the horizontal spacing by `10%`.
+	---This option doesn't adjust the rasterized width of glyphs, it just changes what WezTerm
+	---considers  to be the cell boundaries. When rendering _monospace_, WezTerm advances
+	---by the cell width to place successive glyphs.
+	---If you set the scale less than `1.0` then the glyphs won't be truncated or squished,
+	---rather they will render on top of each other. Conversely, if you set the scale
+	---to greater than `1.0`, the glyphs won't be stretched but will render further apart
 	---from each other.
 	---Changing `config.cell_width` doesn't adjust the positioning of the glyph within the cell;
 	---it remains at its usual x-position. It is not centered within the adjusted space. Doing so
@@ -339,17 +441,17 @@ local record Config
 	--- - [`wezterm.font()`](lua://Wezterm.font)
 	--- - [`wezterm.font_with_fallback()`](lua://Wezterm.font_with_fallback)
 	cell_width: number | nil
----The character width recommended by the Unicode standard is occasionally inconsistent
----and may not align with linguistic tradition.
---- - circled numbers width: ⓪①..⑳㉑
---- - lowercase Roman numerals width: ⅹⅺⅻ
---- - Nerd Font (Private Use Area) character width
---- - ambiguous character width for CJK text
---- - square emojis defined as EAW=Neutral
----The `config.cell_widths` configuration parameter allows users to override
----the default character width.
----[Nerd Font](https://www.nerdfonts.com/) has square glyphs and is an example of half advance width.
----Below is a configuration example that treats these character widths as full-width:
+	---The character width recommended by the Unicode standard is occasionally inconsistent
+	---and may not align with linguistic tradition.
+	--- - circled numbers width: ⓪①..⑳㉑
+	--- - lowercase Roman numerals width: ⅹⅺⅻ
+	--- - Nerd Font (Private Use Area) character width
+	--- - ambiguous character width for CJK text
+	--- - square emojis defined as EAW=Neutral
+	---The `config.cell_widths` configuration parameter allows users to override
+	---the default character width.
+	---[Nerd Font](https://www.nerdfonts.com/) has square glyphs and is an example of half advance width.
+	---Below is a configuration example that treats these character widths as full-width:
 	---```lua
 	---config.cell_widths = {
 	---  { first = 0xe000, last = 0xf8ff, width = 2 },
@@ -432,7 +534,7 @@ local record Config
 	---See:
 	--- - [`ActivateCommandPalette`](https://wezterm.org/config/lua/keyassignment/ActivateCommandPalette.html)
 	command_palette_fg_color: string | nil
----Configures the font to use for command palette.
+	---Configures the font to use for command palette.
 	---The `config.command_palette_font` setting can specify a set of fallbacks and other options,
 	---and is described in more detail in the [Fonts](https://wezterm.org/config/fonts.html) section.
 	---If not specified, the font is same as the font in `config.window_frame.font`.
@@ -473,7 +575,7 @@ local record Config
 	---Note: It is recommended to avoid blinking cursors when on battery power, as it is
 	---relatively costly to keep re-rendering for the blink.
 	cursor_blink_rate: integer | nil
----If specified, overrides the base thickness of the lines used to render the textual cursor glyph.
+	---If specified, overrides the base thickness of the lines used to render the textual cursor glyph.
 	---The default is to use `config.underline_thickness`.
 	---This config option accepts different units that have slightly different interpretations:
 	--- - `2`, `2.0` or `"2px"`: All specify a thickness of 2 pixels
@@ -529,7 +631,7 @@ local record Config
 	---Specifies the default current working directory if none is specified through configuration
 	---or OSC 7.
 	default_cwd: string | nil
----Note: This option only applies to the GUI.
+	---Note: This option only applies to the GUI.
 	---For the equivalent option in the standalone mux server, see
 	--- - [`config.default_mux_server_domain`](lua://Config.default_mux_server_domain)
 	------
@@ -544,10 +646,10 @@ local record Config
 	---See:
 	--- - [`Wsldomain`](lua://WslDomain)
 	default_domain: string | nil
----When launching the GUI using either `wezterm` or `wezterm-gui`
----(with no subcommand explicitly specified), WezTerm will use the value
----of `config.default_gui_startup_args` to pick a default mode for running the GUI.
----The default for this config is `{ "start" }` which makes `wezterm` with no additional
+	---When launching the GUI using either `wezterm` or `wezterm-gui`
+	---(with no subcommand explicitly specified), WezTerm will use the value
+	---of `config.default_gui_startup_args` to pick a default mode for running the GUI.
+	---The default for this config is `{ "start" }` which makes `wezterm` with no additional
 	---subcommand arguments equivalent to `wezterm start`.
 	---If you always want to use wezterm's ssh client to login to a particular host,
 	---then you might consider using this configuration:
@@ -561,7 +663,7 @@ local record Config
 	---Depending on your desktop environment, you may find it simpler to use your operating system
 	---shortcut or alias function to set up a shortcut that runs the subcommand you desire.
 	default_gui_startup_args: string | nil[]|{ [1]: "start" }
----**Note: This option only applies to the standalone mux server.**
+	---**Note: This option only applies to the standalone mux server.**
 	---For the equivalent option in the GUI, see:
 	--- - [`config.default_domain`](lua://Config.default_domain).
 	--- ---
@@ -614,20 +716,20 @@ local record Config
 	---for the best results when using subpixel antialiasing.
 	---The default value is `"RGB"`.
 	display_pixel_geometry: DisplayPixelGeometry | nil
----Override the detected DPI (_dots per inch_) for the display.
----This can be useful if the detected DPI is inaccurate and the text appears either blurry
----or too small, particularly if you are using a 4K display on either X11 or Wayland.
----The default value is system specific:
--- | OS      | Standard Density        | High Density            |
--- |------	|----------------------	|----------------------	|
--- | macOS   | `72.0`                  | `144.0`                 |
--- | Windows | Probed from the display | Probed from the display |
--- | X11     | `96.0`                  | `96.0`                  |
--- | Wayland | `96.0`                  | `192.0`                 |
----In macOS and Wayland environments there isn't strictly a system DPI value that can be queried;
----instead standard density has a fixed value and the system will inform WezTerm when the display
----is high density by communicating a scaling factor for the display.
----The Wayland protocol only allows for integer scaling factors, but some compositors support
+	---Override the detected DPI (_dots per inch_) for the display.
+	---This can be useful if the detected DPI is inaccurate and the text appears either blurry
+	---or too small, particularly if you are using a 4K display on either X11 or Wayland.
+	---The default value is system specific:
+	-- | OS      | Standard Density        | High Density            |
+	-- |------	|----------------------	|----------------------	|
+	-- | macOS   | `72.0`                  | `144.0`                 |
+	-- | Windows | Probed from the display | Probed from the display |
+	-- | X11     | `96.0`                  | `96.0`                  |
+	-- | Wayland | `96.0`                  | `192.0`                 |
+	---In macOS and Wayland environments there isn't strictly a system DPI value that can be queried;
+	---instead standard density has a fixed value and the system will inform WezTerm when the display
+	---is high density by communicating a scaling factor for the display.
+	---The Wayland protocol only allows for integer scaling factors, but some compositors support
 	---fractional scaling. That fractional scaling can result in blurry text and you may wish
 	---to specify a DPI value to compensate.
 	---On macOS the scaling factor changes based on the monitor on which the window is displayed;
@@ -678,14 +780,14 @@ local record Config
 	---An array of `ExecDomain` tables.
 	---For more info read the [`ExecDomain`](https://wezterm.org/config/lua/ExecDomain.html) docs.
 	exec_domains: ExecDomain | nil[]
----Controls the behavior when the shell program spawned by the terminal exits.
----There are three possible values:
---- - `"Close"`: Close the corresponding pane as soon as the program exits
---- - `"Hold"`: Keep the pane open after the program exits.
----           The pane must be manually closed via [`CloseCurrentPane`](https://wezterm.org/config/lua/keyassignment/CloseCurrentPane.html),
----           [`CloseCurrentTab`](https://wezterm.org/config/lua/keyassignment/CloseCurrentTab.html) or closing the window
---- - `"CloseOnCleanExit"`: if the shell program exited with a successful status,
----                       behave like `"Close"`. Otherwise, behave like `"Hold"`
+	---Controls the behavior when the shell program spawned by the terminal exits.
+	---There are three possible values:
+	--- - `"Close"`: Close the corresponding pane as soon as the program exits
+	--- - `"Hold"`: Keep the pane open after the program exits.
+	---           The pane must be manually closed via [`CloseCurrentPane`](https://wezterm.org/config/lua/keyassignment/CloseCurrentPane.html),
+	---           [`CloseCurrentTab`](https://wezterm.org/config/lua/keyassignment/CloseCurrentTab.html) or closing the window
+	--- - `"CloseOnCleanExit"`: if the shell program exited with a successful status,
+	---                       behave like `"Close"`. Otherwise, behave like `"Hold"`
 	---Note that most UNIX shells will exit with the status of the last command that it ran
 	---if you don't specify an exit status.
 	---For example, if you interrupt a command and then use `exit` (with no arguments),
@@ -699,10 +801,10 @@ local record Config
 	---For fine tuning what is considered to be a clean exit status, see also:
 	--- - [`config.clean_exit_codes`](lua://Config.clean_exit_codes)
 	exit_behavior: ExitBehavior | nil
----Controls how wezterm indicates the exit status of the spawned process in a pane
----when it terminates.
----`config.exit_behavior` being set to keep the pane open after the process has completed,
----WezTerm will display a message to let you know that it has finished.
+	---Controls how wezterm indicates the exit status of the spawned process in a pane
+	---when it terminates.
+	---`config.exit_behavior` being set to keep the pane open after the process has completed,
+	---WezTerm will display a message to let you know that it has finished.
 	---This option controls that message.
 	---It can have one of the following values:
 	--- - `"Verbose"`: Shows 2-3 lines of explanation, including the process name,
@@ -726,17 +828,17 @@ local record Config
 	--- - [`wezterm.font_with_fallback()`](lua://Wezterm.font_with_fallback)
 	font: TextStyle | nil
 	font_colr_rasterizer: FontRasterizer | nil
----By default, wezterm will use an appropriate system-specific method
----for locating the fonts that you specify using the options below.
----Additionally, if you configure the `config.font_dirs` option,
----wezterm will load fonts from that set of directories:
----```lua
------ This tells wezterm to look first for fonts in the directory named
------ `fonts` that is found alongside your `wezterm.lua` file.
------ As this option is an array, you may list multiple locations if
------ you wish.
----config.font_dirs = { 'fonts' }
----```
+	---By default, wezterm will use an appropriate system-specific method
+	---for locating the fonts that you specify using the options below.
+	---Additionally, if you configure the `config.font_dirs` option,
+	---wezterm will load fonts from that set of directories:
+	---```lua
+	----- This tells wezterm to look first for fonts in the directory named
+	----- `fonts` that is found alongside your `wezterm.lua` file.
+	----- As this option is an array, you may list multiple locations if
+	----- you wish.
+	---config.font_dirs = { 'fonts' }
+	---```
 	---`wezterm` will scan the `config.font_dirs` to build a database
 	---of available fonts.
 	---When resolving a font, wezterm will first use the configured
@@ -763,16 +865,16 @@ local record Config
 	---Specifies the method by which fonts are rendered on screen.
 	---Possible values are `"FreeType"` and `"Harfbuzz"`.
 	font_rasterizer: FontRasterizer | nil
----When textual output in the terminal is styled with `bold`, `italic`
----or other attributes, wezterm uses `config.font_rules` to decide
----how to render that text.
----Most users won't need to specify any explicit value for `config.font_rules`,
----as the defaults should be sufficient.
----By default, unstyled text will use the font specified by
----the font configuration, and wezterm will use that as a base,
----and then automatically generate appropriate `config.font_rules`
----that use heavier weight fonts for bold text,
----lighter weight fonts for dim text and italic fonts for italic text.
+	---When textual output in the terminal is styled with `bold`, `italic`
+	---or other attributes, wezterm uses `config.font_rules` to decide
+	---how to render that text.
+	---Most users won't need to specify any explicit value for `config.font_rules`,
+	---as the defaults should be sufficient.
+	---By default, unstyled text will use the font specified by
+	---the font configuration, and wezterm will use that as a base,
+	---and then automatically generate appropriate `config.font_rules`
+	---that use heavier weight fonts for bold text,
+	---lighter weight fonts for dim text and italic fonts for italic text.
 	---If you have some unusual fonts or mixtures of fonts
 	---that you'd like to use, such as using your favourite
 	---monospace font for the base and a fancy italic font
@@ -810,20 +912,20 @@ local record Config
 	---In earlier releases, setting `config.force_reverse_video_cursor`
 	---to `true` always ignored the configured cursor color.
 	force_reverse_video_cursor: boolean | nil
----Configures a Hue, Saturation, Brightness transformation
----that is applied to monochrome glyphs.
----The transform works by converting the `RGB` colors to `HSV` values
----and then multiplying the HSV by the numbers specified
----in `config.foreground_text_hsb`.
----Modifying the hue changes the hue of the color by rotating it
----through the color wheel.
----It is not as useful as the other components, but is available
----_"for free"_ as part of the colorspace conversion.
----Modifying the saturation can add or reduce
----the amount of "colorfulness".
----Making the value smaller can make it appear more washed out.
----Modifying the brightness can be used to dim or increase
----the perceived amount of light.
+	---Configures a Hue, Saturation, Brightness transformation
+	---that is applied to monochrome glyphs.
+	---The transform works by converting the `RGB` colors to `HSV` values
+	---and then multiplying the HSV by the numbers specified
+	---in `config.foreground_text_hsb`.
+	---Modifying the hue changes the hue of the color by rotating it
+	---through the color wheel.
+	---It is not as useful as the other components, but is available
+	---_"for free"_ as part of the colorspace conversion.
+	---Modifying the saturation can add or reduce
+	---the amount of "colorfulness".
+	---Making the value smaller can make it appear more washed out.
+	---Modifying the brightness can be used to dim or increase
+	---the perceived amount of light.
 	---The range of these values is `0.0` and up; they are used
 	---to multiply the existing values, so the default of `1.0`
 	---preserves the existing component, whilst `0.5` will reduce it
@@ -844,19 +946,19 @@ local record Config
 	---characteristics with respective to subpixel hinting.
 	---See [Subpixel Hinting](https://freetype.org/freetype2/docs/subpixel-hinting.html).
 	freetype_interpreter_version: integer | nil
----An advanced option to fine tune the freetype rasterizer.
----This is a bitfield, so you can combine one or more of
----these options together, separated by the `|` character,
----although not many of the available options necessarily
----make sense to be combined.
----Available flags are:
---- - `"DEFAULT"`
---- - `"NO_HINTING"`: Disable hinting.
----                 The freetype documentation says that this generally generates ‘blurrier’
----                 bitmap glyph when the glyph is rendered in any of the anti-aliased modes,
----                 but that was written for rasterizing direct to bitmaps.
----                 In the context of wezterm where we are rasterizing to a texture that is then
----                 sampled and applied to a framebuffer through vertices on the GPU,
+	---An advanced option to fine tune the freetype rasterizer.
+	---This is a bitfield, so you can combine one or more of
+	---these options together, separated by the `|` character,
+	---although not many of the available options necessarily
+	---make sense to be combined.
+	---Available flags are:
+	--- - `"DEFAULT"`
+	--- - `"NO_HINTING"`: Disable hinting.
+	---                 The freetype documentation says that this generally generates ‘blurrier’
+	---                 bitmap glyph when the glyph is rendered in any of the anti-aliased modes,
+	---                 but that was written for rasterizing direct to bitmaps.
+	---                 In the context of wezterm where we are rasterizing to a texture that is then
+	---                 sampled and applied to a framebuffer through vertices on the GPU,
 	---                 the hinting process can be counter-productive and result
 	---                 in unexpected visual artifacts
 	--- - `"NO_BITMAP"`: Don't load any pre-rendered bitmap strikes
@@ -873,21 +975,21 @@ local record Config
 	---If the DPI is `100` or larger, the default value is `"NO_HINTING"`.
 	---Otherwise, the default value is `"DEFAULT"`.
 	freetype_load_flags: FreeTypeLoadFlags | nil
----Configures the hinting and (potentially) the rendering mode used
----with the freetype rasterizer.
----The following values are possible:
---- - `"Normal"`: This corresponds to the default hinting algorithm,
----             optimized for standard gray-level rendering.
----             This is the default setting
---- - `"Light"`: A lighter hinting algorithm for non-monochrome modes.
----            Many generated glyphs are more fuzzy but better resemble
----            its original shape.
----            A bit like rendering on Mac OS X
---- - `"Mono"`: Strong hinting algorithm that should only be used
----           for monochrome output.
----           The result is probably unpleasant if the glyph
----           is rendered in non-monochrome modes
---- - `"HorizontalLcd"`: A subpixel-rendering variant of `"Normal"`
+	---Configures the hinting and (potentially) the rendering mode used
+	---with the freetype rasterizer.
+	---The following values are possible:
+	--- - `"Normal"`: This corresponds to the default hinting algorithm,
+	---             optimized for standard gray-level rendering.
+	---             This is the default setting
+	--- - `"Light"`: A lighter hinting algorithm for non-monochrome modes.
+	---            Many generated glyphs are more fuzzy but better resemble
+	---            its original shape.
+	---            A bit like rendering on Mac OS X
+	--- - `"Mono"`: Strong hinting algorithm that should only be used
+	---           for monochrome output.
+	---           The result is probably unpleasant if the glyph
+	---           is rendered in non-monochrome modes
+	--- - `"HorizontalLcd"`: A subpixel-rendering variant of `"Normal"`
 	---                    optimized for horizontally decimated LCD displays
 	--- - `"VerticalLcd"`: A subpixel-rendering variant of `"Normal"`
 	---                  optimized for vertically decimated LCD displays
@@ -904,21 +1006,21 @@ local record Config
 	---[`wezterm.font`](lua://Wezterm.font)
 	---override is not sufficient.
 	freetype_load_target: FreeTypeLoadTarget | nil
----This option provides control over the [no-long-family-names](https://freetype.org/freetype2/docs/reference/ft2-properties.html#no-long-family-names)
----FreeType PCF font driver property.
----The default is for this configuration to be `false`,
----which sets the PCF driver to use the un-decorated font name.
----This corresponds to the default mode of operation
----of the freetype library.
----Some Linux distributions build the freetype library
----in a way that causes the PCF driver to report font names differently;
----instead of reporting just `Terminus` it will prefix the font name with
----the foundry (`xos4` in the case of `Terminus`) and potentially
----append `Wide` to the name if the font has wide glyphs.
----The purpose of that configuration option is to disambiguate fonts,
----as there are a number of fonts from different foundries
----that all have the name `Fixed`, and being presented with multiple items
----with the same `Fixed` label is a very ambiguous user experience.
+	---This option provides control over the [no-long-family-names](https://freetype.org/freetype2/docs/reference/ft2-properties.html#no-long-family-names)
+	---FreeType PCF font driver property.
+	---The default is for this configuration to be `false`,
+	---which sets the PCF driver to use the un-decorated font name.
+	---This corresponds to the default mode of operation
+	---of the freetype library.
+	---Some Linux distributions build the freetype library
+	---in a way that causes the PCF driver to report font names differently;
+	---instead of reporting just `Terminus` it will prefix the font name with
+	---the foundry (`xos4` in the case of `Terminus`) and potentially
+	---append `Wide` to the name if the font has wide glyphs.
+	---The purpose of that configuration option is to disambiguate fonts,
+	---as there are a number of fonts from different foundries
+	---that all have the name `Fixed`, and being presented with multiple items
+	---with the same `Fixed` label is a very ambiguous user experience.
 	---When two different applications have differing values
 	---for this long family names property, they will face inconsistencies
 	---in resolving fonts by name as they will disagree on what the name
@@ -943,13 +1045,13 @@ local record Config
 	---config.freetype_render_target = 'HorizontalLcd'
 	---```
 	freetype_render_target: FreeTypeLoadTarget | nil
----Specify the features to enable when using harfbuzz for font shaping.
----There is some light documentation [here](https://harfbuzz.github.io/shaping-opentype-features.html).
----but it boils down to allowing opentype feature names to be specified
----using syntax similar to [the CSS `font-feature-settings` options](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings).
----The _OpenType_ spec lists a number of features [here](https://docs.microsoft.com/en-us/typography/opentype/spec/featurelist).
----This option used to have more scope in earlier versions of wezterm,
----but today it allows three possible values:
+	---Specify the features to enable when using harfbuzz for font shaping.
+	---There is some light documentation [here](https://harfbuzz.github.io/shaping-opentype-features.html).
+	---but it boils down to allowing opentype feature names to be specified
+	---using syntax similar to [the CSS `font-feature-settings` options](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings).
+	---The _OpenType_ spec lists a number of features [here](https://docs.microsoft.com/en-us/typography/opentype/spec/featurelist).
+	---This option used to have more scope in earlier versions of wezterm,
+	---but today it allows three possible values:
 	--- - `"OpenGL"`: Use GPU accelerated rasterization
 	--- - `"Software"`: Use CPU-based rasterization
 	--- - `"WebGpu"`: Use GPU accelerated rasterization
@@ -981,17 +1083,17 @@ local record Config
 	---and generate clickable links.
 	hyperlink_rules: HyperlinkRule | nil[]
 	ignore_svg_fonts: boolean | nil
----Control IME preedit rendering. IME preedit is an area that is used to display the string being preedited in IME. WezTerm supports the following IME preedit rendering.
---- - `"Builtin"`: (Default) IME preedit is rendered by WezTerm itself
----`"Builtin"` rendering provides good look and feel for many IMEs,
----rendering the text using the same font as the terminal and works in concert
----with features like [`window:composition_status()`](lua://Window.composition_status).
----It may truncate displaying of IME preedit at the end of window
----if IME preedit is very long because the rendering does not allow the IME preedit
----to overflow the window and does not wrap IME preedit to the next line.
---- - `"System"`: IME preedit is rendered by system
----`"System"` rendering can be useful to avoid the truncated displaying of IME preedit
----but has a worse look and feel compared to `"Builtin"` rendering.
+	---Control IME preedit rendering. IME preedit is an area that is used to display the string being preedited in IME. WezTerm supports the following IME preedit rendering.
+	--- - `"Builtin"`: (Default) IME preedit is rendered by WezTerm itself
+	---`"Builtin"` rendering provides good look and feel for many IMEs,
+	---rendering the text using the same font as the terminal and works in concert
+	---with features like [`window:composition_status()`](lua://Window.composition_status).
+	---It may truncate displaying of IME preedit at the end of window
+	---if IME preedit is very long because the rendering does not allow the IME preedit
+	---to overflow the window and does not wrap IME preedit to the next line.
+	--- - `"System"`: IME preedit is rendered by system
+	---`"System"` rendering can be useful to avoid the truncated displaying of IME preedit
+	---but has a worse look and feel compared to `"Builtin"` rendering.
 	---You can control IME preedit rendering in your configuration file:
 	---```lua
 	---config.ime_preedit_rendering = 'System'
@@ -1001,7 +1103,7 @@ local record Config
 	--- - Changing this option usually requires re-launching WezTerm to take full effect.
 	--- - In macOS, this option has no effect currently.
 	---   IME preedit is always rendered by WezTerm itself.
-	---@field ime_preedit_rendering? "Builtin"|"System"
+	ime_preedit_rendering: "Builtin"|"System" | nil
 	---Specifies the Hue, Saturation, and Brightness transformation
 	---applied to inactive panes.
 	inactive_pane_hsb: HsbTransform | nil
@@ -1009,45 +1111,45 @@ local record Config
 	initial_cols: integer | nil
 	---Specifies the height of a new window, expressed in character cells.
 	initial_rows: integer | nil
----Configures the alignment of the set of window management buttons when
----[`config.window_decorations`](lua://Config.window_decorations) has
----a value of `"INTEGRATED_BUTTONS|RESIZE"`.
----Possible values are:
---- - `"Left"`: The buttons are shown on the left side of the tab bar
---- - `"Right"`:` The buttons are shown on the right side of the tab bar
----@field integrated_title_button_alignment? "Right"|"Left"
----Configures the color of the set of window management buttons when
----[`config.window_decorations`](lua://Config.window_decorations) has
----a value of `"INTEGRATED_BUTTONS|RESIZE"`.
----Possible values are:
---- - `"Auto"`: Automatically compute the color
---- - A custom color, like `"red"`
---- See:
---- - [`PaletteBrights`](lua://PaletteBrights)
----@field integrated_title_button_color? "Auto"|PaletteBrights
----Configures the visual style of the tabbar-integrated titlebar button replacements that are shown
----when [`config.window_decorations`](lua://Config.window_decorations) has
----a value of `"INTEGRATED_BUTTONS|RESIZE"`.
----Possible styles are:
---- - `"Windows"`: Draw Windows-style buttons
---- - `"Gnome"`: Draw Adwaita-style buttons
---- - `"MacOsNative"`: On macOS only, move the native macOS buttons into the tab bar
----The default value is `"MacOsNative"` on macOS systems.
----On other systems it's `"Windows"`.
----@field integrated_title_button_style? "Windows"|"Gnome"|"MacOsNative"
----Configures the ordering and set of window management buttons to show
----when [`config.window_decorations`](lua://Config.window_decorations) has
----a value of `"INTEGRATED_BUTTONS|RESIZE"`.
----The value is a table listing the buttons.
----Each element can have one of the following values:
---- - `"Hide"`: The window hide or minimize button
---- - `"Maximize"`: The window maximize button
---- - `"Close"`: The window close button
----The default value is equivalent to:
----```lua
----config.integrated_title_buttons = { 'Hide', 'Maximize', 'Close' }
----```
----You can change the order by listing them in a different order:
+	---Configures the alignment of the set of window management buttons when
+	---[`config.window_decorations`](lua://Config.window_decorations) has
+	---a value of `"INTEGRATED_BUTTONS|RESIZE"`.
+	---Possible values are:
+	--- - `"Left"`: The buttons are shown on the left side of the tab bar
+	--- - `"Right"`:` The buttons are shown on the right side of the tab bar
+	integrated_title_button_alignment: "Right"|"Left" | nil
+	---Configures the color of the set of window management buttons when
+	---[`config.window_decorations`](lua://Config.window_decorations) has
+	---a value of `"INTEGRATED_BUTTONS|RESIZE"`.
+	---Possible values are:
+	--- - `"Auto"`: Automatically compute the color
+	--- - A custom color, like `"red"`
+	--- See:
+	--- - [`PaletteBrights`](lua://PaletteBrights)
+	integrated_title_button_color: "Auto"|PaletteBrights | nil
+	---Configures the visual style of the tabbar-integrated titlebar button replacements that are shown
+	---when [`config.window_decorations`](lua://Config.window_decorations) has
+	---a value of `"INTEGRATED_BUTTONS|RESIZE"`.
+	---Possible styles are:
+	--- - `"Windows"`: Draw Windows-style buttons
+	--- - `"Gnome"`: Draw Adwaita-style buttons
+	--- - `"MacOsNative"`: On macOS only, move the native macOS buttons into the tab bar
+	---The default value is `"MacOsNative"` on macOS systems.
+	---On other systems it's `"Windows"`.
+	integrated_title_button_style: "Windows"|"Gnome"|"MacOsNative" | nil
+	---Configures the ordering and set of window management buttons to show
+	---when [`config.window_decorations`](lua://Config.window_decorations) has
+	---a value of `"INTEGRATED_BUTTONS|RESIZE"`.
+	---The value is a table listing the buttons.
+	---Each element can have one of the following values:
+	--- - `"Hide"`: The window hide or minimize button
+	--- - `"Maximize"`: The window maximize button
+	--- - `"Close"`: The window close button
+	---The default value is equivalent to:
+	---```lua
+	---config.integrated_title_buttons = { 'Hide', 'Maximize', 'Close' }
+	---```
+	---You can change the order by listing them in a different order:
 	---```lua
 	---config.integrated_title_buttons = { 'Close', 'Maximize', 'Hide' }
 	---```
@@ -1055,7 +1157,7 @@ local record Config
 	---```lua
 	---config.integrated_title_buttons = { 'Close' }
 	---```
-	---@field integrated_title_buttons? ("Hide"|"Maximize"|"Close")[]
+	integrated_title_buttons: ("Hide"|"Maximize"|"Close")[] | nil
 	---Combinined with [`config.window_background_opacity`](lua://Config.window_background_opacity),
 	---enables background blur using the KDE Wayland blur protocol.
 	---This can be used to produce a translucent window effect rather than
@@ -1065,7 +1167,7 @@ local record Config
 	---If `"Mapped"` (the default), then `mapped:` is assumed.
 	---Otherwise if `"Physical"` then `phys:` is assumed.
 	---Default key assignments also respect `config.key_map_preference`.
-	---@field key_map_preference? "Mapped"|"Physical"
+	key_map_preference: "Mapped"|"Physical" | nil
 	---See the main [Key Tables docs](https://wezterm.org/config/key-tables.html).
 	key_tables: table | nil<string, Key[]>
 	---Holds an array of tables that assign keys to WezTerm.
@@ -1121,7 +1223,7 @@ local record Config
 	---but should note that it will prevent certain `CTRL` key combinations
 	---that are commonly used in UNIX terminal programs from working as expected.
 	macos_forward_to_ime_modifier_mask: Modifiers | nil
----When `true` and in full screen mode, the window will extend behind the notch on macOS.
+	---When `true` and in full screen mode, the window will extend behind the notch on macOS.
 	---The default value for `config.macos_fullscreen_extend_behind_notch` is `false`.
 	---Must be used with a `false` value for
 	---[`config.native_macos_fullscreen_mode`](lua://Config.native_macos_fullscreen_mode).
@@ -1146,8 +1248,8 @@ local record Config
 	---Note that for Wayland this is ignored, instead will use information
 	---from the compositor to schedule painting frames.
 	max_fps: integer | nil
----Controls the minimum size of the scroll bar "thumb".
---The value can be a number to specify the number of pixels, or a string with a unit suffix:
+	---Controls the minimum size of the scroll bar "thumb".
+	--The value can be a number to specify the number of pixels, or a string with a unit suffix:
 	--- - `"1px"`: The `px` suffix indicates pixels, so this represents a 1 pixel value
 	--- - `"1pt"`: The `pt` suffix indicates points.
 	---          There are 72 points in 1 inch.
@@ -1262,18 +1364,18 @@ local record Config
 	---Otherwise, it will spawn a new window.
 	---The default value for this option is `false`.
 	prefer_to_spawn_tabs: boolean | nil
----Specify the alphabet used to produce labels for the items matched in quick select mode.
----The default alphabet is `"asdfqwerzxcvjklmiuopghtybn"` which means that
----the first matching item from the bottom is labelled with an `a`,
----the second with `s` and so forth;
----these are easily accessible characters in a `qwerty` keyboard layout.
--- |          |                                        |
--- |-------	|-------------------------------------	|
--- | `qwerty`   | `"asdfqwerzxcvjklmiuopghtybn"` (default) |
--- | `qwertz`   | `"asdfqweryxcvjkluiopmghtzbn"`           |
--- | `azerty`   | `"qsdfazerwxcvjklmuiopghtybn"`           |
--- | `dvorak`   | `"aoeuqjkxpyhtnsgcrlmwvzfidb"`           |
--- | `colemak`  | `"arstqwfpzxcvneioluymdhgjbk"`           |
+	---Specify the alphabet used to produce labels for the items matched in quick select mode.
+	---The default alphabet is `"asdfqwerzxcvjklmiuopghtybn"` which means that
+	---the first matching item from the bottom is labelled with an `a`,
+	---the second with `s` and so forth;
+	---these are easily accessible characters in a `qwerty` keyboard layout.
+	-- |          |                                        |
+	-- |-------	|-------------------------------------	|
+	-- | `qwerty`   | `"asdfqwerzxcvjklmiuopghtybn"` (default) |
+	-- | `qwertz`   | `"asdfqweryxcvjkluiopmghtzbn"`           |
+	-- | `azerty`   | `"qsdfazerwxcvjklmuiopghtybn"`           |
+	-- | `dvorak`   | `"aoeuqjkxpyhtnsgcrlmwvzfidb"`           |
+	-- | `colemak`  | `"arstqwfpzxcvneioluymdhgjbk"`           |
 	---The suggested alphabet in the above table uses the left 4 fingers
 	---on the home, top and bottom rows, then the right 4 fingers
 	---on the home, top and bottom rows, followed by the characters
@@ -1343,14 +1445,14 @@ local record Config
 	selection_word_boundary: string | nil
 	send_composed_key_when_left_alt_is_pressed: boolean | nil
 	send_composed_key_when_right_alt_is_pressed: boolean | nil
----Define a list of serial port(s) that you use regularly.
----Each entry defines
----a [`SerialDomain`](lua://SerialDomain)
----table with the following fields:
---- - `name`: The name to use for the serial domain.
----         Must be unique across all multiplexer domains in your configuration
---- - `port`: The name of the serial device.
----         On Windows systems this can be a name like `COM0`.
+	---Define a list of serial port(s) that you use regularly.
+	---Each entry defines
+	---a [`SerialDomain`](lua://SerialDomain)
+	---table with the following fields:
+	--- - `name`: The name to use for the serial domain.
+	---         Must be unique across all multiplexer domains in your configuration
+	--- - `port`: The name of the serial device.
+	---         On Windows systems this can be a name like `COM0`.
 	---         On Posix systems this will be a device path something like `/dev/ttyUSB0`.
 	---         If omitted, the name field be interpreted as the port name
 	--- - `baud`: The communication speed to assign to the port.
@@ -1392,14 +1494,14 @@ local record Config
 	show_tabs_in_tab_bar: boolean | nil
 	---This option no longer has any effect and will be removed in a future release.
 	show_update_window: boolean | nil
----This configuration specifies a list of process names that are considered to be "stateless"
----and that are safe to close without prompting when closing windows, panes or tabs.
----When closing a pane, WezTerm will try to determine the processes
----that were spawned by the program that was started in the pane.
----If all of those process names match one of the names in the
----`config.skip_close_confirmation_for_processes_named` list then it will not
----prompt for closing that particular pane.
----The default value for this setting is:
+	---This configuration specifies a list of process names that are considered to be "stateless"
+	---and that are safe to close without prompting when closing windows, panes or tabs.
+	---When closing a pane, WezTerm will try to determine the processes
+	---that were spawned by the program that was started in the pane.
+	---If all of those process names match one of the names in the
+	---`config.skip_close_confirmation_for_processes_named` list then it will not
+	---prompt for closing that particular pane.
+	---The default value for this setting is:
 	---```lua
 	---config.skip_close_confirmation_for_processes_named = {
 	---  'bash',
@@ -1417,15 +1519,15 @@ local record Config
 	---[`"mux-is-process-stateful"`](https://wezterm.org/config/lua/mux-events/mux-is-process-stateful.html) event handler.
 	skip_close_confirmation_for_processes_named: string | nil[]
 	sort_fallback_fonts_by_coverage: boolean | nil
----Sets which ssh backend should be used by default for the integrated ssh client.
----Possible values are:
---- - `"Ssh2"`: Use `libssh2`
---- - `"LibSsh"`: Use `libssh`
----Despite the naming, `libssh2` is not a newer version of `libssh`.
----They are completely separate ssh implementations.
----`"LibSsh"` is the default as it has broader support for newer keys and cryptography,
----and has clearer feedback about authentication events that require entering a passphrase.
-	---@field ssh_backend? "Ssh2"|"LibSsh"
+	---Sets which ssh backend should be used by default for the integrated ssh client.
+	---Possible values are:
+	--- - `"Ssh2"`: Use `libssh2`
+	--- - `"LibSsh"`: Use `libssh`
+	---Despite the naming, `libssh2` is not a newer version of `libssh`.
+	---They are completely separate ssh implementations.
+	---`"LibSsh"` is the default as it has broader support for newer keys and cryptography,
+	---and has clearer feedback about authentication events that require entering a passphrase.
+	ssh_backend: "Ssh2"|"LibSsh" | nil
 	---Configures SSH multiplexing domains.
 	---This option accepts a list of tables of type
 	---[`SshDomain`](lua://SshDomain).
@@ -1480,17 +1582,17 @@ local record Config
 	---rather than the top of the window.
 	---The default is `false`.
 	tab_bar_at_bottom: boolean | nil
----This config option allows styling the elements that appear in the tab bar.
----This configuration supplements the tab bar color options.
----Styling in this context refers to how the edges of the tabs
----and the new tab button are rendered.
----The default is simply a space character but you can use any sequence of
----formatted text produced by
----[`wezterm.format`](lua://Wezterm.format).
----The defaults for each of these styles is simply a space.
----For each element, the foreground and background colors are set
----as per the tab bar colors you've configured.
----The available elements are:
+	---This config option allows styling the elements that appear in the tab bar.
+	---This configuration supplements the tab bar color options.
+	---Styling in this context refers to how the edges of the tabs
+	---and the new tab button are rendered.
+	---The default is simply a space character but you can use any sequence of
+	---formatted text produced by
+	---[`wezterm.format`](lua://Wezterm.format).
+	---The defaults for each of these styles is simply a space.
+	---For each element, the foreground and background colors are set
+	---as per the tab bar colors you've configured.
+	---The available elements are:
 	--- - `active_tab_left`/`active_tab_right`: The left and right sides of the active tab
 	--- - `inactive_tab_left`/`inactive_tab_right`: The left and right sides of inactive tabs
 	--- - `inactive_tab_hover_left`/`inactive_tab_hover_right`: The left and right sides of inactive tabs
@@ -1551,7 +1653,7 @@ local record Config
 	---schedulers manage timers.
 	---Non-zero values will be at least the interval specified with some degree of slop.
 	text_blink_rate: integer | nil
----Specifies how often blinking text (rapid speed) transitions
+	---Specifies how often blinking text (rapid speed) transitions
 	---between visible and invisible, expressed in milliseconds.
 	---Setting this to `0` disables rapid text blinking.
 	---Note that this value is approximate due to the way
@@ -1566,12 +1668,12 @@ local record Config
 	--- - [`config.text_blink_rapid_ease_in`](lua://Config.text_blink_rapid_ease_in)
 	--- - [`config.text_blink_rapid_ease_out`](lua://Config.text_blink_rapid_ease_out)
 	text_blink_rate_rapid: integer | nil
----An optional floating point value that defaults to `nil`.
----When set, it defines the minimum contrast ratio between
----the foreground and background color of a textual cell,
----when the cell has differing foreground and background colors.
----If the color attributes of a cell fall below the minimum contrast ratio,
----then the foreground color will have its luminance (perceived brightness)
+	---An optional floating point value that defaults to `nil`.
+	---When set, it defines the minimum contrast ratio between
+	---the foreground and background color of a textual cell,
+	---when the cell has differing foreground and background colors.
+	---If the color attributes of a cell fall below the minimum contrast ratio,
+	---then the foreground color will have its luminance (perceived brightness)
 	---adjusted to try to boost the contrast ratio to meet the specified minimum.
 	---This may cause the foreground color to either increase or decrease
 	---in luminance, typically making it either more white or more black.
@@ -1586,21 +1688,21 @@ local record Config
 	---if you find that your selected color scheme has poor contrast
 	---in the applications that you run in your terminal.
 	text_min_contrast_ratio: number | nil
----Contains a list of Window Environments that are known to be tiling window managers.
----A tiling window manager is one that automatically resizes windows
----according to some layout policy, rather than respecting the window size
----set by an application.
----The default value for this option is:
----```lua
----config.tiling_desktop_environments = {
----  'X11 LG3D',
----  'X11 bspwm',
----  'X11 i3',
----  'X11 dwm',
----}
----```
----The following additional entries are now part of the default value of
----`config.tiling_desktop_environments`:
+	---Contains a list of Window Environments that are known to be tiling window managers.
+	---A tiling window manager is one that automatically resizes windows
+	---according to some layout policy, rather than respecting the window size
+	---set by an application.
+	---The default value for this option is:
+	---```lua
+	---config.tiling_desktop_environments = {
+	---  'X11 LG3D',
+	---  'X11 bspwm',
+	---  'X11 i3',
+	---  'X11 dwm',
+	---}
+	---```
+	---The following additional entries are now part of the default value of
+	---`config.tiling_desktop_environments`:
 	--- - '"X11 awesome"'
 	---The environment name can be found in the debug overlay which you can show via
 	---the [`ShowDebugOverlay`](https://wezterm.org/config/lua/keyassignment/ShowDebugOverlay.html) key assignment.
@@ -1641,15 +1743,15 @@ local record Config
 	---Note that the key bindings using separate `Ctrl` and `Alt`
 	---won't be triggered anymore.
 	treat_left_ctrlalt_as_altgr: boolean | nil
----Controls how keyboard shortcuts are rendered in the Command Palette.
----Possible values are:
---- - `"UnixLong"`: `Super`, `Meta`, `Ctrl`, `Shift`
+	---Controls how keyboard shortcuts are rendered in the Command Palette.
+	---Possible values are:
+	--- - `"UnixLong"`: `Super`, `Meta`, `Ctrl`, `Shift`
 	--- - `"Emacs"`: `Super`, `M`, `C`, `S`
 	--- - `"AppleSymbols"`: Use macOS style symbols for `Command`, `Option` and so on
 	--- - `"WindowsLong"`: `Win`, `Alt`, `Ctrl`, `Shift`
 	--- - `"WindowsSymbols"`: Like `"WindowsLong"` but using a logo for the `Win` key
 	---The default is the platform-appropriate value.
-	---@field ui_key_cap_rendering? "AppleSymbols"|"Emacs"|"UnixLong"|"WindowsLong"|"WindowsSymbols"
+	ui_key_cap_rendering: "AppleSymbols"|"Emacs"|"UnixLong"|"WindowsLong"|"WindowsSymbols" | nil
 	---On UNIX systems, specifies the minimum desirable value for the
 	---`RLIMIT_NOFILE` soft limit.
 	---That system parameter controls the maximum number of file descriptors
@@ -1691,14 +1793,14 @@ local record Config
 	---          to arrive at a thickness double the normal size
 	--- - `"0.1cell" takes the cell height, scales it by `0.1`` and uses that as the thickness
 	underline_thickness: string | nil|number
----Specifies the version of unicode that will be used when interpreting
----the width/presentation of text.
----This option exists because Unicode is an evolving specification which
----introduces new features and that occasionally adjusts how existing features
----should be handled.
----For example, there were a number of unicode code points that had
----their width changed between Unicode version `8` and version `9`.
----This wouldn't be an issue if all software was simultaneously aware of the change,
+	---Specifies the version of unicode that will be used when interpreting
+	---the width/presentation of text.
+	---This option exists because Unicode is an evolving specification which
+	---introduces new features and that occasionally adjusts how existing features
+	---should be handled.
+	---For example, there were a number of unicode code points that had
+	---their width changed between Unicode version `8` and version `9`.
+	---This wouldn't be an issue if all software was simultaneously aware of the change,
 	---but the reality is that there is a lot of older software out there,
 	---and that even if your local system is fully up to date,
 	---you might connect to a remote system via SSH that is running applications
@@ -1728,13 +1830,13 @@ local record Config
 	---of the base font.
 	---The default is `false`.
 	use_cap_height_to_scale_fallback_fonts: boolean | nil
----By default, if you are using a layout with dead keys
----(e.g. US International or a number of European layouts),
----pressing a dead key in wezterm will "hold" the dead key
----until the next character is pressed, resulting in a
----combined character with a diacritic.
----For example, pressing `^` and then e will produce `ê`.
----Pressing `^` then `SPACE` will produce `^` on its own.
+	---By default, if you are using a layout with dead keys
+	---(e.g. US International or a number of European layouts),
+	---pressing a dead key in wezterm will "hold" the dead key
+	---until the next character is pressed, resulting in a
+	---combined character with a diacritic.
+	---For example, pressing `^` and then e will produce `ê`.
+	---Pressing `^` then `SPACE` will produce `^` on its own.
 	---If you are a heavy user of Vi style editors then you may
 	---wish to disable dead key processing so that `^` can be used
 	---with a single keypress.
@@ -1771,30 +1873,30 @@ local record Config
 	---configured then the resize increments
 	---don't take the padding into account.
 	use_resize_increments: boolean | nil
----When the `BEL` ASCII sequence is sent to a pane,
----the bell is "rung" in that pane.
----You may choose to configure the `config.visual_bell` option
----to show a visible representation of the bell event, by having
----the background color of the pane briefly change color.
----There are four fields to the `config.visual_bell` config option:
---- -`fade_in_duration_ms`: How long it should take for the bell color to fade in,
----                       in milliseconds.
----                       The default is `0`
---- -`fade_out_duration_ms`: How long it should take for the bell color to fade out,
----                        in milliseconds.
----                        The default is `0`
---- -`fade_in_function`: An easing function, similar to CSS easing functions,
----                    that affects how the bell color is faded in
---- -`fade_out_function`: An easing function that affects how the bell color is faded out
---- -`target`: Can be `"BackgroundColor"` (the default) to have the background color
----          of the terminal change when the bell is rung,
----          or `"CursorColor"` to have the cursor color change when the bell is rung
----If the total fade in and out durations are `0`, then there will be
----no visual bell indication.
----The bell color is itself specified in your color settings;
----if not specified, the text foreground color will be used.
----The following easing functions are supported:
---- - `"Linear"`: The fade happens at a constant rate
+	---When the `BEL` ASCII sequence is sent to a pane,
+	---the bell is "rung" in that pane.
+	---You may choose to configure the `config.visual_bell` option
+	---to show a visible representation of the bell event, by having
+	---the background color of the pane briefly change color.
+	---There are four fields to the `config.visual_bell` config option:
+	--- -`fade_in_duration_ms`: How long it should take for the bell color to fade in,
+	---                       in milliseconds.
+	---                       The default is `0`
+	--- -`fade_out_duration_ms`: How long it should take for the bell color to fade out,
+	---                        in milliseconds.
+	---                        The default is `0`
+	--- -`fade_in_function`: An easing function, similar to CSS easing functions,
+	---                    that affects how the bell color is faded in
+	--- -`fade_out_function`: An easing function that affects how the bell color is faded out
+	--- -`target`: Can be `"BackgroundColor"` (the default) to have the background color
+	---          of the terminal change when the bell is rung,
+	---          or `"CursorColor"` to have the cursor color change when the bell is rung
+	---If the total fade in and out durations are `0`, then there will be
+	---no visual bell indication.
+	---The bell color is itself specified in your color settings;
+	---if not specified, the text foreground color will be used.
+	---The following easing functions are supported:
+	--- - `"Linear"`: The fade happens at a constant rate
 	--- - `"Ease"`: The fade starts slowly, accelerates sharply, and then
 	---           slows gradually towards the end.
 	---           This is the default
@@ -1837,10 +1939,10 @@ local record Config
 	---To return a list of GPUs, you can use
 	---[`wezterm.gui.enumerate_gpus()`](lua://Wezterm.Gui.enumerate_gpus).
 	webgpu_preferred_adapter: GpuInfo | nil
----When combined with
----[`config.win32_system_backdrop`](lua://Config.win32_system_backdrop)
----as `"Acrylic"` on Windows systems, this option specifies
----the accent color used with the Acrylic composition effect.
+	---When combined with
+	---[`config.win32_system_backdrop`](lua://Config.win32_system_backdrop)
+	---as `"Acrylic"` on Windows systems, this option specifies
+	---the accent color used with the Acrylic composition effect.
 	---@field win32_acrylic_accent_color? string
 	---When combined with
 	---[`config.window_background_opacity`](lua://Config.window_background_opacity)
@@ -1875,23 +1977,23 @@ local record Config
 	---This only works on systems with a compositing window manager.
 	---Setting opacity to a value other than `1.0` can impact render performance.
 	window_background_opacity: number | nil
----Whether to display a confirmation prompt when the window is closed
----by the windowing environment, either because the user closed it
----with the window decorations, or instructed their window manager to do so.
----Set this to `"NeverPrompt"` if you don't like having to confirm closing your windows.
----@field window_close_confirmation? "AlwaysPrompt"|"NeverPrompt"
----Controls the alignment of the terminal cells inside the window.
----When the window size is not a multiple of terminal cell size,
----terminal cells will be slightly smaller than the window,
----and leave a small gap between the two.
----You can use this option to control where the additional gap will be.
----@field window_content_alignment? { horizontal: "Left"|"Center"|"Right", vertical: "Top"|"Center"|"Bottom" }
----Configures whether the window has a title bar and/or resizable border.
----The value is a set of flags:
----  - `"NONE"`: disables titlebar and border (borderless mode),
----              but causes problems with resizing and minimizing the window,
----              so you probably want to use `"RESIZE"` instead of `"NONE"`
----              if you just want to remove the title bar
+	---Whether to display a confirmation prompt when the window is closed
+	---by the windowing environment, either because the user closed it
+	---with the window decorations, or instructed their window manager to do so.
+	---Set this to `"NeverPrompt"` if you don't like having to confirm closing your windows.
+	window_close_confirmation: "AlwaysPrompt"|"NeverPrompt" | nil
+	---Controls the alignment of the terminal cells inside the window.
+	---When the window size is not a multiple of terminal cell size,
+	---terminal cells will be slightly smaller than the window,
+	---and leave a small gap between the two.
+	---You can use this option to control where the additional gap will be.
+	window_content_alignment: { horizontal: "Left"|"Center"|"Right", vertical: "Top"|"Center"|"Bottom" } | nil
+	---Configures whether the window has a title bar and/or resizable border.
+	---The value is a set of flags:
+	---  - `"NONE"`: disables titlebar and border (borderless mode),
+	---              but causes problems with resizing and minimizing the window,
+	---              so you probably want to use `"RESIZE"` instead of `"NONE"`
+	---              if you just want to remove the title bar
 	---  - `"TITLE"`: disable the resizable border and enable only the title bar
 	---  - `"RESIZE"`: disable the title bar but enable the resizable border
 	---  - `"TITLE|RESIZE"`: Enable titlebar and border. This is the default
@@ -1909,36 +2011,36 @@ local record Config
 	---For more info, see:
 	--- - [`WindowDecorations`](lua://WindowDecorations)
 	window_decorations: WindowDecorations | nil
----This setting is applicable primarily on Wayland systems when
----client-side decorations are in use.
----It allows you to customize the colors of the window frame.
----Some of these colors are used by the fancy tab bar.
----```lua
----config.window_frame = {
----  inactive_titlebar_bg = "#353535",
----  active_titlebar_bg = "#2b2042",
----  inactive_titlebar_fg = "#cccccc",
----  active_titlebar_fg = "#ffffff",
----  inactive_titlebar_border_bottom = "#2b2042",
----  active_titlebar_border_bottom = "#2b2042",
----  button_fg = "#cccccc",
----  button_bg = "#2b2042",
----  button_hover_fg = "#ffffff",
----  button_hover_bg = "#3b3052",
----}
----```
----You may explicitly add a border around the window area:
----```lua
----config.window_frame = {
----  border_left_width = "0.5cell",
----  border_right_width = "0.5cell",
----  border_bottom_height = "0.25cell",
----  border_top_height = "0.25cell",
----  border_left_color = "purple",
----  border_right_color = "purple",
----  border_bottom_color = "purple",
----  border_top_color = "purple",
----}
+	---This setting is applicable primarily on Wayland systems when
+	---client-side decorations are in use.
+	---It allows you to customize the colors of the window frame.
+	---Some of these colors are used by the fancy tab bar.
+	---```lua
+	---config.window_frame = {
+	---  inactive_titlebar_bg = "#353535",
+	---  active_titlebar_bg = "#2b2042",
+	---  inactive_titlebar_fg = "#cccccc",
+	---  active_titlebar_fg = "#ffffff",
+	---  inactive_titlebar_border_bottom = "#2b2042",
+	---  active_titlebar_border_bottom = "#2b2042",
+	---  button_fg = "#cccccc",
+	---  button_bg = "#2b2042",
+	---  button_hover_fg = "#ffffff",
+	---  button_hover_bg = "#3b3052",
+	---}
+	---```
+	---You may explicitly add a border around the window area:
+	---```lua
+	---config.window_frame = {
+	---  border_left_width = "0.5cell",
+	---  border_right_width = "0.5cell",
+	---  border_bottom_height = "0.25cell",
+	---  border_top_height = "0.25cell",
+	---  border_left_color = "purple",
+	---  border_right_color = "purple",
+	---  border_bottom_color = "purple",
+	---  border_top_color = "purple",
+	---}
 	---```
 	---You may specify the font and font size for the tabbar:
 	---```lua
@@ -1989,5 +2091,6 @@ local record Config
 	---will cause wezterm to connect to `fcitx`
 	---regardless of the value of `XMODIFIERS`.
 	xim_im_name: string | nil
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

@@ -27,18 +27,18 @@ local record SWS
 local M = {}
 
 ---Sets default keybind to ALT-s.
-function M.apply_to_config(config: Config): nil
+apply_to_config: function(config: Config): nil
 
 ---Returns choices for the InputSelector.
 ---@param opts? SWSChoiceOpts
-function M.get_choices(opts): SWSInputSelectorChoice[]
+get_choices: function(opts): SWSInputSelectorChoice[]
 
 
-function M.switch_to_prev_workspace(): {
+switch_to_prev_workspace: function(): {
 
 ---@param opts? SWSChoiceOpts
-function M.switch_workspace(opts): {
+switch_workspace: function(opts): {
 
-function M.workspace_formatter(label: string): string
+workspace_formatter: function(label: string): string
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

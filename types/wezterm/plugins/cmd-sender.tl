@@ -11,15 +11,15 @@ local M = {}
 
 ---@param config Config
 ---@param opts? CmdSenderOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 ---Send command to panes.
-function M.send_cmd_to_panes(cmd: string, panes: Pane[]): nil
+send_cmd_to_panes: function(cmd: string, panes: Pane[]): nil
 
 ---Send command to tab's panes.
-function M.send_cmd_to_tab_panes(cmd: string, tab: MuxTab): nil
+send_cmd_to_tab_panes: function(cmd: string, tab: MuxTab): nil
 
 
-function M.send_cmd_to_tab_panes_action(): {
+send_cmd_to_tab_panes_action: function(): {
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

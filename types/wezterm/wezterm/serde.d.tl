@@ -6,27 +6,27 @@ local record Wezterm.Serde
 local M = {}
 
 ---Parses the supplied string as JSON and returns the equivalent Lua values.
-function M.json_decode(value: string): table
+json_decode: function(value: string): table
 
 ---Encodes the supplied Lua value as JSON.
-function M.json_encode(value: table): string
+json_encode: function(value: table): string
 
 ---Encodes the supplied Lua value as a pretty-printed string of JSON.
-function M.json_encode_pretty(value: table): string
+json_encode_pretty: function(value: table): string
 
 ---Parses the supplied string as TOML and returns the equivalent Lua values.
-function M.toml_decode(value: string): table
+toml_decode: function(value: string): table
 
 ---Encodes the supplied Lua value as TOML.
-function M.toml_encode(value: table): string
+toml_encode: function(value: table): string
 
 ---Encodes the supplied Lua value as a pretty-printed string of TOML.
-function M.toml_encode_pretty(value: table): string
+toml_encode_pretty: function(value: table): string
 
 ---Parses the supplied string as YAML and returns the equivalent Lua values.
-function M.yaml_decode(value: string): table
+yaml_decode: function(value: string): table
 
 ---Encodes the supplied Lua value as YAML.
-function M.yaml_encode(value: table): string
+yaml_encode: function(value: table): string
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

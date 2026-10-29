@@ -1,28 +1,40 @@
-local type GuiEvent =
-	"gui-attached"|"gui-startup"
-local type TabsetsEvent =
-	"delete_tabset"|"load_tabset"|"rename_tabset"|"save_tabset"
-local type MultiplexerEvent =
-	"mux-is-process-stateful"|"mux-startup"
+local enum GuiEvent
+	"gui-attached"
+	"gui-startup"
+end
 
-local type WindowEvent =
+local enum TabsetsEvent
+	"delete_tabset"
+	"load_tabset"
+	"rename_tabset"
+	"save_tabset"
+end
+
+local enum MultiplexerEvent
+	"mux-is-process-stateful"
+	"mux-startup"
+end
+
+local enum WindowEvent
 	"augment-command-palette"
-	| "bell"
-	| "format-tab-title"
-	| "format-window-title"
-	| "new-tab-button-click"
-	| "open-uri"
-	| "update-status"
-	| "user-var-changed"
-	| "window-config-reloaded"
-	| "window-focus-changed"
-	| "window-resized"
+	"bell"
+	"format-tab-title"
+	"format-window-title"
+	"new-tab-button-click"
+	"open-uri"
+	"update-status"
+	"user-var-changed"
+	"window-config-reloaded"
+	"window-focus-changed"
+	"window-resized"
+end
 
-local type DevWeztermEvent =
+local enum DevWeztermEvent
 	"dev.wezterm-plugin-not-found"
-	| "dev.wezterm.invalid_hashkey"
-	| "dev.wezterm.invalid_opts"
-	| "dev.wezterm.no_keywords"
-	| "dev.wezterm.require_path_not_set"
+	"dev.wezterm.invalid_hashkey"
+	"dev.wezterm.invalid_opts"
+	"dev.wezterm.no_keywords"
+	"dev.wezterm.require_path_not_set"
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

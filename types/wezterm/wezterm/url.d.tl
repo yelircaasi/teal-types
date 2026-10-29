@@ -1,6 +1,6 @@
-local type WezTerm.Url Wezterm.Url
-local type Wezterm.URL Wezterm.Url
-local type WezTerm.URL Wezterm.Url
+-- global type WezTerm.Url = Wezterm.Url
+-- global type Wezterm.URL = Wezterm.Url
+-- global type WezTerm.URL = Wezterm.Url
 
 ---The `Url` object represents a parsed URL.
 ---An example:
@@ -17,14 +17,21 @@ local type WezTerm.URL Wezterm.Url
 ---assert(url.path == '/rust-lang/rust/issues')
 ---assert(url.query == 'labels=E-easy&state=open')
 ---```
+
+local enum UrlType
+	"file"
+	"https"
+	"http"
+end
+
 local record Url
 	---The URL scheme such as `"file"`, or `"https"`.
-	scheme: string | nil|"file"|"https"|"http"
+	scheme: string|nil|UrlType
 	---Decodes the path field and interprets it as a file path.
 	file_path: string | nil
 	---The `username` portion of the URL, or an empty string
 	---if none is specified.
-	username: string|""
+	username: string
 	---The password portion of the URL, or `nil` if none is specified.
 	password: string | nil
 	---The `hostname` portion of the URL, with IDNA decoded to UTF-8.
@@ -35,16 +42,19 @@ local record Url
 	fragment: string | nil
 	---The `query` portion of the URL.
 	query: string | nil
+end
 
 ---The `wezterm.url` module exposes functions that
 ---allow working with URLs.
-local record Wezterm.Url
+local record WeztermUrl
 	---The `Url` object represents a parsed URL.
-	Url: Url
-local M = {}
+	url: Url
+end
 
----Attempts to parse the provided URL_STRING as a URL.
----If successful, returns a `Url` object representing said URL.
-function M.parse(url_string: string): Url|nil|? | nil
+local record url
+	---Attempts to parse the provided URL_STRING as a URL.
+	---If successful, returns a `Url` object representing said URL.
+	parse: function(url_string: string): Url|nil
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

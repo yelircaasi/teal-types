@@ -72,7 +72,7 @@ function F.read_file(path: string File path to read.): string|nil|? | nil
 
 local record Warp.List.BisectOpts
 	---Search variant (default `"lower"`).
-	---@field bound? "lower"|"upper"
+	bound: "lower"|"upper" | nil
 	---End index, exclusive (default `#list + 1`).
 	hi: integer | nil
 	---Map each element before comparison.
@@ -284,9 +284,9 @@ end
 
 local record Warp.String
 ---Empty string constant.
----@field empty ""
+empty: ""
 ---Single space constant.
----@field space " "
+space: " "
 local S = {}
 
 local type Warp.String.Padding integer|{ left?: integer, right?: integer }
@@ -564,5 +564,6 @@ local record Warp
 	string: Warp.String
 	---General table utilities.
 	table: Warp.Table
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

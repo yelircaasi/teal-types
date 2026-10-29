@@ -3,6 +3,14 @@
 require("_shared")
 require("_enums")
 
+global enum WeztermEvent
+   "TODO"
+end
+
+global enum EventCallback
+   (function(): TODO)
+end
+
 global record Config
    --[[from docs: https://wezterm.org/config/lua/config/index.html
 
@@ -206,7 +214,9 @@ global record wezterm
    -- enums:
    action: KeyAssignment
 
-   on: function(ActionString, callback): nil
+   : function(event: WeztermEvent, callback: EventCallback): nil
+
+   ---<UNUSABLE> on: function(ActionString, callback): nil
 
 
    ---This function is a helper to register a custom event and return
@@ -422,7 +432,7 @@ global record wezterm
    --- - [`wezterm.color.gradient`](lua://Wezterm.Color.gradient)
    gradient_colors: function(gradient: Gradient, num_colors: number): Color[]
    ---@deprecated
-   has_action: function(action: string): boolean
+   has_acti---<UNUSABLE> on: function(action: string): boolean
 
 
    hostname: function(): string
@@ -487,7 +497,7 @@ global record wezterm
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
    --- - [`wezterm.emit()`](lua://Wezterm.emit)
-   on: function(event: string, callback: fun(...:any): any): nil
+   ---<UNUSABLE> on: function(event: string, callback: fun(...:any): any): nil
 
    ---A custom declared event handler for events emitted by the `EmitEvent` key assignment.
    --- - The first event parameter is a `Window` object that represents the GUI window
@@ -497,7 +507,7 @@ global record wezterm
    --- - [`EmitEvent`](lua://KeyAssignment.EmitEvent)
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   on: function(event: string, callback: CallbackWindowPane): nil
+   ---<UNUSABLE> on: function(event: string, callback: CallbackWindowPane): nil
 
    ---This event is emitted when the Command Palette is shown.
    ---Its purpose is to enable you to add additional entries to the list of commands shown in the palette.
@@ -510,7 +520,7 @@ global record wezterm
    ---The return value is an `AugmentCommandPaletteReturn` table.
    ---See:
    --- - [`AugmentCommandPaletteReturn`](lua://AugmentCommandPaletteReturn)
-   on: function(event: "augment-command-palette", callback: fun(window: Window, pane: Pane): AugmentCommandPaletteReturn): nil
+   ---<UNUSABLE> ---<UNUSABLE> on: function(event: "augment-command-palette", callback: fun(window: Window, pane: Pane): AugmentCommandPaletteReturn): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the pane
@@ -523,7 +533,7 @@ global record wezterm
    ---See:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   on: function(event: "bell", callback: CallbackWindowPane): nil
+   ---<UNUSABLE> on: function(event: "bell", callback: CallbackWindowPane): nil
 
    ---The parameters to the event are:
    --- - `config`: The effective configuration for the window
@@ -563,7 +573,7 @@ global record wezterm
    --- - [`FormatItem`](lua://FormatItem)
    --- - [`wezterm.format()`](lua://Wezterm.format)
    --- - [`wezterm.run_child_process()`](lua://Wezterm.run_child_process)
-   on: function(event: "format-tab-title", callback: fun(tab: TabInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config, hover: boolean, max_width: integer): string|FormatItem): nil
+   ---<UNUSABLE> on: function(event: "format-tab-title", callback: fun(tab: TabInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config, hover: boolean, max_width: integer): string|FormatItem): nil
 
    ---The parameters to the event are:
    --- - `config`: The effective configuration for the window
@@ -591,7 +601,7 @@ global record wezterm
    --- - [`wezterm.run_child_process()`](lua://Wezterm.run_child_process)
    ---Mirrors the `format-window-title` callback arguments in wezterm upstream:
    ---https://github.com/wezterm/wezterm/blob/main/wezterm-gui/src/termwindow/mod.rs
-   on: function(event: "format-window-title", callback: fun(tab: TabInformation, pane: PaneInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config): string): nil
+   ---<UNUSABLE> on: function(event: "format-window-title", callback: fun(tab: TabInformation, pane: PaneInformation, tabs: TabInformation[], panes: PaneInformation[], config: Config): string): nil
 
    ---This event is triggered when the GUI is starting up after attaching the selected domain.
    ---For example, when running `wezterm connect DOMAIN` or `wezterm start --domain DOMAIN`
@@ -601,7 +611,7 @@ global record wezterm
    ---This event fires after the `gui-startup` event.
    ---Note that the `gui-startup` event does not fire when invoking
    ---`wezterm connect DOMAIN` or `wezterm start --domain DOMAIN --attach`.
-   on: function(event: "gui-attached", callback: fun(domain: MuxDomain|ExecDomain)): nil
+   ---<UNUSABLE> on: function(event: "gui-attached", callback: fun(domain: MuxDomain|ExecDomain)): nil
 
    ---The `gui-startup` event is emitted once when the GUI server is starting up when running
    ---the `wezterm start` subcommand.
@@ -617,7 +627,7 @@ global record wezterm
    ---   that may have been passed via `wezterm start`
    ---The intent is for you to use the information in the command object to spawn a new window,
    ---but you can choose to use or ignore it as suits your purpose.
-   on: function(event: "gui-startup", callback: fun(cmd?: SpawnCommand)): nil
+   ---<UNUSABLE> on: function(event: "gui-startup", callback: fun(cmd?: SpawnCommand)): nil
 
    ---The `mux-is-process-stateful` event is emitted when the multiplexer layer wants to determine
    ---whether a given `Pane` can be closed without prompting the user.
@@ -631,7 +641,7 @@ global record wezterm
    ---         should be prompted before terminating the pane
    ---Any other value means to use the default behavior, which is to consider the configuration option:
    ----[`config.skip_close_confirmation_for_processes_named`](lua://Config.skip_close_confirmation_for_processes_named)
-   on: function(event: "mux-is-process-stateful", callback: fun(info: LocalProcessInfo): boolean): nil
+   ---<UNUSABLE> on: function(event: "mux-is-process-stateful", callback: fun(info: LocalProcessInfo): boolean): nil
 
    ---The `mux-startup` event is emitted once when the mux server is starting up.
    ---It is triggered before any default program is started.
@@ -657,7 +667,7 @@ global record wezterm
    ---```
    ---See also:
    --- - [`wezterm.mux`](lua://Wezterm.Mux)
-   on: function(event: "mux-startup", callback: function): nil
+   ---<UNUSABLE> on: function(event: "mux-startup", callback: function): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the active pane in the window
@@ -670,7 +680,7 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   on: function(event: "new-tab-button-click", callback: fun(window: Window, pane: Pane, button: "Left"|"Middle"|"Right", default_action?: Action): false|nil|?): nil
+   ---<UNUSABLE> on: function(event: "new-tab-button-click", callback: fun(window: Window, pane: Pane, button: "Left"|"Middle"|"Right", default_action?: Action): false|nil|?): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the pane
@@ -684,7 +694,7 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   on: function(event: "open-uri", callback: fun(window: Window, pane: Pane, uri: string): false|nil|?): nil
+   ---<UNUSABLE> on: function(event: "open-uri", callback: fun(window: Window, pane: Pane, uri: string): false|nil|?): nil
 
    ---This event is considered to be deprecated and you should migrate to using `"update-status"`,
    ---which behaves the same way, but doesn't overly focus on the right status area.
@@ -707,7 +717,7 @@ global record wezterm
    ---@param event "update-right-status"
    ---@param callback CallbackWindowPane
    ---@deprecated Use the `"update-status"` event instead
-   on: function(event, callback) end
+   ---<UNUSABLE> on: function(event, callback) end
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the active pane in that window
@@ -725,7 +735,7 @@ global record wezterm
    --- - [`Window`](lua://Window)
    --- - [`Window:set_left_status()`](lua://Window.set_left_status)
    --- - [`config.status_update_interval`](lua://Config.status_update_interval)
-   on: function(event: "update-status", callback: CallbackWindowPane): nil
+   ---<UNUSABLE> on: function(event: "update-status", callback: CallbackWindowPane): nil
 
    ---You can use something like the following from your shell
    ---to set the user var named `foo` to the value `bar`:
@@ -747,7 +757,7 @@ global record wezterm
    ------
    ---The `"user-var-changed"` event is emitted when a _user var escape sequence_
    ---is used to set a user var.
-   on: function(event: "user-var-changed", callback: fun(window: Window, pane: Pane, name: string, value: string)): nil
+   ---<UNUSABLE> on: function(event: "user-var-changed", callback: fun(window: Window, pane: Pane, name: string, value: string)): nil
 
    ---This event is _fire-and-forget_ from Wezterm's perspective; it fires the event to advise
    ---of the config change, but has no other expectations.
@@ -769,7 +779,7 @@ global record wezterm
    --- - [`Window`](lua://Window)
    --- - [`Window:set_config_overrides()`](lua://Window.set_config_overrides)
    --- - [`config.automatically_reload_config`](lua://Config.automatically_reload_config)
-   on: function(event: "window-config-reloaded", callback: CallbackWindowPane): nil
+   ---<UNUSABLE> on: function(event: "window-config-reloaded", callback: CallbackWindowPane): nil
 
    ---This event is _fire-and-forget_ from WezTerm's perspective; it fires the event to advise
    ---of the config change, but has no other expectations.
@@ -780,7 +790,7 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   on: function(event: "window-focus-changed", callback: CallbackWindowPane): nil
+   ---<UNUSABLE> on: function(event: "window-focus-changed", callback: CallbackWindowPane): nil
 
    --- - The first event parameter is a `Window` object that represents the GUI window
    --- - The second event parameter is a `Pane` object that represents the active pane in that window
@@ -792,93 +802,93 @@ global record wezterm
    ---For more information, see:
    --- - [`Pane`](lua://Pane)
    --- - [`Window`](lua://Window)
-   on: function(event: "window-resized", callback: CallbackWindowPane): nil
+   ---<UNUSABLE> on: function(event: "window-resized", callback: CallbackWindowPane): nil
 
    ---=============================== dev.wezterm =====================================
 
    ---This is for `dev.wezterm` only!
    ------
    ---Either no `hashkey` or an invalid one provided.
-   on: function(event: "dev.wezterm.invalid_hashkey" This is for `dev.wezterm` only!, callback: function): nil
+   ---<UNUSABLE> on: function(event: "dev.wezterm.invalid_hashkey" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---Invalid options provided to plugin setup.
-   on: function(event: "dev.wezterm.invalid_opts" This is for `dev.wezterm` only!, callback: function): nil
+   ---<UNUSABLE> on: function(event: "dev.wezterm.invalid_opts" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---No keywords were provided for searching the plugin.
-   on: function(event: "dev.wezterm.no_keywords" This is for `dev.wezterm` only!, callback: function): nil
+   ---<UNUSABLE> on: function(event: "dev.wezterm.no_keywords" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---The plugin was not found and thus `package.path` could not be set.
-   on: function(event: "dev.wezterm.require_path_not_set" This is for `dev.wezterm` only!, callback: function): nil
+   ---<UNUSABLE> on: function(event: "dev.wezterm.require_path_not_set" This is for `dev.wezterm` only!, callback: function): nil
 
    ---This is for `dev.wezterm` only!
    ------
    ---The provided keywords did not allow for the plugin to be found.
-   on: function(event: "dev.wezterm-plugin-not-found" This is for `dev.wezterm` only!, callback: function): nil
+   ---<UNUSABLE> on: function(event: "dev.wezterm-plugin-not-found" This is for `dev.wezterm` only!, callback: function): nil
 
    ---=================================================================================
 
    ---============================== modal.wezterm ====================================
 
    ---This is for `modal.wezterm` only!
-   on: function(event: "modal.enter" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
+   ---<UNUSABLE> on: function(event: "modal.enter" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
 
    ---This is for `modal.wezterm` only!
-   on: function(event: "modal.exit" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
+   ---<UNUSABLE> on: function(event: "modal.exit" This is for `modal.wezterm` only!, callback: fun(name: string, window: Window, pane: Pane)): nil
 
    ---=================================================================================
 
    ---===================== smart_workspace_switcher.wezterm ==========================
 
    ---This is for `smart_workspace_switcher.wezterm` only!
-   on: function(event: "smart_workspace_switcher.workspace_switcher.chosen" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
+   ---<UNUSABLE> on: function(event: "smart_workspace_switcher.workspace_switcher.chosen" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
 
    ---This is for `smart_workspace_switcher.wezterm` only!
-   on: function(event: "smart_workspace_switcher.workspace_switcher.created" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
+   ---<UNUSABLE> on: function(event: "smart_workspace_switcher.workspace_switcher.created" This is for `smart_workspace_switcher.wezterm` only!, callback: fun(window: MuxWindow, workspace: string)): nil
 
    ---=================================================================================
 
    ---============================= tabsets.wezterm ===================================
 
    ---This is for `tabsets.wezterm` only!
-   on: function(event: "delete_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "delete_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---This is for `tabsets.wezterm` only!
-   on: function(event: "load_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "load_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---This is for `tabsets.wezterm` only!
-   on: function(event: "rename_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "rename_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---This is for `tabsets.wezterm` only!
-   on: function(event: "save_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "save_tabset" This is for `tabsets.wezterm` only!, callback: fun(window: Window)): nil
 
    ---============================= wezterm-sessions ==================================
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "delete_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   ---<UNUSABLE> on: function(event: "delete_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "edit_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   ---<UNUSABLE> on: function(event: "edit_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "fork_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   ---<UNUSABLE> on: function(event: "fork_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "load_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
+   ---<UNUSABLE> on: function(event: "load_session" This is for `wezterm-sessions` only!, callback: fun(window: Window, pane: Pane)): nil
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "restore_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "restore_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "save_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "save_session" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
 
    ---This is for `wezterm-sessions` only!
-   on: function(event: "toggle_autosave" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
+   ---<UNUSABLE> on: function(event: "toggle_autosave" This is for `wezterm-sessions` only!, callback: fun(window: Window)): nil
 
    ---This function opens the specified `path_or_url` with either the specified application,
    ---or the default application if `application` was not passed in.
@@ -968,7 +978,7 @@ global record wezterm
    ---**If you call this at the file scope in your config you are in danger of creating an infinite loop
    ---that renders WezTerm unresponsive.**
    ---The intent is for this to be used from an event or timer callback function.
-   reload_configuration: function(): nil
+   reload_configurati---<UNUSABLE> on: function(): nil
 
    ---This function accepts an argument list; it will attempt to spawn that command.
    ---It will return a tuple consisting of the boolean `success` of the invocation,

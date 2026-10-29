@@ -22,7 +22,7 @@ local record ToggleTerminalOpts
 	---Modifier keys for the toggle action.
 	mods: string | nil
 	---Size of the split pane.
-	---@field size? { Percent: integer }
+	size: { Percent: integer } | nil
 	zoom: ToggleTerminalOpts | nil.Zoom
 end
 
@@ -31,6 +31,6 @@ local M = {}
 
 ---@param config Config
 ---@param user_opts? ToggleTerminalOpts
-function M.apply_to_config(config, user_opts) end
+apply_to_config: function(config, user_opts) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

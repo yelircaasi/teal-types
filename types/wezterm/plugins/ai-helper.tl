@@ -10,23 +10,23 @@ end
 
 local record AIHelperConfigLocal: AIHelperConfigSpec
 	lms_path: string
----@field type? 'local'
+type: 'local' | nil
 
 local record AIHelperConfigGemini: AIHelperConfigSpec
 	api_key: string
----@field type 'google'
+type: 'google'
 
 local record AIHelperConfigOllama: AIHelperConfigSpec
 	model: string | nil
 	ollama_path: string,
----@field type 'ollama'
+type: 'ollama'
 
 local record AIHelperConfigOpenAI: AIHelperConfigSpec
 	api_key: string
 	api_url: string
 	headers: table | nil<string, string>
 	model: string
----@field type 'http'
+type: 'http'
 
 local type AIHelperConfig =
 	AIHelperConfigGemini
@@ -38,6 +38,6 @@ end
 local record AIHelper
 local M = {}
 
-function M.apply_to_config(wezterm_config: Config, user_config: AIHelperConfig) end
+apply_to_config: function(wezterm_config: Config, user_config: AIHelperConfig) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

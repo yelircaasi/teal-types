@@ -25,5 +25,6 @@ local record TabInformation
 	window_id: integer
 	---The title of the window that contains this tab.
 	window_title: string
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

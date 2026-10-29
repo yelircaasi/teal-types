@@ -24,7 +24,7 @@ local M = {}
 ---Call this AFTER all keybindings are defined.
 ---@param config Config
 ---@param opts? CmdPickerOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 ---Registers bindings for the picker and optionally adds them to `config.keys`.
 ---Add bindings to `config.keys`:
@@ -37,7 +37,7 @@ function M.apply_to_config(config, opts) end
 ---add_keys(bindings)
 ---```
 ---Bindings can include an optional `desc` field for human-readable descriptions.
-function M.add_keys(bindings: CmdPickerBinding[]): nil
+add_keys: function(bindings: CmdPickerBinding[]): nil
 
 ---Registers bindings for the picker and optionally adds them to `config.keys`.
 ---Add bindings to `config.keys`:
@@ -50,8 +50,8 @@ function M.add_keys(bindings: CmdPickerBinding[]): nil
 ---add_keys(bindings)
 ---```
 ---Bindings can include an optional `desc` field for human-readable descriptions.
-function M.add_keys(config: Config, bindings: CmdPickerBinding[]): nil
+add_keys: function(config: Config, bindings: CmdPickerBinding[]): nil
 
-function M.register(bindings: CmdPickerBinding[]) end
+register: function(bindings: CmdPickerBinding[]) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

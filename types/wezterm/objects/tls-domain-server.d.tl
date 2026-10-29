@@ -16,5 +16,6 @@ local record TlsDomainServer
 	---loaded as CA certs and added to the trust store.
 	---You can omit this if your `tls_client` is using `bootstrap_via_ssh`.
 	pem_root_certs: string | nil[]
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

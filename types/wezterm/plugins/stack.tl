@@ -4,7 +4,7 @@ local type SpawnDirection =
 	"Bottom"|"Left"|"Right"|"Top"
 
 local record StackWezAction
----@field SpawnPane { EmitEvent: string }
+SpawnPane: { EmitEvent: string }
 local Action = {}
 
 function Action.ActivatePaneRelative(direction: integer): {
@@ -17,16 +17,16 @@ end
 local record StackWezOpts
 	enrich_tab_title: boolean | nil
 	spawn_direction: SpawnDirection
----@field spawn_domain? "CurrentPaneDomain"
+spawn_domain: "CurrentPaneDomain" | nil
 
 local record StackWez
 	action: StackWezAction
 local M = {}
 
-function M.apply_to_config(_, user_config: StackWezOpts) end
+apply_to_config: function(_, user_config: StackWezOpts) end
 
-function M.tab_info(tab_id: integer): StackWezTabInfo|nil|? | nil
+tab_info: function(tab_id: integer): StackWezTabInfo|nil|? | nil
 
-function M.tab_title(tab_info: TabInformation): string
+tab_title: function(tab_info: TabInformation): string
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

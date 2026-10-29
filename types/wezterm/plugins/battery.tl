@@ -26,18 +26,18 @@ local record BatteryWez
 local M = {}
 
 ---Apply plugin configuration.
-function M.apply_to_config(config: Config WezTerm configuration table): nil
+apply_to_config: function(config: Config WezTerm configuration table): nil
 
 ---Returns battery components for each battery.
 ---If no batteries are detected, an empty table is returned.
-function M.get_batteries(): BatteryComponent[]
+get_batteries: function(): BatteryComponent[]
 
 ---Returns battery icons for all batteries.
 ---If no batteries are detected, an empty string is returned.
-function M.get_battery_icons(): string
+get_battery_icons: function(): string
 
 ---Returns battery statistics for all batteries.
 ---If no batteries are detected, an empty string is returned.
-function M.get_battery_stats(): string
+get_battery_stats: function(): string
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

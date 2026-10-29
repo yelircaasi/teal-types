@@ -7,10 +7,7 @@ local NS = {}
 ---@param selector? table
 function NS.clear(selector) end
 
----@param name string
----@param fn fun(...: any): any
----@param ... any
-function NS.compute(name, fn, ...)(): any
+function NS.compute(name: string, fn: fun(...: any): any, ...: any)(): any
 
 function NS.delete(key: string) end
 

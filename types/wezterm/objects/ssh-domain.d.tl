@@ -26,5 +26,6 @@ local record SshDomain
 	timeout: integer | nil
 	---The username to use for authenticating with the remote host.
 	username: string
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

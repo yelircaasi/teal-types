@@ -1,13 +1,28 @@
 ---@diagnostic disable:unused-local
 
-local type AgentDeckStatus =
-	"idle"|"inactive"|"waiting"|"working"
-local type AgentDeck.ComponentSpec.Type =
-	"badge"|"icon"|"separator"
-local type AgentDeckOpts.Icons.Style =
-	"emoji"|"nerd"|"unicode"
-local type AgentDeck.Notifications.Backend =
-	"terminal-notifier"|"native"
+local enum AgentDeckStatus
+	"idle"
+	"inactive"
+	"waiting"
+	"working"
+end
+
+local enum AgentDeck.ComponentSpec.Type
+	"badge"
+	"icon"
+	"separator"
+end
+
+local type AgentDeckOpts.Icons.Style
+	"emoji"
+	"nerd"
+	"unicode"
+end
+
+local type AgentDeck.Notifications.Backend
+	"terminal-notifier"
+	"native"
+end
 
 local record AgentDeck.AgentsSpec.StatusPatterns
 	idle: string | nil[]
@@ -57,7 +72,7 @@ end
 local record AgentDeckOpts.TabTitle
 	components: AgentDeck | nil.ComponentSpec[]
 	enabled: boolean | nil
----@field position? "left"|string
+position: "left"|string | nil
 
 local record AgentDeckOpts.Colors
 	idle: string | nil
@@ -118,33 +133,27 @@ local record AgentDeckStatusCounts
 end
 
 local record AgentDeck
-local M = {}
 
----@param config Config
----@param opts? AgentDeckOpts
-function M.apply_to_config(config, opts) end
+	apply_to_config: function(config: Config, opts: AgentDeckOpts | nil): nil
 
+	count_agents_by_status: function(): AgentDeckStatusCounts
 
-function M.count_agents_by_status(): AgentDeckStatusCounts
+	get_agent_state: function(pane_id: integer): AgentDeckState
 
-function M.get_agent_state(pane_id: integer): AgentDeckState
+	get_all_agent_states: function(): table<integer>,
 
 
-function M.get_all_agent_states(): table<integer,
+	get_config: function(): AgentDeckOpts
 
+	get_status_color: function(status_name: AgentDeckStatus): string
 
-function M.get_config(): AgentDeckOpts
+	get_status_icon: function(status_name: AgentDeckStatus): string
 
-function M.get_status_color(status_name: AgentDeckStatus): string
+	---@param opts? 
+	set_config: function(opts): nil
 
-function M.get_status_icon(status_name: AgentDeckStatus): string
+	setup: function(opts: AgentDeckOpts | nil): nil
 
----@param opts? AgentDeckOpts
-function M.set_config(opts) end
-
----@param opts? AgentDeckOpts
-function M.setup(opts) end
-
-function M.update_pane(pane: Pane): AgentDeckState|nil|? | nil
-
+	update_pane: function(pane: Pane): AgentDeckState|nil|? | nil
+end
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

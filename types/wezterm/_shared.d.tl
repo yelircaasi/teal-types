@@ -1,7 +1,7 @@
 
 local record FormatItemAttribute
-	---@field Intensity? FormatItemAttribute.Intensity
-	---@field Italic? boolean
+	Intensity: FormatItemAttribute.Intensity | nil
+	Italic: boolean | nil
 	Underline: FormatItemAttribute.Underline
 end
 

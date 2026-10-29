@@ -18,17 +18,17 @@ local record QuotaLimitOpts.Colors
 end
 
 local record QuotaLimitOpts
-	---@field colors? "auto"|"dark"|"light"|QuotaLimitOpts.Colors
+	colors: "auto"|"dark"|"light"|QuotaLimitOpts.Colors | nil
 	dashboard_key: QuotaLimitOpts | nil.DashboardKey
 	icons: QuotaLimitOpts | nil.Icons
 	poll_interval_secs: integer | nil
----@field position? "left"|"right"
+position: "left"|"right" | nil
 
 local record QuotaLimit
 local M = {}
 
 ---@param config Config
 ---@param opts? QuotaLimitOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

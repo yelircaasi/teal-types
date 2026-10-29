@@ -34,7 +34,7 @@ end
 
 local record QuickDomainsOpts.Auto
 	---Disable exec domain auto configs.
-	---@field exec_ignore? { ssh?: boolean, docker?: boolean, kubernetes?: boolean }
+	exec_ignore: { ssh?: boolean, docker?: boolean, kubernetes?: boolean } | nil
 	---Disable SSH multiplex auto config.
 	ssh_ignore: boolean | nil
 end
@@ -54,8 +54,8 @@ local M = {}
 
 ---@param config Config
 ---@param user_settings? QuickDomainsOpts
-function M.apply_to_config(config, user_settings) end
+apply_to_config: function(config, user_settings) end
 
-function M.formatter(icon: string, name: string): string
+formatter: function(icon: string, name: string): string
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

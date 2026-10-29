@@ -1,50 +1,52 @@
 ---@diagnostic disable:unused-local
 
-local type HourStrings =
+local enum HourStrings =
 	"00"
-	| "01"
-	| "02"
-	| "03"
-	| "04"
-	| "05"
-	| "06"
-	| "07"
-	| "08"
-	| "09"
-	| "10"
-	| "11"
-	| "12"
-	| "13"
-	| "14"
-	| "15"
-	| "16"
-	| "17"
-	| "18"
-	| "19"
-	| "20"
-	| "21"
-	| "22"
-	| "23"
+	"01"
+	"02"
+	"03"
+	"04"
+	"05"
+	"06"
+	"07"
+	"08"
+	"09"
+	"10"
+	"11"
+	"12"
+	"13"
+	"14"
+	"15"
+	"16"
+	"17"
+	"18"
+	"19"
+	"20"
+	"21"
+	"22"
+	"23"
+end
 
-local type TablineWezWinComponent =
+local enum TablineWezWinComponent
 	"battery"
-	| "cpu"
-	| "datetime"
-	| "domain"
-	| "hostname"
-	| "mode"
-	| "ram"
-	| "window"
-	| "workspace"
+	"cpu"
+	"datetime"
+	"domain"
+	"hostname"
+	"mode"
+	"ram"
+	"window"
+	"workspace"
 
-local type TablineWezTabComponent =
+local enum TablineWezTabComponent
 	"cwd"
-	| "index"
-	| "output"
-	| "parent"
-	| "process"
-	| "tab"
-	| "zoomed"
+	"index"
+	"output"
+	"parent"
+	"process"
+	"tab"
+	"zoomed"
+end
 
 local type TablineWezSectionPadding integer|{ left?: integer, right?: integer }
 local type TablineWezSeparators =
@@ -171,14 +173,14 @@ local type TablineWezWin (string|TablineWezWinComponent|TablineWezWinComponents)
 local type TablineWezTab (string|TablineWezTabComponent|TablineWezTabComponents)
 
 local record TablineWezOpts.Sections
----@field tab_active?   (TablineWezTab|FormatItemSpec|fun(): string)[]
----@field tab_inactive? (TablineWezTab|FormatItemSpec|fun(): string)[]
----@field tabline_a?    (TablineWezWin|FormatItemSpec|fun(): string)[]
----@field tabline_b?    (TablineWezWin|FormatItemSpec|fun(): string)[]
----@field tabline_c?    (TablineWezWin|FormatItemSpec|fun(): string)[]
----@field tabline_x?    (TablineWezWin|FormatItemSpec|fun(): string)[]
----@field tabline_y?    (TablineWezWin|FormatItemSpec|fun(): string)[]
----@field tabline_z?    (TablineWezWin|FormatItemSpec|fun(): string)[]
+tab_active:   (TablineWezTab|FormatItemSpec|fun(): string)[] | nil
+tab_inactive: (TablineWezTab|FormatItemSpec|fun(): string)[] | nil
+tabline_a:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
+tabline_b:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
+tabline_c:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
+tabline_x:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
+tabline_y:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
+tabline_z:    (TablineWezWin|FormatItemSpec|fun(): string)[] | nil
 
 local record TablineWezExtensionSpec.Events
 	callback: fun | nil(window: Window)
@@ -230,29 +232,27 @@ local record TablineWezThemeOverrides
 end
 
 local record TablineWezOpts
-	---@field extensions? (TablineWezExtension|TablineWezExtensionSpec)[]
+	extensions: (TablineWezExtension|TablineWezExtensionSpec)[] | nil
 	options: TablineWezOpts | nil.Options
 	sections: TablineWezOpts | nil.Sections
 end
 
 local record TablineWez
-local M = {}
 
-function M.apply_to_config(config: Config) end
+	apply_to_config: function(config: Config) end
 
+	get_config: function(): TablineWezOpts
 
-function M.get_config(): TablineWezOpts
+	get_theme: function(): TablineWezThemeOverrides
 
+	---@param theme string|Colorschemes|Palette
+	---@param overrides? TablineWezThemeOverrides
+	set_theme: function(theme, overrides) end
 
-function M.get_theme(): TablineWezThemeOverrides
+	---@param opts? TablineWezOpts
+	setup: function(opts) end
 
----@param theme string|Colorschemes|Palette
----@param overrides? TablineWezThemeOverrides
-function M.set_theme(theme, overrides) end
-
----@param opts? TablineWezOpts
-function M.setup(opts) end
-
-function M.window(window: Window The `Window` object., tab: TabInformation) end
+	window: function(window: Window The `Window` object., tab: TabInformation) end
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

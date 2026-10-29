@@ -2,7 +2,7 @@ local type SemanticZoneType =
 	"Input"|"Output"|"Prompt"
 
 local record SpawnSplit: SpawnTab
-	---@field direction? "Right"|"Left"|"Top"|"Bottom"
+	direction: "Right"|"Left"|"Top"|"Bottom" | nil
 	top_level: boolean | nil
 	size: number | nil
 end
@@ -62,341 +62,339 @@ local record SemanticZone
 ---the mux and GUI layers, respectively. This is no longer the case: there is now just
 ---the underlying mux pane which is referred to in these docs as `Pane` for the sake of simplicity.
 local record Pane
-local M = {}
 
----Activates (focuses) the pane and its containing tab.
-function M:activate(): nil
+	---Activates (focuses) the pane and its containing tab.
+	activate: function(self: Pane): nil
 
----~~Returns the current working directory of the pane, if known.~~
----This method now returns a `Url` object which provides a convenient way to decode and operate
----on said URL.
-------
----The current directory can be specified by an application sending `OSC 7`.
----If `OSC 7` was never sent to a pane, and the pane represents a locally spawned process,
----then WezTerm will:
---- - On UNIX systems: determie the process group leader attached to the PTY
---- - On Windows systems: use heuristics to infer an equivalent to the foreground process
----With the process identified, wezterm will then try to determine the current working directory
----using operating system dependent code.
----If the current working directory is not known then this method returns `nil`. Otherwise
----it returns the current working directory as a `URL` string.
----Note that while the current working directory is usually a file path, it is possible for
----an application to set it to an FTP URL or some other kind of URL, which is why this method
----doesn't simply return a file path string
-function M:get_current_working_dir(): Url|nil|?
+	---~~Returns the current working directory of the pane, if known.~~
+	---This method now returns a `Url` object which provides a convenient way to decode and operate
+	---on said URL.
+	------
+	---The current directory can be specified by an application sending `OSC 7`.
+	---If `OSC 7` was never sent to a pane, and the pane represents a locally spawned process,
+	---then WezTerm will:
+	--- - On UNIX systems: determie the process group leader attached to the PTY
+	--- - On Windows systems: use heuristics to infer an equivalent to the foreground process
+	---With the process identified, wezterm will then try to determine the current working directory
+	---using operating system dependent code.
+	---If the current working directory is not known then this method returns `nil`. Otherwise
+	---it returns the current working directory as a `URL` string.
+	---Note that while the current working directory is usually a file path, it is possible for
+	---an application to set it to an FTP URL or some other kind of URL, which is why this method
+	---doesn't simply return a file path string
+	get_current_working_dir: function(self: Pane): Url|nil|?
 
----Returns a Lua representation of the `StableCursorPosition` struct that identifies
----the cursor's position, visibility and shape.
----See:
---- - [`StableCursorPosition`](lua://StableCursorPosition)
-function M:get_cursor_position(): StableCursorPosition
+	---Returns a Lua representation of the `StableCursorPosition` struct that identifies
+	---the cursor's position, visibility and shape.
+	---See:
+	--- - [`StableCursorPosition`](lua://StableCursorPosition)
+	get_cursor_position: function(self: Pane): StableCursorPosition
 
----Returns a Lua representation of the `RenderableDimensions` struct that identifies the dimensions
----and position of the viewport, as well as the scrollback for the pane.
----See:
---- - [`RenderableDimensions`](lua://RenderableDimensions)
-function M:get_dimensions(): RenderableDimensions
+	---Returns a Lua representation of the `RenderableDimensions` struct that identifies the dimensions
+	---and position of the viewport, as well as the scrollback for the pane.
+	---See:
+	--- - [`RenderableDimensions`](lua://RenderableDimensions)
+	get_dimensions: function(self: Pane): RenderableDimensions
 
----Returns the name of the domain with which the pane instance is associated to.
-function M:get_domain_name(): string
+	---Returns the name of the domain with which the pane instance is associated to.
+	get_domain_name: function(self: Pane): string
 
----Returns a `LocalProcessInfo` object corresponding to the current foreground process that is
----running in the pane.
----This method has some restrictions and caveats:
---- - This information is only available for local panes. Multiplexer panes do not report
----   this information. Similarly, if you are using eg: ssh to connect to a remote host, you
----   won't be able to access the name of the remote process that is running
---- - On UNIX systems, the process group leader (the foreground process) will be queried, but
----   that concept doesn't exist on Windows. Instead, the process tree of the originally spawned
----   program is examined, and the most recently spawned descendant is assumed to be the
----   foreground process
---- - On Linux, macOS and Windows, the process can be queried to determine this path.
----   Other operating systems (notably, FreeBSD and other UNIX systems) are currently not supported
---- - Querying the path may fail for a variety of reasons outside of the control of WezTerm
---- - Querying process information has some runtime overhead, which may cause WezTerm to slow down
----   if over-used
----If the process cannot be determined then this method returns `nil`.
----See:
---- - [`LocalProcessInfo`](lua://LocalProcessInfo)
-function M:get_foreground_process_info(): LocalProcessInfo|nil|?
+	---Returns a `LocalProcessInfo` object corresponding to the current foreground process that is
+	---running in the pane.
+	---This method has some restrictions and caveats:
+	--- - This information is only available for local panes. Multiplexer panes do not report
+	---   this information. Similarly, if you are using eg: ssh to connect to a remote host, you
+	---   won't be able to access the name of the remote process that is running
+	--- - On UNIX systems, the process group leader (the foreground process) will be queried, but
+	---   that concept doesn't exist on Windows. Instead, the process tree of the originally spawned
+	---   program is examined, and the most recently spawned descendant is assumed to be the
+	---   foreground process
+	--- - On Linux, macOS and Windows, the process can be queried to determine this path.
+	---   Other operating systems (notably, FreeBSD and other UNIX systems) are currently not supported
+	--- - Querying the path may fail for a variety of reasons outside of the control of WezTerm
+	--- - Querying process information has some runtime overhead, which may cause WezTerm to slow down
+	---   if over-used
+	---If the process cannot be determined then this method returns `nil`.
+	---See:
+	--- - [`LocalProcessInfo`](lua://LocalProcessInfo)
+	get_foreground_process_info: function(self: Pane): LocalProcessInfo|nil|?
 
----Returns the path to the executable image for the pane.
----This method has some restrictions and caveats:
---- - This information is only available for local panes. Multiplexer panes do not report
----   this information. Similarly, if you are using e.g. `ssh` to connect to a remote host, you
----   won't be able to access the name of the remote process that is running
---- - On UNIX systems, the process group leader (the foreground process) will be queried, but that
----   concept doesn't exist on Windows, so instead, the process tree of the originally spawned
----   program is examined, and the most recently spawned descendant is assumed to be the
----   foreground process
---- - On Linux, macOS and Windows, the process can be queried to determine this path. Other
----   operating systems (notably, FreeBSD and other UNIX systems) are currently not supported
---- - Querying the path may fail for a variety of reasons outside of the control of WezTerm
---- - Querying process information has some runtime overhead, which may cause WezTerm to slow down
----   if over-used
----If the path is not known then this method returns `nil`.
-function M:get_foreground_process_name(): string|nil|?
+	---Returns the path to the executable image for the pane.
+	---This method has some restrictions and caveats:
+	--- - This information is only available for local panes. Multiplexer panes do not report
+	---   this information. Similarly, if you are using e.g. `ssh` to connect to a remote host, you
+	---   won't be able to access the name of the remote process that is running
+	--- - On UNIX systems, the process group leader (the foreground process) will be queried, but that
+	---   concept doesn't exist on Windows, so instead, the process tree of the originally spawned
+	---   program is examined, and the most recently spawned descendant is assumed to be the
+	---   foreground process
+	--- - On Linux, macOS and Windows, the process can be queried to determine this path. Other
+	---   operating systems (notably, FreeBSD and other UNIX systems) are currently not supported
+	--- - Querying the path may fail for a variety of reasons outside of the control of WezTerm
+	--- - Querying process information has some runtime overhead, which may cause WezTerm to slow down
+	---   if over-used
+	---If the path is not known then this method returns `nil`.
+	get_foreground_process_name: function(self: Pane): string|nil|?
 
----Returns the textual representation (including color and other attributes) of the physical lines
----of text in the viewport as a string with embedded ANSI escape sequences to preserve the color
----and style of the text.
----A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
----If the optional `nlines` argument is specified then it is used to determine how many
----lines of text should be retrieved.
----The default (if `nlines` is not specified) is to retrieve the number of lines in the viewport
----(the height of the pane).
----To obtain the entire scrollback, you can do something like this:
----```lua
----pane:get_lines_as_escapes(pane:get_dimensions().scrollback_rows)
----```
-function M:get_lines_as_escapes(): string
+	---Returns the textual representation (including color and other attributes) of the physical lines
+	---of text in the viewport as a string with embedded ANSI escape sequences to preserve the color
+	---and style of the text.
+	---A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
+	---If the optional `nlines` argument is specified then it is used to determine how many
+	---lines of text should be retrieved.
+	---The default (if `nlines` is not specified) is to retrieve the number of lines in the viewport
+	---(the height of the pane).
+	---To obtain the entire scrollback, you can do something like this:
+	---```lua
+	---pane:get_lines_as_escapes(pane:get_dimensions().scrollback_rows)
+	---```
+	get_lines_as_escapes: function(self: Pane): string
 
----Returns the textual representation (including color and other attributes) of the physical
----lines of text in the viewport as a string with embedded ANSI escape sequences to preserve
----the color and style of the text.
----A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
----If the optional `nlines` argument is specified then it is used to determine how many
----lines of text should be retrieved.
----The default (if `nlines` is not specified) is to retrieve the number of lines in the viewport
----(the height of the pane).
----To obtain the entire scrollback, you can do something like this:
----```lua
----pane:get_lines_as_escapes(pane:get_dimensions().scrollback_rows)
----```
----@param nlines? integer
-function M:get_lines_as_escapes(nlines): string
+	---Returns the textual representation (including color and other attributes) of the physical
+	---lines of text in the viewport as a string with embedded ANSI escape sequences to preserve
+	---the color and style of the text.
+	---A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
+	---If the optional `nlines` argument is specified then it is used to determine how many
+	---lines of text should be retrieved.
+	---The default (if `nlines` is not specified) is to retrieve the number of lines in the viewport
+	---(the height of the pane).
+	---To obtain the entire scrollback, you can do something like this:
+	---```lua
+	---pane:get_lines_as_escapes(pane:get_dimensions().scrollback_rows)
+	---```
+	get_lines_as_escapes: function(self: Pane, nlines: integer|nil): string
 
----Returns the textual representation (not including color or other attributes) of the physical
----lines of text in the viewport as a string.
----A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
----If you'd rather operate on logical lines, use `pane:get_logical_lines_as_text()`.
----If the optional `nlines` argument is specified then it is used to determine how many lines of text
----should be retrieved.
----The default (if `nlines` is not specified) is to retrieve the number of lines in the viewport
----(the height of the pane).
----The lines have trailing space removed from each line. They will be joined together in the
----returned string separated by a `\n` character. Trailing blank lines are stripped, which
----may result in fewer lines being returned than you might expect if the pane only had
----a couple of lines of output.
-function M:get_lines_as_text(): string
+	---Returns the textual representation (not including color or other attributes) of the physical
+	---lines of text in the viewport as a string.
+	---A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
+	---If you'd rather operate on logical lines, use `pane:get_logical_lines_as_text()`.
+	---If the optional `nlines` argument is specified then it is used to determine how many lines of text
+	---should be retrieved.
+	---The default (if `nlines` is not specified) is to retrieve the number of lines in the viewport
+	---(the height of the pane).
+	---The lines have trailing space removed from each line. They will be joined together in the
+	---returned string separated by a `\n` character. Trailing blank lines are stripped, which
+	---may result in fewer lines being returned than you might expect if the pane only had
+	---a couple of lines of output.
+	get_lines_as_text: function(self: Pane): string
 
----Returns the textual representation (not including color or other attributes) of the physical
----lines of text in the viewport as a string.
----A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
----If you'd rather operate on logical lines, use `pane:get_logical_lines_as_text()`.
----If the optional `nlines` argument is specified then it is used to determine how many
----lines of text should be retrieved. The default (if `nlines` is not specified) is to retrieve
----the number of lines in the viewport (the height of the pane).
----The lines have trailing space removed from each line. They will be joined together in the
----returned string separated by a `\n` character. Trailing blank lines are stripped, which may
----result in fewer lines being returned than you might expect if the pane only had a couple of lines
----of output.
----@param nlines? integer
-function M:get_lines_as_text(nlines): string
+	---Returns the textual representation (not including color or other attributes) of the physical
+	---lines of text in the viewport as a string.
+	---A physical line is a possibly-wrapped line that composes a row in the terminal display matrix.
+	---If you'd rather operate on logical lines, use `pane:get_logical_lines_as_text()`.
+	---If the optional `nlines` argument is specified then it is used to determine how many
+	---lines of text should be retrieved. The default (if `nlines` is not specified) is to retrieve
+	---the number of lines in the viewport (the height of the pane).
+	---The lines have trailing space removed from each line. They will be joined together in the
+	---returned string separated by a `\n` character. Trailing blank lines are stripped, which may
+	---result in fewer lines being returned than you might expect if the pane only had a couple of lines
+	---of output.
+	---@param nlines? integer
+	get_lines_as_text: function(self: Pane, nlines): string
 
----Returns the textual representation (not including color or other attributes) of the logical lines
----of text in the viewport as a string.
----A logical line is an original input line prior to being wrapped into physical lines to composes
----rows in the terminal display matrix. WezTerm doesn't store logical lines, but can recompute them
----from metadata stored in physical lines.
----Excessively long logical lines are force-wrapped to constrain the cost of rewrapping
----on resize and selection operations.
----If you'd rather operate on physical lines, see `pane:get_lines_as_text()`.
----If the optional `nlines` argument is specified then it is used to determine
----how many lines of text should be retrieved.
----The default (if `nlines` is not specified) is to retrieve the number of lines
----in the viewport (the height of the pane).
----The lines have trailing space removed from each line.
----They will be joined together in the returned string separated by a `\n` character.
----Trailing blank lines are stripped, which may result in fewer lines being returned
----than you might expect if the pane only had a couple of lines of output.
----To obtain the entire scrollback, you can do something like this:
----```lua
----pane:get_logical_lines_as_text(pane:get_dimensions().scrollback_rows)
----```
-function M:get_logical_lines_as_text(): string
+	---Returns the textual representation (not including color or other attributes) of the logical lines
+	---of text in the viewport as a string.
+	---A logical line is an original input line prior to being wrapped into physical lines to composes
+	---rows in the terminal display matrix. WezTerm doesn't store logical lines, but can recompute them
+	---from metadata stored in physical lines.
+	---Excessively long logical lines are force-wrapped to constrain the cost of rewrapping
+	---on resize and selection operations.
+	---If you'd rather operate on physical lines, see `pane:get_lines_as_text()`.
+	---If the optional `nlines` argument is specified then it is used to determine
+	---how many lines of text should be retrieved.
+	---The default (if `nlines` is not specified) is to retrieve the number of lines
+	---in the viewport (the height of the pane).
+	---The lines have trailing space removed from each line.
+	---They will be joined together in the returned string separated by a `\n` character.
+	---Trailing blank lines are stripped, which may result in fewer lines being returned
+	---than you might expect if the pane only had a couple of lines of output.
+	---To obtain the entire scrollback, you can do something like this:
+	---```lua
+	---pane:get_logical_lines_as_text(pane:get_dimensions().scrollback_rows)
+	---```
+	get_logical_lines_as_text: function(self: Pane): string
 
----Returns the textual representation (not including color or other attributes) of the logical lines
----of text in the viewport as a string.
----A logical line is an original input line prior to being wrapped into physical lines to composes
----rows in the terminal display matrix. WezTerm doesn't store logical lines, but can recompute them
----from metadata stored in physical lines.
----Excessively long logical lines are force-wrapped to constrain the cost of rewrapping
----on resize and selection operations.
----If you'd rather operate on physical lines, see `pane:get_lines_as_text()`.
----If the optional `nlines` argument is specified then it is used to determine
----how many lines of text should be retrieved.
----The default (if `nlines` is not specified) is to retrieve the number of lines
----in the viewport (the height of the pane).
----The lines have trailing space removed from each line.
----They will be joined together in the returned string separated by a `\n` character.
----Trailing blank lines are stripped, which may result in fewer lines being returned
----than you might expect if the pane only had a couple of lines of output.
----To obtain the entire scrollback, you can do something like this:
----```lua
----pane:get_logical_lines_as_text(pane:get_dimensions().scrollback_rows)
----```
----@param nlines? integer
-function M:get_logical_lines_as_text(nlines): string
+	---Returns the textual representation (not including color or other attributes) of the logical lines
+	---of text in the viewport as a string.
+	---A logical line is an original input line prior to being wrapped into physical lines to composes
+	---rows in the terminal display matrix. WezTerm doesn't store logical lines, but can recompute them
+	---from metadata stored in physical lines.
+	---Excessively long logical lines are force-wrapped to constrain the cost of rewrapping
+	---on resize and selection operations.
+	---If you'd rather operate on physical lines, see `pane:get_lines_as_text()`.
+	---If the optional `nlines` argument is specified then it is used to determine
+	---how many lines of text should be retrieved.
+	---The default (if `nlines` is not specified) is to retrieve the number of lines
+	---in the viewport (the height of the pane).
+	---The lines have trailing space removed from each line.
+	---They will be joined together in the returned string separated by a `\n` character.
+	---Trailing blank lines are stripped, which may result in fewer lines being returned
+	---than you might expect if the pane only had a couple of lines of output.
+	---To obtain the entire scrollback, you can do something like this:
+	---```lua
+	---pane:get_logical_lines_as_text(pane:get_dimensions().scrollback_rows)
+	---```
+	---@param nlines? integer
+	get_logical_lines_as_text: function(self: Pane, nlines): string
 
----Returns metadata about a pane.
----The return value depends on the instance of the underlying pane. If the pane doesn't support
----this method, `nil` will be returned. Otherwise, the value is a Lua table with the metadata
----contained in table fields.
----To consume this value, it is recommend to use logic like this
----to obtain a table value even if the pane doesn't
----support this method:
----```lua
----local meta = pane:get_metadata() or {}
----```
----See:
---- - [`PaneMetadata`](lua://PaneMetadata)
-function M:get_metadata(): PaneMetadata|nil|?
+	---Returns metadata about a pane.
+	---The return value depends on the instance of the underlying pane. If the pane doesn't support
+	---this method, `nil` will be returned. Otherwise, the value is a Lua table with the metadata
+	---contained in table fields.
+	---To consume this value, it is recommend to use logic like this
+	---to obtain a table value even if the pane doesn't
+	---support this method:
+	---```lua
+	---local meta = pane:get_metadata() or {}
+	---```
+	---See:
+	--- - [`PaneMetadata`](lua://PaneMetadata)
+	get_metadata: function(self: Pane): PaneMetadata|nil|?
 
----Returns the progress state associated with the pane.
----By default, when the terminal is reset, the progress state will be `"None"` to indicate that
----no progress has been reported.
----Mirrors the `get_progress` Lua binding in wezterm upstream:
----https://github.com/wezterm/wezterm/blob/main/lua-api-crates/mux/src/pane.rs
-function M:get_progress(): PaneProgress
+	---Returns the progress state associated with the pane.
+	---By default, when the terminal is reset, the progress state will be `"None"` to indicate that
+	---no progress has been reported.
+	---Mirrors the `get_progress` Lua binding in wezterm upstream:
+	---https://github.com/wezterm/wezterm/blob/main/lua-api-crates/mux/src/pane.rs
+	get_progress: function(self: Pane): PaneProgress
 
----Resolves the semantic zone that encapsulates the supplied `x` and `y` coordinates.
---- - `x` is the cell column index, where `0` is the left-most column
---- - `y` is the stable row index
----Use `pane:get_dimensions()` to retrieve the currently valid stable index values for the top of
----scrollback and top of viewport.
-function M:get_semantic_zone_at(x: integer, y: integer): SemanticZone
+	---Resolves the semantic zone that encapsulates the supplied `x` and `y` coordinates.
+	--- - `x` is the cell column index, where `0` is the left-most column
+	--- - `y` is the stable row index
+	---Use `pane:get_dimensions()` to retrieve the currently valid stable index values for the top of
+	---scrollback and top of viewport.
+	get_semantic_zone_at: function(self: Pane, x: integer, y: integer): SemanticZone
 
----When `zone_type` is omitted, returns the list of all semantic zones defined in the pane.
----Otherwise it returns the list of all semantic zones of the matching type.
----Valid values for `zone_type` are:
---- - `"Input"`
---- - `"Output"`
---- - `"Prompt"`
-function M:get_semantic_zones(): SemanticZone[]
+	---When `zone_type` is omitted, returns the list of all semantic zones defined in the pane.
+	---Otherwise it returns the list of all semantic zones of the matching type.
+	---Valid values for `zone_type` are:
+	--- - `"Input"`
+	--- - `"Output"`
+	--- - `"Prompt"`
+	get_semantic_zones: function(self: Pane): SemanticZone[]
 
-function M:get_semantic_zones(zone_type: SemanticZoneType): SemanticZone[]
+	get_semantic_zones: function(self: Pane, zone_type: SemanticZoneType): SemanticZone[]
 
----Returns the text from the specified region.
---- - `start_x` and `end_x` are the starting and ending cell column, where `0` is the left-most cell
---- - `start_y` and `end_y` are the starting and ending row, expressed as a stable row index
----Use `pane:get_dimensions()` to retrieve the currently valid stable index values for the top
----of scrollback and top of viewport
----The text within the region is unwrapped to its logical line representation, rather than the
----_wrapped-to-physical-display-width_.
----@param start_x integer
----@param start_y integer
-function M:get_text_from_region(end_x: integer, start_y, end_x, end_y: integer): string
+	---Returns the text from the specified region.
+	--- - `start_x` and `end_x` are the starting and ending cell column, where `0` is the left-most cell
+	--- - `start_y` and `end_y` are the starting and ending row, expressed as a stable row index
+	---Use `pane:get_dimensions()` to retrieve the currently valid stable index values for the top
+	---of scrollback and top of viewport
+	---The text within the region is unwrapped to its logical line representation, rather than the
+	---_wrapped-to-physical-display-width_.
+	---@param start_x integer
+	---@param start_y integer
+	get_text_from_region: function(self: Pane, end_x: integer, start_y, end_x, end_y: integer): string
 
----This is a convenience method that calls `Pane:get_text_from_region()` on the supplied
----zone parameter.
----Use `Pane:get_semantic_zone_at()` or `Pane:get_semantic_zones()` to obtain a zone.
-function M:get_text_from_semantic_zone(zone: SemanticZone): string
+	---This is a convenience method that calls `Pane:get_text_from_region()` on the supplied
+	---zone parameter.
+	---Use `Pane:get_semantic_zone_at()` or `Pane:get_semantic_zones()` to obtain a zone.
+	get_text_from_semantic_zone: function(self: Pane, zone: SemanticZone): string
 
----Returns the title of the pane.
----This will typically be wezterm by default but can be modified by applications that send `OSC 1`
----(Icon/Tab title changing) and/or `OSC 2` (Window title changing) escape sequences.
----The value returned by this method is the same as that used to display the tab title if this pane
----were the only pane in the tab; if `OSC 1` was used to set a non-empty string then that string
----will be returned. Otherwise the value for `OSC 2` will be returned.
----Note that on Windows the default behavior of the OS level PTY is to implicitly send `OSC 2`
----sequences to the terminal as new programs attach to the console.
----If the title text is `"wezterm"` and the pane is a local pane, then WezTerm will attempt
----to resolve the executable path of the foreground process that is associated with the pane, and
----will use that instead of `wezterm`.
-function M:get_title(): string
+	---Returns the title of the pane.
+	---This will typically be wezterm by default but can be modified by applications that send `OSC 1`
+	---(Icon/Tab title changing) and/or `OSC 2` (Window title changing) escape sequences.
+	---The value returned by this method is the same as that used to display the tab title if this pane
+	---were the only pane in the tab; if `OSC 1` was used to set a non-empty string then that string
+	---will be returned. Otherwise the value for `OSC 2` will be returned.
+	---Note that on Windows the default behavior of the OS level PTY is to implicitly send `OSC 2`
+	---sequences to the terminal as new programs attach to the console.
+	---If the title text is `"wezterm"` and the pane is a local pane, then WezTerm will attempt
+	---to resolve the executable path of the foreground process that is associated with the pane, and
+	---will use that instead of `wezterm`.
+	get_title: function(self: Pane): string
 
----Returns the tty device name, or `nil` if the name is unavailable.
---- - This information is only available for local panes. Multiplexer panes do not report
----   this information. Similarly, if you are using e.g. `ssh` to connect to a remote host, you
----   won't be able to access the name of the remote process that is running
---- - This information is only available on UNIX systems. Windows systems do not have
----   an equivalent concept
-function M:get_tty_name(): string|nil|?
+	---Returns the tty device name, or `nil` if the name is unavailable.
+	--- - This information is only available for local panes. Multiplexer panes do not report
+	---   this information. Similarly, if you are using e.g. `ssh` to connect to a remote host, you
+	---   won't be able to access the name of the remote process that is running
+	--- - This information is only available on UNIX systems. Windows systems do not have
+	---   an equivalent concept
+	get_tty_name: function(self: Pane): string|nil|?
 
----Returns a table holding the user variables that have been assigned to this `Pane` instance.
----User variables are set using an escape sequence defined by `iterm2`, but also recognized
----by WezTerm.
-function M:get_user_vars(): table<string,
+	---Returns a table holding the user variables that have been assigned to this `Pane` instance.
+	---User variables are set using an escape sequence defined by `iterm2`, but also recognized
+	---by WezTerm.
+	get_user_vars: function(self: Pane): table<string,
 
----Returns `true` if there has been output in the pane
----since the last time the pane was focused.
----See also `PaneInformation.has_unseen_output` for an example
----using equivalent information to color tabs based on this state.
-function M:has_unseen_output(): boolean
+	---Returns `true` if there has been output in the pane
+	---since the last time the pane was focused.
+	---See also `PaneInformation.has_unseen_output` for an example
+	---using equivalent information to color tabs based on this state.
+	has_unseen_output: function(self: Pane): boolean
 
----Sends text, which may include escape sequences, to the output side of the current pane.
----The text will be evaluated by the terminal emulator and can thus be used to inject/force
----the terminal to process escape sequences that adjust the current mode, as well as sending
----human-readable output to the terminal.
----Note that if you move the cursor position as a result of using this method you should expect
----the display to change and for text UI programs to get confused.
-function M:inject_output(text: string): nil
+	---Sends text, which may include escape sequences, to the output side of the current pane.
+	---The text will be evaluated by the terminal emulator and can thus be used to inject/force
+	---the terminal to process escape sequences that adjust the current mode, as well as sending
+	---human-readable output to the terminal.
+	---Note that if you move the cursor position as a result of using this method you should expect
+	---the display to change and for text UI programs to get confused.
+	inject_output: function(self: Pane, text: string): nil
 
----Returns whether the alternate screen is active for the pane.
----The alternate screen is a secondary screen that is activated by certain escape codes.
----It has no scrollback, which makes it ideal for a "full-screen" terminal program
----(e.g. `vim` or `less`) to do whatever they want on the screen without fear of destroying
----the user's scrollback. These programs emit escape codes to return to the normal screen
----when they exit.
-function M:is_alt_screen_active(): boolean
+	---Returns whether the alternate screen is active for the pane.
+	---The alternate screen is a secondary screen that is activated by certain escape codes.
+	---It has no scrollback, which makes it ideal for a "full-screen" terminal program
+	---(e.g. `vim` or `less`) to do whatever they want on the screen without fear of destroying
+	---the user's scrollback. These programs emit escape codes to return to the normal screen
+	---when they exit.
+	is_alt_screen_active: function(self: Pane): boolean
 
----Creates a new tab in the window that contains a pane, and moves the current pane into that tab.
----Returns a tuple of the newly created:
---- 1. [`MuxTab`](lua://MuxTab)
---- 2. [`MuxWindow`](MuxWindow)
----@return MuxTab tab
-function M:move_to_new_tab(): MuxWindow
+	---Creates a new tab in the window that contains a pane, and moves the current pane into that tab.
+	---Returns a tuple of the newly created:
+	--- 1. [`MuxTab`](lua://MuxTab)
+	--- 2. [`MuxWindow`](MuxWindow)
+	---@return MuxTab tab
+	move_to_new_tab: function(self: Pane): MuxWindow
 
----Creates a window and moves pane into that window.
----The `workspace` parameter is optional; if specified, it will be used as the name of the workspace
----that should be associated with the new window. Otherwise the current active workspace
----will be used.
----Returns a tuple of the newly created:
---- 1. [`MuxTab`](lua://MuxTab)
---- 2. [`MuxWindow`](MuxWindow)
----@param workspace? string
----@return MuxTab tab
-function M:move_to_new_window(workspace): MuxWindow
+	---Creates a window and moves pane into that window.
+	---The `workspace` parameter is optional; if specified, it will be used as the name of the workspace
+	---that should be associated with the new window. Otherwise the current active workspace
+	---will be used.
+	---Returns a tuple of the newly created:
+	--- 1. [`MuxTab`](lua://MuxTab)
+	--- 2. [`MuxWindow`](MuxWindow)
+	---@param workspace? string
+	---@return MuxTab tab
+	move_to_new_window: function(self: Pane, workspace): MuxWindow
 
----Returns the id number for the pane.
----The ID is used to identify the pane within the internal multiplexer and can be used when
----making API calls via the WezTerm CLI to indicate the subject of manipulation.
-function M:pane_id(): integer
+	---Returns the id number for the pane.
+	---The ID is used to identify the pane within the internal multiplexer and can be used when
+	---making API calls via the WezTerm CLI to indicate the subject of manipulation.
+	pane_id: function(self: Pane): integer
 
----Alias of `Pane:send_paste()` for backwards compatibility with prior releases.
-function M:paste(text: string): nil
+	---Alias of `Pane:send_paste()` for backwards compatibility with prior releases.
+	paste: function(self: Pane, text: string): nil
 
----Sends the supplied text string to the input of the pane as if it were pasted from the clipboard,
----except that the clipboard is not involved.
----Newlines are rewritten according to:
---- - [`config.canonicalize_pasted_newlines`](lua://Config.canonicalize_pasted_newlines)
----If the terminal attached to the pane is set to bracketed paste mode then the text will be sent
----as a bracketed paste, and newlines will not be rewritten.
-function M:send_paste(text: string): nil
+	---Sends the supplied text string to the input of the pane as if it were pasted from the clipboard,
+	---except that the clipboard is not involved.
+	---Newlines are rewritten according to:
+	--- - [`config.canonicalize_pasted_newlines`](lua://Config.canonicalize_pasted_newlines)
+	---If the terminal attached to the pane is set to bracketed paste mode then the text will be sent
+	---as a bracketed paste, and newlines will not be rewritten.
+	send_paste: function(self: Pane, text: string): nil
 
----Sends text to the pane as-is.
-function M:send_text(text: string): nil
+	---Sends text to the pane as-is.
+	send_text: function(self: Pane, text: string): nil
 
----Splits the `Pane` instance and spawns a program into said split, returning the `Pane` object
----associated with it.
----When no arguments are passed, the pane is split in half left/right and the right half has
----the default program spawned into it.
----For available args, see:
---- - [`SpawnSplit`](lua://SpawnSplit)
----@param args? SpawnSplit
-function M:split(args): Pane
+	---Splits the `Pane` instance and spawns a program into said split, returning the `Pane` object
+	---associated with it.
+	---When no arguments are passed, the pane is split in half left/right and the right half has
+	---the default program spawned into it.
+	---For available args, see:
+	--- - [`SpawnSplit`](lua://SpawnSplit)
+	---@param args? SpawnSplit
+	split: function(self: Pane, args): Pane
 
----Returns the `MuxTab` that contains this pane.
----Note that this method can return `nil` when the pane is a GUI-managed overlay pane
----(such as the debug overlay), because those panes are not managed by the mux layer.
----See:
---- - [`MuxTab`](lua://MuxTab)
-function M:tab(): MuxTab|nil|?
+	---Returns the `MuxTab` that contains this pane.
+	---Note that this method can return `nil` when the pane is a GUI-managed overlay pane
+	---(such as the debug overlay), because those panes are not managed by the mux layer.
+	---See:
+	--- - [`MuxTab`](lua://MuxTab)
+	tab: function(self: Pane): MuxTab|nil|?
 
----Returns the `MuxWindow` object containing the tab this pane is in.
----See:
---- - [`MuxWindow`](lua://MuxWindow)
-function M:window(): MuxWindow
+	---Returns the `MuxWindow` object containing the tab this pane is in.
+	---See:
+	--- - [`MuxWindow`](lua://MuxWindow)
+	window: function(self: Pane): MuxWindow
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

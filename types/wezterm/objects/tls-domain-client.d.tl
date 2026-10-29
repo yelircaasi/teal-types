@@ -46,5 +46,6 @@ local record TlsDomainClient
 	---If you prefer to have the information overlaid on the content area, then you can this to `true`,
 	---but note that this may be dropped in the future.
 	overlay_lag_indicator: boolean
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

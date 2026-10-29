@@ -34,7 +34,7 @@ local record WeztermAttentionOpts.Indicators
 end
 
 local record WeztermAttentionOpts
-	---@field acknowledge_types? ("notify"|"stop"|string)[]
+	acknowledge_types: ("notify"|"stop"|string)[] | nil
 	auto_clear: WeztermAttentionOpts | nil.Attention[]
 	colors: WeztermAttentionOpts | nil.Colors
 	dir: string | nil
@@ -42,7 +42,7 @@ local record WeztermAttentionOpts
 	priority: WeztermAttentionOpts | nil.Attention[]
 	renderer: WeztermAttentionOpts | nil.Renderer
 	review_key: WeztermAttentionOpts | nil.ReviewKey
-	---@field stale_after_ms? { thinking: integer }|false
+	stale_after_ms: { thinking: integer }|false | nil
 	title_formatter: WeztermAttention | nil.TitleFormatter
 end
 
@@ -66,19 +66,19 @@ local M = {}
 
 ---@param config Config
 ---@param opts? WeztermAttentionOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 ---Read the cached attention state for a pane.
 ---Returns a `type`, `frame` tuple, or `nil`.
 ---@param pane_id integer
 ---@param opts? WeztermAttentionOpts
 ---@return string|nil|? type
-function M.get_attention(pane_id, opts): integer|nil|? | nil
+get_attention: function(pane_id, opts): integer|nil|? | nil
 
 ---Remove the attention marker for a pane.
 ---@param pane_id integer
 ---@param opts? WeztermAttentionOpts
-function M.remove_marker(pane_id, opts) end
+remove_marker: function(pane_id, opts) end
 
 ---Poll marker files and update cache.
 ---Call from your own `update-status` handler if you set `auto_poll` to `false`,
@@ -89,8 +89,8 @@ function M.remove_marker(pane_id, opts) end
 ---tab-indicator blinking). Stale entries are cleaned up by the pane-destroyed handler.
 ---@param window Window
 ---@param opts? WeztermAttentionOpts
-function M.poll(window, opts) end
+poll: function(window, opts) end
 
-function M.wrap_title_formatter(base_fn: WeztermAttention.TitleFormatter): fun(tab:
+wrap_title_formatter: function(base_fn: WeztermAttention.TitleFormatter): fun(tab:
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

@@ -30,21 +30,21 @@ local record Dev
 	utils: boolean
 local M = {}
 
-function M.get_plugin_path(hashkey: string): string|nil|? | nil
+get_plugin_path: function(hashkey: string): string|nil|? | nil
 
-function M.get_require_path(hashkey: string): string|nil|? | nil
+get_require_path: function(hashkey: string): string|nil|? | nil
 
 ---@param url string
 ---@param opts? DevOpts
-function M.require(url, opts)(): any?
+require: function(url, opts)(): any?
 
-function M.set_substitutions(substitute_dict: table<string, string>) end
+set_substitutions: function(substitute_dict: table<string, string>) end
 
 ---Set the wezterm require path for the plugin.
-function M.set_wezterm_require_path(hashkey: string): nil
+set_wezterm_require_path: function(hashkey: string): nil
 
 ---@param opts? DevOpts
 ---@return string|nil|? hashkey
-function M.setup(opts): string|nil|? | nil
+setup: function(opts): string|nil|? | nil
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

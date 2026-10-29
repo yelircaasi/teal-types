@@ -1,5 +1,3 @@
----@diagnostic disable:unused-local
-
 local record WezTmuxAction
 	ClearPattern: "ClearPattern"|fun(params: any): { ClearPattern: any }
 	ClearSelectionOrClearPatternOrClose: "ClearSelectionOrClearPatternOrClose"|fun(params: any): { ClearSelectionOrClearPatternOrClose: any }
@@ -18,10 +16,7 @@ end
 
 local record WezTmux
 	action: WezTmuxAction
-local M = {}
-
----@param config Config
----@param opts? WezTmuxOpts
-function M.apply_to_config(config, opts) end
+	apply_to_config: function(config: Config, opts: WezTmuxOpts|nil) end
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

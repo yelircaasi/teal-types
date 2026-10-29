@@ -24,13 +24,13 @@ local M = {}
 
 ---@param config Config
 ---@param opts? PinnedTabsOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 ---Clean up stale state files.
-function M.cleanup(): nil
+cleanup: function(): nil
 
 ---Creates a pinned tab.
 ---Use this to configure the keybindings in your `wezterm.lua`.
-function M.create(opts: PinnedTabsCreateOpts): nil
+create: function(opts: PinnedTabsCreateOpts): nil
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

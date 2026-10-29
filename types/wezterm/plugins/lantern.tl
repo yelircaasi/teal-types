@@ -137,8 +137,8 @@ end
 local record Lantern.WickSpec
 	name: string | nil
 	title: string | nil
-	---@field flames? (string|Lantern.Flame)[]
-	---@field flame_dirs? (string[]|string)[]
+	flames: (string|Lantern.Flame)[] | nil
+	flame_dirs: (string[]|string)[] | nil
 	sort_by: string | nil
 	fuzzy: boolean | nil
 	alphabet: string | nil
@@ -293,19 +293,19 @@ local M = {}
 
 ---Configure Lantern.
 ---@param opts? Lantern.SetupOpts
-function M.setup(opts): Lantern.Config
+setup: function(opts): Lantern.Config
 
 ---Register a user-defined wick.
-function M.add_wick(name: string, spec: Lantern.WickSpec|Lantern.Wick): Lantern.Wick
+add_wick: function(name: string, spec: Lantern.WickSpec|Lantern.Wick): Lantern.Wick
 
 ---Return a registered wick by name.
-function M.wick(name: string): Lantern.Wick|nil|? | nil
+wick: function(name: string): Lantern.Wick|nil|? | nil
 
 ---Restore persisted Lantern selections into a config table.
 ---@param config? Config
-function M.rekindle(config): Config
+rekindle: function(config): Config
 
 ---Return the built-in GPU flame module.
-function M.gpu(): Lantern.GpuFlame
+gpu: function(): Lantern.GpuFlame
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

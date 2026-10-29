@@ -20,12 +20,12 @@ local M = {}
 
 ---@param config Config
 ---@param opts? ReplayOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 
-function M.recall(): {
+recall: function(): {
 
 
-function M.replay(): {
+replay: function(): {
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

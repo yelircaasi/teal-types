@@ -30,10 +30,10 @@ local M = {}
 
 ---@param config Config
 ---@param opts? Quick_SelectOpts
-function M.apply_to_config(config, opts) end
+apply_to_config: function(config, opts) end
 
 ---@param window Window The `Window` object.
 ---@param pane Pane The `Pane` object.
-function M.open_with_hx(url: string, pane, url, opts: Quick_SelectOpts) end
+open_with_hx: function(url: string, pane, url, opts: Quick_SelectOpts) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

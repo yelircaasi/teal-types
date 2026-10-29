@@ -1,5 +1,3 @@
----@diagnostic disable:unused-local
-
 local type WorkspacesionizerOpts.Show =
 	"base"|"full"
 
@@ -22,10 +20,7 @@ local record WorkspacesionizerOpts
 end
 
 local record Workspacesionizer
-local M = {}
-
----@param config Config
----@param options? WorkspacesionizerOpts
-function M.apply_to_config(config, options): Config
+	apply_to_config: function(config: Config, options: WorkspacesionizerOpts|nil): Config
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

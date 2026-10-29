@@ -1,5 +1,3 @@
----@diagnostic disable:unused-local
-
 local record WeztermStatus.UiConfig
 	---Visual separators used in the status bar.
 	separators: WeztermStatus | nil.SeparatorConfig
@@ -28,7 +26,7 @@ local record WeztermStatus.CellsConfig
 	---Hostname display configuration.
 	hostname: WeztermStatus | nil.HostnameConfig
 	---Kubernetes context configuration.
-	---@field k8s_context? WeztermStatus.K8SContextConfig
+	k8s_context: WeztermStatus.K8SContextConfig | nil
 	---Mode indicator configuration.
 	mode: WeztermStatus | nil.ModeConfig
 	---WezTerm workspace configuration.
@@ -103,14 +101,12 @@ end
 local record WeztermStatus
 	---All cells of the status bar.
 	cells: table
----Internal plugin configuration.
--- PROTECTED:
+	---Internal plugin configuration.
+	-- PROTECTED:
 	config: WeztermStatusConfig
-local M = {}
 
----Applies configuration to Wezterm's status bar.
----@param wezterm_config Config The Wezterm configuration table.
----@param opts? WeztermStatusConfig Optional configuration overrides.
-function M.apply_to_config(wezterm_config, opts) end
+	---Applies configuration to Wezterm's status bar.
+	apply_to_config: function(wezterm_config: Config, opts: WeztermStatusConfig|nil): nil
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

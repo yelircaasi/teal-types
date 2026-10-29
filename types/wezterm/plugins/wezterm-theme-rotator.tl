@@ -16,11 +16,8 @@ local record ThemeRotatorOpts
 end
 
 local record ThemeRotator
-local M = {}
-
----Apply configuration to WezTerm.
----@param config Config
----@param options? ThemeRotatorOpts
-function M.apply_to_config(config, options): Config
+	---Apply configuration to WezTerm.
+	apply_to_config: function(config Config, options: ThemeRotatorOpts|nil): Config
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

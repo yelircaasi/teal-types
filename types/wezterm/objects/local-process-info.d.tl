@@ -1,18 +1,19 @@
 ---@diagnostic disable:unused-local
 
-local type LocalProcessStatus =
+local enum LocalProcessStatus =
 	"Dead"
-	| "Idle"
-	| "LockBlocked"
-	| "Parked"
-	| "Run"
-	| "Sleep"
-	| "Stop"
-	| "Tracing"
-	| "Unknown"
-	| "Wakekill"
-	| "Waking"
-	| "Zombie"
+	"Idle"
+	"LockBlocked"
+	"Parked"
+	"Run"
+	"Sleep"
+	"Stop"
+	"Tracing"
+	"Unknown"
+	"Wakekill"
+	"Waking"
+	"Zombie"
+end
 
 ---Represents a process running on the local machine.
 local record LocalProcessInfo

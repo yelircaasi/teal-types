@@ -30,11 +30,11 @@ local M = {}
 ---@param pane Pane
 ---@param module_settings PassRelayOpts
 ---@param bypass_local_echo_check? boolean
-function M._continue_password(window, pane, module_settings, bypass_local_echo_check) end
+_continue_password: function(window, pane, module_settings, bypass_local_echo_check) end
 
-function M.apply_to_config(config: Config, module_settings: PassRelayOpts) end
+apply_to_config: function(config: Config, module_settings: PassRelayOpts) end
 
 ---@param window Window
-function M.exec_password_manager(pane: Pane, pane, module_settings: PassRelayOpts) end
+exec_password_manager: function(pane: Pane, pane, module_settings: PassRelayOpts) end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:
