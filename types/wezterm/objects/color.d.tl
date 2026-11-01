@@ -4,6 +4,7 @@
 
 -- local objects = require("objects.color")
 local _shared = require("_shared")
+local _tmp = require("_tmp")
 
 local type NumberTriple = {number, number, number}
 local type NumberQuadruple = {number, number, number, number}
@@ -41,7 +42,7 @@ local record TabBarColor
 	---Specify whether you want `"None"`, `"Single"` or `"Double"`
 	---underline for label shown for this tab.
 	---The default is `"None"`.
-	underline: TabBarColor | Underline | nil
+	underline: _tmp.TabBarColor | _tmp.Underline | nil
 end
 
 local record TabBarColors
@@ -76,12 +77,12 @@ end
 
 local record Palette
 	---A list of 8 colors corresponding to the basic ANSI palette.
-	ansi: {integer, PaletteAnsi} | nil
+	ansi: {integer, _tmp.PaletteAnsi} | nil
 	---The background color to use when the attributes are
 	---reset to default.
 	background: string | nil
 	---A list of 8 colors corresponding to the brights.
-	brights: {integer: PaletteBrights} | nil
+	brights: {integer: _tmp.PaletteBrights} | nil
 	---The color to use for the cursor when a dead key
 	---or leader state is active.
 	compose_cursor: string | nil
@@ -90,7 +91,7 @@ local record Palette
 	--- 1. `copy_mode_active_highlight` if additional text was selected
 	---                               using the mouse
 	--- 2. `selection` otherwise
-	copy_mode_active_highlight_bg: ColorSpec | nil
+	copy_mode_active_highlight_bg: _tmp.ColorSpec | nil
 	---Use `AnsiColor` to specify one of the ANSI color palette values
 	---(index 0-15), using one of the following values:
 	--- - `"Black"`
@@ -111,13 +112,13 @@ local record Palette
 	--- - `"White"`
 	---For more information, see:
 	--- - [`AnsiColor`](lua://AnsiColor)
-	copy_mode_active_highlight_fg: ColorSpec | nil
+	copy_mode_active_highlight_fg: _tmp.ColorSpec | nil
 	---Colors for `copy_mode` and `quick_select`.
 	---In `copy_mode`, the color of the active text is:
 	--- - `copy_mode_active_highlight` if additional text
 	---   was selected using the mouse
 	--- - `selection` otherwise
-	copy_mode_inactive_highlight_bg: ColorSpec | nil
+	copy_mode_inactive_highlight_bg: _tmp.ColorSpec | nil
 	---Use `AnsiColor` to specify one of the ANSI color palette values
 	---(index 0-15), using one of the following values:
 	--- - `"Black"`
@@ -138,7 +139,7 @@ local record Palette
 	--- - `"White"`
 	---For more information, see:
 	--- - [`AnsiColor`](lua://AnsiColor)
-	copy_mode_inactive_highlight_fg: ColorSpec | nil
+	copy_mode_inactive_highlight_fg: _tmp.ColorSpec | nil
 	---The background color of the cursor.
 	cursor_bg: string | nil
 	---The border of the cursor.
@@ -150,15 +151,15 @@ local record Palette
 	foreground: string | nil
 	---A map for setting arbitrary colors ranging from `16`
 	---to `256` in the color palette.
-	indexed: string | {nil}
-	input_selector_label_bg: ColorSpec | nil
-	input_selector_label_fg: ColorSpec | nil
-	launcher_label_bg: ColorSpec | nil
-	launcher_label_fg: ColorSpec | nil
-	quick_select_label_bg: ColorSpec | nil
-	quick_select_label_fg: ColorSpec | nil
-	quick_select_match_bg: ColorSpec | nil
-	quick_select_match_fg: ColorSpec | nil
+	indexed: {string} | nil
+	input_selector_label_bg: _tmp.ColorSpec | nil
+	input_selector_label_fg: _tmp.ColorSpec | nil
+	launcher_label_bg: _tmp.ColorSpec | nil
+	launcher_label_fg: _tmp.ColorSpec | nil
+	quick_select_label_bg: _tmp.ColorSpec | nil
+	quick_select_label_fg: _tmp.ColorSpec | nil
+	quick_select_match_bg: _tmp.ColorSpec | nil
+	quick_select_match_fg: _tmp.ColorSpec | nil
 	---The color of the "thumb" of the scrollbar;
 	---the segment that represents the current viewable area.
 	scrollbar_thumb: string | nil

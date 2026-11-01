@@ -1,10 +1,11 @@
 ---NOTE: (DrKJeff16) I am not touching this file ever again
+local _tmp = require("_tmp")
 
 -- TODO
--- local type WezTerm.NerdFont Wezterm.NerdFont
+-- local type WezTerm = Wezterm.NerdFont --WezTerm.NerdFont
 
-local type Wezterm.NerdFont = {string: char}
---[[local record Wezterm.NerdFont
+local type NerdFont = {string: string} -- Wezterm.NerFont
+--[[local record NerdFont --Wezterm.NerdFont
 	cod_account: ""
 	cod_activate_breakpoints: ""
 	cod_add: ""

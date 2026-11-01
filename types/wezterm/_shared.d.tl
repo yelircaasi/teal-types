@@ -56,7 +56,7 @@ local record _Shared
 		---For more information and examples, see:
 		--- - [Font Shaping](https://wezterm.org/config/font-shaping.html)
 		--- - [`config.font_shaper`](lua://Config.font_shaper)
-		harfbuzz_features: _tmp.HarfbuzzFeatures | nil -- WAS (?): {nil}
+		harfbuzz_features: {_tmp.HarfbuzzFeatures} | nil
 		scale: number | nil
 		stretch: _tmp.FontStretch | nil
 		---This option will only be respected if the `italic` option is `nil`.
@@ -298,7 +298,7 @@ local record _Shared
 	end
 
 	record ColorSchemeMetaData
-		aliases: string | {nil}
+		aliases: {string} | nil
 		author: string | nil
 		name: string | nil
 		origin_url: string | nil
@@ -451,5 +451,509 @@ local record _Shared
 		version: string
 	end
 end
+
+
+
+local record _Choice
+	label: string
+	id: string
+end
+
+local record InputSelectorParams
+	---The title that will be set for the overlay pane.
+	title: string
+	---A table consisting of the potential choices.
+	---Each entry is itself a table with a label field and an optional id field.
+	---The label will be shown in the list, while the id can be a different string
+	---that is meaningful to your action.
+	---The label can be used together with `wezterm.format()` to produce styled text.
+	choices: {_Choice}
+	---An event callback registered via `wezterm.action_callback()`.
+	---The callback's function signature is `(window, pane, id, label)`
+	---where `window` and `pane` are the `Window` and `Pane` objects
+	---from the current pane and window, and `id` and `label` hold
+	---the corresponding fields from the selected choice.
+	---Both will be `nil` if the overlay is cancelled without selecting anything.
+	---```lua
+	---wezterm.action.InputSelector({
+	---  action = wezterm.action_callback(function(window, pane, id, label)
+	---    --- ...
+	---  end),
+	---})
+	---```
+	action: { _tmp.EmitEvent: string }
+	---A boolean that defaults to `false`.
+	---If `true`, `InputSelector` will start in its fuzzy finding mode,
+	---equivalent to starting the `InputSelector` and pressing `/` in the default mode.
+	fuzzy: boolean | nil
+	---A string of unique characters.
+	alphabet: _tmp.QuickSelectAlphabet | nil|string
+	---A string to display when in the default mode.
+	description: string | nil
+	---A string to display when in fuzzy finding mode.
+	fuzzy_description: string | nil
+end
+
+local record CharSelectParams
+	copy_on_select: boolean
+	copy_to: _tmp.ClipboardCopyDestination
+	group: _tmp.CharGroup | nil
+end
+
+local record SendKeyParams
+---A single unicode character, like 'A' or 'a'. Pay attention to the case of the text that you use
+---and the state of the SHIFT modifier, as this matters whether 'A' or 'a' is matched.
+---Alternatively you can use on the following keycode identifiers, although note that not all of
+---these are meaningful on all platforms:
+--- - `Add`
+--- - `Alt`
+--- - `ApplicationDownArrow`
+--- - `ApplicationLeftArrow`
+--- - `ApplicationRightArrow`
+--- - `ApplicationUpArrow`
+--- - `Applications`
+--- - `Backspace`
+--- - `BrowserBack`
+--- - `BrowserFavorites`
+--- - `BrowserForward`
+--- - `BrowserHome`
+--- - `BrowserRefresh`
+--- - `BrowserSearch`
+--- - `BrowserStop`
+--- - `Cancel`
+--- - `CapsLock`
+--- - `Clear`
+--- - `Control`
+--- - `Decimal`
+--- - `Delete`
+--- - `Divide`
+--- - `DownArrow`
+--- - `End`
+--- - `Enter`
+--- - `Escape`
+--- - `Execute`
+--- - `F1`
+--- - `F2`
+--- - `F3`
+--- - `F4`
+--- - `F5`
+--- - `F6`
+--- - `F7`
+--- - `F8`
+--- - `F9`
+--- - `F10`
+--- - `F11`
+--- - `F12`
+--- - `F13`
+--- - `F14`
+--- - `F15`
+--- - `F16`
+--- - `F17`
+--- - `F18`
+--- - `F19`
+--- - `F20`
+--- - `F21`
+--- - `F22`
+--- - `F23`
+--- - `F24`
+--- - `Help`
+--- - `Home`
+--- - `Hyper`
+--- - `Insert`
+--- - `LeftAlt`
+--- - `LeftArrow`
+--- - `LeftControl`
+--- - `LeftMenu`
+--- - `LeftShift`
+--- - `LeftWindows`
+--- - `MediaNextTrack`
+--- - `MediaPlayPause`
+--- - `MediaPrevTrack`
+--- - `MediaStop`
+--- - `Menu`
+--- - `Meta`
+--- - `Multiply`
+--- - `NumLock`
+--- - `Numpad0`
+--- - `Numpad1`
+--- - `Numpad2`
+--- - `Numpad3`
+--- - `Numpad4`
+--- - `Numpad5`
+--- - `Numpad6`
+--- - `Numpad7`
+--- - `Numpad8`
+--- - `Numpad9`
+--- - `PageDown`
+--- - `PageUp`
+--- - `Pause`
+--- - `Print`
+--- - `PrintScreen`
+--- - `RightAlt`
+--- - `RightArrow`
+--- - `RightControl`
+--- - `RightMenu`
+--- - `RightShift`
+--- - `RightWindows`
+--- - `ScrollLock`
+--- - `Select`
+--- - `Separator`
+--- - `Shift`
+--- - `Sleep`
+--- - `Subtract`
+--- - `Super`
+--- - `Tab`
+--- - `UpArrow`
+--- - `VoidSymbol`
+--- - `VolumeDown`
+--- - `VolumeMute`
+--- - `VolumeUp`
+---The key value can refer either to the physical position of a key on an ANSI US keyboard or to the
+---post-keyboard-layout-mapped value produced by a key press.
+---You can explicitly assign using the physical position by adding a phys: prefix to the value, for
+---example: `key="phys:A"`. This will match key presses for the key that would be in the position of
+---the A key on an ANSI US keyboard.
+---You can explicitly assign the mapped key by adding a mapped:
+---prefix to the value, for example: key="mapped:a" will match a
+---key press where the OS keyboard layout produces a, regardless of
+---its physical position.
+---If you omit an explicit prefix, wezterm will assume phys: and use the physical position of the
+---specified key.
+---The default key assignments listed above use `phys:`. In previous releases there was no physical
+---position support and those assignments were all `mapped:`.
+---When upgrading from earlier releases, if you had `{key="N", mods="CMD", ..}` in your config, you
+---will need to change it to either `{key="N", mods="CMD|SHIFT", ..}` or `{ key="mapped:N",
+---mods="CMD", ..}` in order to continue to respect the SHIFT modifier.
+---The `key_map_preference` option controls how keys without an explicit `phys:` or `mapped:` prefix
+---are treated. If `key_map_preference = "Mapped"` (the default), then `mapped:` is assumed. If
+	---`key_map_preference = "Physical"` then `phys:` is assumed.
+	---The default key assignments will respect `key_map_preference`.
+	---In some cases, wezterm may not know how to represent a key event in either its phys: or mapped:
+	---forms. In that case, you may wish to define an assignment in terms of the underlying operating
+	---system key code, using a `raw: prefix`.
+	---Similar in concept to the `phys:` mapping described above, the `raw:` mapping is independent of
+	---the OS keyboard layout. Raw codes are hardware and windowing system dependent, so there is no
+	---portable way to list which key does what.
+	---To discover these values, you can set `debug_key_events = true` and press the keys of interest.
+	---You can specify a raw key value of 123 by using `key="raw:123"` in your config rather than one of
+	---the other key values.
+	key: string
+---Possible Modifier labels are:
+--- - `SUPER`, `CMD`, `WIN`: These are all equivalent: on macOS the `Command` key,
+---                  on Windows the `WIN`,
+---                  on Linux this can also be the `Super` or `Hyper` key.
+	---                  Left and right are equivalent
+	--- - `CTRL`: The control key.
+	---         Left and right are equivalent
+	--- - `SHIFT`: The shift key.
+	---          Left and right are equivalent
+	--- - `ALT`, `OPT`, `META`: These are all equivalent.
+	---                  on macOS the Option key, on
+	---                  other systems the Alt or Meta key.
+	---                  Left and right are equivalent
+	--- - `LEADER`: A special modal modifier state managed by WezTerm
+	--- - `VoidSymbol`: This keycode is emitted in special cases where
+	---               the original function of the key has been removed.
+	---               Such as in Linux and using `setxkbmap -option caps:none`.
+	---The `CapsLock` will no longer function as before in all applications,
+	---instead emitting `VoidSymbol`.
+	---You can also combine modifiers using the `|` symbol, like `"CMD|CTRL"`.
+	mods: string | nil
+end
+
+local record Key --: SendKeyParams
+	action: Action | nil
+end
+
+-- HELPERS ====================================================================
+local record _ActivateKeyTable
+	ActivateKeyTable: _tmp.ActivateKeyTableParams
+end
+
+local record _ActivatePaneByIndex
+	ActivatePaneByIndex: integer
+end
+
+local record _ActivatePaneDirection
+	ActivatePaneDirection: _tmp.PaneDirection
+end
+
+local record _ActivateTab
+	ActivateTab: integer
+end
+
+local record _ActivateTabRelative
+	ActivateTabRelative: integer
+end
+
+local record _ActivateTabRelativeNoWrap
+	ActivateTabRelativeNoWrap: integer
+end
+
+local record _ActivateWindow
+	ActivateWindow: integer
+end
+
+local record _ActivateWindowRelative
+	ActivateWindowRelative: integer
+end
+
+local record _ActivateWindowRelativeNoWrap
+	ActivateWindowRelativeNoWrap: integer
+end
+
+local type _AdjustPaneSizeValue = {_tmp.PaneDirection, integer} --TODO: does this work?
+
+local record _AdjustPaneSize
+	AdjustPaneSize: _AdjustPaneSizeValue
+end
+
+local record _AttachDomain
+	AttachDomain: string
+end
+
+local record _CharSelect
+	CharSelect: _tmp.CharSelectParams
+end
+
+local record _ClearScrollback
+	ClearScrollback: _tmp.ScrollbackEraseMode
+end
+
+local record _Confirm
+	confirm: boolean
+end
+
+local record _CloseCurrentPane
+	CloseCurrentPane: _Confirm 
+end
+
+local record _CloseCurrentTab
+	CloseCurrentTab: _Confirm
+end
+
+local record _CompleteSelection
+	CompleteSelection: _tmp.ClipboardCopyDestination
+end
+
+local record _CompleteSelectionOrOpenLinkAtMouseCursor
+	CompleteSelectionOrOpenLinkAtMouseCursor: _tmp.ClipboardCopyDestination
+end
+
+local record _Confirmation
+	Confirmation: _tmp.ConfirmationParams
+end
+
+local record _CopyMode
+	CopyMode: _tmp.CopyModeParams
+end
+
+local record _CopyTo
+	CopyTo: _tmp.ClipboardCopyDestination
+end
+
+local record _CopyTextTo
+	CopyTextTo: _tmp.CopyTextToParams
+end
+
+local record _DetachDomain
+	DetachDomain: _tmp.SpawnTabDomain
+end
+
+local record _EmitEvent
+	EmitEvent: string
+end
+
+local record _ExtendSelectionToMouseCursor
+	ExtendSelectionToMouseCursor: _tmp.SelectionMode
+end
+
+local record _InputSelector
+	InputSelector: _tmp.InputSelectorParams
+end
+
+local record _MoveTab
+	MoveTab: integer
+end
+
+local record _MoveTabRelative
+	MoveTabRelative: integer
+end
+
+local record _Multiple
+	Multiple: {_tmp.Action}
+end
+
+local record _OpenUri
+	OpenUri: string
+end
+
+local record _PaneSelect
+	PaneSelect: _tmp.PaneSelectParams
+end
+
+local record _PasteFrom
+	PasteFrom: _tmp.ClipboardPasteDestination
+end
+
+local record _PromptInputLine
+	PromptInputLine: _tmp.PromptInputLineParams
+end
+
+local record _QuickSelectArgs
+	QuickSelectArgs: _tmp.QuickSelectArgsParams
+end
+
+local record _RotatePanes
+	RotatePanes: _tmp.RotationDirection
+end
+
+local record _ScrollByLine
+	ScrollByLine: integer
+end
+
+local record _ScrollByPage
+	ScrollByPage: number
+end
+
+local record _ScrollToPrompt
+	ScrollToPrompt: integer
+end
+
+local enum _CurrentSelectionOrEmptyString
+	"CurrentSelectionOrEmptyString"
+end
+
+local record _Search
+	Search: _CurrentSelectionOrEmptyString|_tmp.SearchParams
+end
+
+local record _SelectTextAtMouseCursor
+	SelectTextAtMouseCursor: _tmp.SelectionMode
+end
+
+local record _SendKey
+	SendKey: _tmp.SendKeyParams
+end
+
+local record _SendString
+	SendString: string
+end
+
+local record _SetPaneZoomState
+	SetPaneZoomState: boolean
+end
+
+local record _SetWindowLevel
+	SetWindowLevel: _tmp.SetWindowLevelParams
+end
+
+local record _ShowLauncherArgs
+	ShowLauncherArgs: _tmp.ShowLauncherArgsParams
+end
+
+local record _SpawnTab
+	SpawnTab: _tmp.SpawnTabDomain
+end
+
+local record _SpawnCommandInNewTab
+	SpawnCommandInNewTab: _tmp.SpawnCommand
+end
+
+local record _SpawnCommandInNewWindow
+	SpawnCommandInNewWindow: _tmp.SpawnCommand
+end
+
+local record _SplitPane
+	SplitPane: _tmp.SplitPaneParams
+end
+
+local record _SplitHorizontal
+	SplitHorizontal: _tmp.SpawnCommand
+end
+
+local record _
+	SwitchWorkspaceRelative: integer
+end
+
+local record _SplitVertical
+	SplitVertical: _tmp.SpawnCommand
+end
+
+local record _SwitchToWorkspace
+	SwitchToWorkspace: _tmp.SwitchToWorkspaceParams
+end
+
+local record _SpawnTab
+	SpawnTab: _tmp.SpawnTabDomain
+end
+
+local record _CloseCurrentPane
+	confirm: _Confirm
+end
+
+local record _CloseCurrentTab
+	confirm: _Confirm
+end
+
+local record _SwitchWorkspaceRelative
+	 SwitchWorkspaceRelative: integer
+end
+
+-- ============================================================================
+
+---@generic T
+local type ActivateKeyTable             = function(params: _tmp.ActivateKeyTableParams): _ActivateKeyTable
+local type ActivatePaneByIndex          = function(params: integer): _ActivatePaneByIndex
+local type ActivatePaneDirection        = function(params: _tmp.PaneDirection): _ActivatePaneDirection
+local type ActivateTab                  = function(params: integer): _ActivateTab
+local type ActivateTabRelative          = function(params: integer): _ActivateTabRelative
+local type ActivateTabRelativeNoWrap    = function(params: integer): _ActivateTabRelativeNoWrap
+local type ActivateWindow               = function(params: integer): _ActivateWindow
+local type ActivateWindowRelative       = function(params: integer): _ActivateWindowRelative
+local type ActivateWindowRelativeNoWrap = function(params: integer): _ActivateWindowRelativeNoWrap
+local type AdjustPaneSize               = function(params: _AdjustPaneSizeValue): _AdjustPaneSize
+local type AttachDomain                 = function(domain: string): _AttachDomain
+local type CharSelect                   = _CharSelect|function(params: CharSelectParams): _CharSelect
+local type ClearScrollback              = function(params: _tmp.ScrollbackEraseMode): _ClearScrollback
+local type CloseCurrentPane             = function(params: _Confirm): _CloseCurrentPane
+local type CloseCurrentTab              = function(params: _Confirm): _CloseCurrentTab
+local type CompleteSelection            = function(params: _tmp.ClipboardCopyDestination): _CompleteSelection
+local type CompleteSelectionOrOpenLinkAtMouseCursor = function(params: _tmp.ClipboardCopyDestination): _CompleteSelectionOrOpenLinkAtMouseCursor
+local type Confirmation                 = function(params: _tmp.ConfirmationParams): _Confirmation
+local type CopyMode                     = function(params: _tmp.CopyModeParams): _CopyMode
+local type CopyTo                       = function(params: _tmp.ClipboardCopyDestination): _CopyTo
+local type CopyTextTo                   = function(params: _tmp.CopyTextToParams): _CopyTextTo
+local type DetachDomain                 = function(params: _tmp.SpawnTabDomain): _DetachDomain
+local type EmitEvent                    = function(event_id: string): _EmitEvent
+local type ExtendSelectionToMouseCursor = function(params: _tmp.SelectionMode): _ExtendSelectionToMouseCursor
+local type InputSelector                = function(params: InputSelectorParams): _InputSelector
+local type MoveTab                      = function(index: integer): _MoveTab
+local type MoveTabRelative              = function(index: integer): _MoveTabRelative
+local type Multiple                     = _Multiple|function(events: {Action}): _Multiple
+local type OpenUri                      = function(uri: string): _OpenUri
+local type PaneSelect                   = _PaneSelect|function(params: _tmp.PaneSelectParams): _PaneSelect
+local type PasteFrom                    = function(source: _tmp.ClipboardPasteDestination): _PasteFrom
+local type PromptInputLine              = function(params: _tmp.PromptInputLineParams): _PromptInputLine
+local type QuickSelectArgs              = _QuickSelectArgs|function(params: _tmp.QuickSelectArgsParams): _QuickSelectArgs
+local type RotatePanes                  = function(params: _tmp.RotationDirection): _RotatePanes
+local type ScrollByLine                 = function(amount: integer): _ScrollByLine
+local type ScrollByPage                 = function(amount: number): _ScrollByPage
+local type ScrollToPrompt               = function(amount: integer): _ScrollToPrompt
+local type Search                       = function(params: _CurrentSelectionOrEmptyString|_tmp.SearchParams): _Search
+local type SelectTextAtMouseCursor      = function(params: _tmp.SelectionMode): _SelectTextAtMouseCursor
+local type SendKey                      = function(params: _tmp.SendKeyParams): _SendKey
+local type SendString                   = function(params: string): _SendString
+local type SetPaneZoomState             = function(state: boolean): _SetPaneZoomState
+local type SetWindowLevel               = function(level: _tmp.SetWindowLevelParams): _SetWindowLevel
+local type ShowLauncherArgs             = function(params: _tmp.ShowLauncherArgsParams): _ShowLauncherArgs
+local type SpawnCommandInNewTab         = _SpawnCommandInNewTab|function(params: _tmp.SpawnCommand): _SpawnCommandInNewTab
+local type SpawnCommandInNewWindow      = _SpawnCommandInNewWindow|function(params: _tmp.SpawnCommand): _SpawnCommandInNewWindow
+local type SpawnTabAction               = function(params: _tmp.SpawnTabDomain): _SpawnTab
+local type SplitHorizontal              = _SplitHorizontal|function(params: _tmp.SpawnCommand): _SplitHorizontal
+local type SplitPane                    = function(params: _tmp.SplitPaneParams): _SplitPane
+local type SplitVertical                = _SwitchToWorkspace|function(params: _tmp.SpawnCommand): _SwitchToWorkspace
+local type SwitchToWorkspace            = _SwitchToWorkspace|function(params: _tmp.SwitchToWorkspaceParams): _SwitchToWorkspace
+local type SwitchWorkspaceRelative      = function(params: integer): _SwitchWorkspaceRelative
 
 return _Shared

@@ -2,6 +2,8 @@
 -- global type Wezterm.URL = Wezterm.Url
 -- global type WezTerm.URL = Wezterm.Url
 
+local _tmp = require("_tmp")
+
 ---The `Url` object represents a parsed URL.
 ---An example:
 ---```lua

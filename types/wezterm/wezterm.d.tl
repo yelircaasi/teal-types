@@ -7,7 +7,7 @@ global record wezterm
    events: _tmp.Events
    harfbuzz: _tmp.Harfbuzz
 
-   -- local type WezTerm.Color Wezterm.Color
+   -- local type WezTerm = Wezterm.Color --WezTerm.Color
    ---The `wezterm.color` module exposes functions that work with colors.
    color: _tmp.Color
    gui: _tmp.Gui

@@ -1,5 +1,5 @@
 ---See the [Harfbuzz Features](https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist).
-local enum HarfbuzzFeatures =
+local enum HarfbuzzFeatures
 	"aalt"
 	"abvf"
 	"abvm"

@@ -1,4 +1,5 @@
-local type WezTerm.Mux Wezterm.Mux
+-- local type WezTerm = Wezterm.Mux --WezTerm.Mux
+local _tmp = require("_tmp")
 
 ---The `wezterm.mux` module exposes functions that operate on the multiplexer layer.
 ---The multiplexer manages the set of running programs into panes, tabs, windows and workspaces.
@@ -17,119 +18,113 @@ local type WezTerm.Mux Wezterm.Mux
 ---in various contexts.
 ---If you want to spawn new programs when WezTerm starts up, look at the [`gui-startup`](https://wezterm.org/config/lua/gui-events/gui-startup.html)
 ---and [`mux-startup`](https://wezterm.org/config/lua/mux-events/mux-startup.html) events.
-local record Wezterm.Mux
-local M = {}
+local record Mux --Wezterm.Mux
 
----Returns an array table holding all of the known`MuxDomain` objects.
----See:
---- - [`MuxDomain`](lua://MuxDomain)
-all_domains: function(): {MuxDomain}
+    ---Returns an array table holding all of the known`MuxDomain` objects.
+    ---See:
+    --- - [`MuxDomain`](lua://MuxDomain)
+    all_domains: function(): {_tmp.MuxDomain}
 
----Returns an array table holding all of the known `MuxWindow` objects.
----See:
---- - [`MuxWindow`](lua://MuxWindow)
-all_windows: function(): {MuxWindow}
+    ---Returns an array table holding all of the known `MuxWindow` objects.
+    ---See:
+    --- - [`MuxWindow`](lua://MuxWindow)
+    all_windows: function(): {_tmp.MuxWindow}
 
----Returns the name of the active workspace.
-get_active_workspace: function(): string
+    ---Returns the name of the active workspace.
+    get_active_workspace: function(): string
 
----Resolves `name_or_id` to a domain and returns a `MuxDomain` object representation of it.
----`name_or_id` can be:
---- - A domain name string to resolve the domain by name
---- - A domain id to resolve the domain by id
---- - `nil` or omitted to return the current default domain
----> Other lua types will generate a lua error
----If the name or id don't map to a valid domain, this function will return `nil`.
----See:
---- - [`MuxDomain`](lua://MuxDomain)
-get_domain: function(): MuxDomain|nil|?
+    ---Resolves `name_or_id` to a domain and returns a `MuxDomain` object representation of it.
+    ---`name_or_id` can be:
+    --- - A domain name string to resolve the domain by name
+    --- - A domain id to resolve the domain by id
+    --- - `nil` or omitted to return the current default domain
+    ---> Other lua types will generate a lua error
+    ---If the name or id don't map to a valid domain, this function will return `nil`.
+    ---See:
+    --- - [`MuxDomain`](lua://MuxDomain)
+    get_domain: function(): _tmp.MuxDomain|nil
 
----Resolves `name_or_id` to a domain and returns a `MuxDomain` object representation of it.
----`name_or_id` can be:
---- - A domain name string to resolve the domain by name
---- - A domain id to resolve the domain by id
---- - `nil` or omitted to return the current default domain
----> Other Lua types will generate a Lua error
----If the name or id don't map to a valid domain, this function will return `nil`.
----See:
---- - [`MuxDomain`](lua://MuxDomain)
----@param name_or_id? string|integer
-get_domain: function(name_or_id): MuxDomain|nil|? | nil
+    ---Resolves `name_or_id` to a domain and returns a `MuxDomain` object representation of it.
+    ---`name_or_id` can be:
+    --- - A domain name string to resolve the domain by name
+    --- - A domain id to resolve the domain by id
+    --- - `nil` or omitted to return the current default domain
+    ---> Other Lua types will generate a Lua error
+    ---If the name or id don't map to a valid domain, this function will return `nil`.
+    ---See:
+    --- - [`MuxDomain`](lua://MuxDomain)
+    ---@param name_or_id? string|integer
+    get_domain: function(name_or_id: string|integer|nil): _tmp.MuxDomain|nil
 
----Given a pane ID, verifies that it is a valid pane known to the mux and returns a `Pane` object
----that can be used to operate on the pane.
----This is useful for situations where you have obtained a pane id from some other source and
----want to use the various `Pane` methods with it.
----See:
---- - [`Pane`](lua://Pane)
-get_pane: function(pane_id: integer): Pane
+    ---Given a pane ID, verifies that it is a valid pane known to the mux and returns a `Pane` object
+    ---that can be used to operate on the pane.
+    ---This is useful for situations where you have obtained a pane id from some other source and
+    ---want to use the various `Pane` methods with it.
+    ---See:
+    --- - [`Pane`](lua://Pane)
+    get_pane: function(pane_id: integer): _tmp.Pane
 
----Given a tab ID, verifies that it is a valid tab known to the mux and returns a `MuxTab` object
----that can be used to operate on the tab.
----This is useful for situations where you have obtained a tab ID from some other source and want to
----use the various `MuxTab` methods with it.
----See:
---- - [`MuxTab`](lua://MuxTab)
-get_tab: function(tab_id: integer): MuxTab
+    ---Given a tab ID, verifies that it is a valid tab known to the mux and returns a `MuxTab` object
+    ---that can be used to operate on the tab.
+    ---This is useful for situations where you have obtained a tab ID from some other source and want to
+    ---use the various `MuxTab` methods with it.
+    ---See:
+    --- - [`MuxTab`](lua://MuxTab)
+    get_tab: function(tab_id: integer): _tmp.MuxTab
 
----Given a window ID, verifies that it is a valid window known to the mux and returns a
----`MuxWindow` object that can be used to operate on the window.
----This is useful for situations where you have obtained a window ID from some other source and
----want to use the various `MuxWindow` methods with it.
----See:
---- - [`MuxWindow`](lua://MuxWindow)
-get_window: function(id: integer): MuxWindow
+    ---Given a window ID, verifies that it is a valid window known to the mux and returns a
+    ---`MuxWindow` object that can be used to operate on the window.
+    ---This is useful for situations where you have obtained a window ID from some other source and
+    ---want to use the various `MuxWindow` methods with it.
+    ---See:
+    --- - [`MuxWindow`](lua://MuxWindow)
+    get_window: function(id: integer): _tmp.MuxWindow
 
----Returns a table containing the names of the workspaces known to the mux.
-get_workspace_names: function(): {string}
+    ---Returns a table containing the names of the workspaces known to the mux.
+    get_workspace_names: function(): {string}
 
----Renames the workspace `old` to `new`.
----```lua
----local wezterm = require("wezterm")
----local active = wezterm.mux.get_active_workspace()
----wezterm.mux.rename_workspace(active,'something different')
----```
-rename_workspace: function(old: string, new: string): nil
+    ---Renames the workspace `old` to `new`.
+    ---```lua
+    ---local wezterm = require("wezterm")
+    ---local active = wezterm.mux.get_active_workspace()
+    ---wezterm.mux.rename_workspace(active,'something different')
+    ---```
+    rename_workspace: function(old: string, new: string): nil
 
----Sets the active workspace name.
----If the requested name doesn't correspond to an existing workspace, then an error is raised.
-set_active_workspace: function(workspace: string): nil
+    ---Sets the active workspace name.
+    ---If the requested name doesn't correspond to an existing workspace, then an error is raised.
+    set_active_workspace: function(workspace: string): nil
 
----Assign a new default domain in the mux.
----The domain that you assign here will override any configured value of `config.default_domain` or
----the implicit assignment of the default domain that may have happened as a result of
----starting WezTerm via `wezterm connect` or `wezterm serial`.
----See:
---- - [`config.default_domain`](lua://Config.default_domain)
-set_default_domain: function(domain: MuxDomain): nil
+    ---Assign a new default domain in the mux.
+    ---The domain that you assign here will override any configured value of `config.default_domain` or
+    ---the implicit assignment of the default domain that may have happened as a result of
+    ---starting WezTerm via `wezterm connect` or `wezterm serial`.
+    ---See:
+    --- - [`config.default_domain`](lua://Config.default_domain)
+    set_default_domain: function(domain: _tmp.MuxDomain): nil
 
----Spawns a program into a new window, returning the associated objects:
----1. [`MuxTab`](lua://MuxTab)
----2. [`Pane`](lua://Pane)
----3. [`MuxWindow`](lua://MuxWindow)
----```lua
----local tab, pane, window = wezterm.mux.spawn_window {}
----```
----When no arguments are passed, the default program is spawned.
----For the parameter fields, see:
---- - [`SpawnCommand`](lua://SpawnCommand)
----@return MuxTab tab
----@return Pane pane
-spawn_window: function(): MuxWindow
+    ---Spawns a program into a new window, returning the associated objects:
+    ---1. [`MuxTab`](lua://MuxTab)
+    ---2. [`Pane`](lua://Pane)
+    ---3. [`MuxWindow`](lua://MuxWindow)
+    ---```lua
+    ---local tab, pane, window = wezterm.mux.spawn_window {}
+    ---```
+    ---When no arguments are passed, the default program is spawned.
+    ---For the parameter fields, see:
+    --- - [`SpawnCommand`](lua://SpawnCommand)
 
----Spawns a program into a new window, returning the associated objects:
----1. [`MuxTab`](lua://MuxTab)
----2. [`Pane`](lua://Pane)
----3. [`MuxWindow`](lua://MuxWindow)
----```lua
----local tab, pane, window = wezterm.mux.spawn_window {}
----```
----When no arguments are passed, the default program is spawned.
----For the parameter fields, see:
---- - [`SpawnCommand`](lua://SpawnCommand)
----@param T? SpawnCommand
----@return MuxTab tab
----@return Pane pane
-spawn_window: function(T): MuxWindow
+    ---Spawns a program into a new window, returning the associated objects:
+    ---1. [`MuxTab`](lua://MuxTab)
+    ---2. [`Pane`](lua://Pane)
+    ---3. [`MuxWindow`](lua://MuxWindow)
+    ---```lua
+    ---local tab, pane, window = wezterm.mux.spawn_window {}
+    ---```
+    ---When no arguments are passed, the default program is spawned.
+    ---For the parameter fields, see:
+    --- - [`SpawnCommand`](lua://SpawnCommand)
+    spawn_window: function(T: _tmp.SpawnCommand|nil): {_tmp.MuxTab, _tmp.Pane, _tmp.MuxWindow}
+end
 
--- vim: set ts=2 sts=2 sw=2 et ai si sta:
+    -- vim: set ts=2 sts=2 sw=2 et ai si sta:

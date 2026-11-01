@@ -16,7 +16,7 @@ end
 local record SpawnTab
 	---Specifies the argument array for the command that should be spawned.
 	---If omitted the default program for the domain will be spawned.
-	args: string | {nil}
+	args: {string} | nil
 	---Specifies the current working directory that should be used for the program.
 	---If unspecified, it'll follow the spec from `config.default_cwd`.
 	---See:

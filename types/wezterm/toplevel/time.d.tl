@@ -1,4 +1,4 @@
--- local type WezTerm.Time Wezterm.Time
+-- local type WezTerm = Wezterm.Time --WezTerm.Time
 -- TODO
 
 ---The `wezterm.time` module exposes functions that

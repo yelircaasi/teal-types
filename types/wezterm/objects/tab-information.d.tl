@@ -1,3 +1,5 @@
+local _tmp = require("_tmp")
+
 ---The `TabInformation` struct describes a tab.
 ---`TabInformation` is purely a snapshot of some of the key characteristics of the tab, intended
 ---for use in synchronous, fast event callbacks that format GUI elements such as the window and tab
@@ -6,11 +8,11 @@ local record TabInformation
 	---The `PaneInformation` object for the active pane in this tab.
 	---See
 	--- - [`PaneInformation`](lua://PaneInformation)
-	active_pane: PaneInformation
+	active_pane: _tmp.PaneInformation
 	---The `PaneInformation` array for all panes in the tab.
 	---See:
 	--- - [`PaneInformation`](lua://PaneInformation)
-	panes: {PaneInformation}
+	panes: {_tmp.PaneInformation}
 	---Is `true` if this tab is the active tab.
 	is_active: boolean
 	---Is `true` if this tab is the previously active tab.

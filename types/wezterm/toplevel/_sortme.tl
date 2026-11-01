@@ -395,3 +395,5 @@ end
 global record WindowDecorations
 
 end
+
+local type ([^ ]+) =\n\t("[^ \n]+)\n+([^l])

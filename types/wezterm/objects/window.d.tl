@@ -1,8 +1,11 @@
+local _tmp = require("_tmp")
+
 local record WindowDimensions
 	pixel_width: number
 	pixel_height: number
 	dpi: number
 	is_full_screen: boolean
+end
 
 ---A `Window` object cannot be created in Lua code; it is typically passed to the user code via
 ---an event callback. It is a handle to a GUI `TermWindow` running in the wezterm process.
@@ -15,10 +18,10 @@ local record Window
 	---See:
 	--- - [`MuxWindow:active_pane()`](lua://MuxWindow.active_pane)
 	--- - [`Pane`](lua://Pane)
-	active_pane: function(self: Window): Pane
+	active_pane: function(self: Window): _tmp.Pane
 
 	---A convenience accessor for returning the active `tab` within the window.
-	active_tab: function(self: Window): MuxTab
+	active_tab: function(self: Window): _tmp.MuxTab
 
 	---Returns the name of the active workspace.
 	active_workspace: function(self: Window): string
@@ -26,18 +29,21 @@ local record Window
 	---Returns either a string holding the current dead key or IME composition text, or `nil`
 	---if the input layer is not in a composition state.
 	---This is the same text that is shown at the cursor position when composing.
-	composition_status: function(self: Window): string|nil|?
+	composition_status: function(self: Window): string|nil
 
 	---Puts text into the specified clipboard.
 	copy_to_clipboard: function(self: Window, text: string): nil
 
-	---@param text string
-	---@param target? "Clipboard"|"PrimarySelection"|"ClipboardAndPrimarySelection"
-	copy_to_clipboard: function(self: Window, text, target) end
+	enum _Target
+		"Clipboard"
+		"PrimarySelection"
+		"ClipboardAndPrimarySelection"
+	end
+	copy_to_clipboard: function(self: Window, text: string, target: _Target|nil): nil
 
 	---Returns the current event.
 	---For now this is only implemented for mouse events.
-	current_event: function(self: Window): WindowEvent
+	current_event: function(self: Window): _tmp.WindowEvent
 
 	---Returns a Lua table representing the effective configuration for the `Window`.
 	---The table is in the same format as that used to specify the config in the `wezterm.lua` file,
@@ -45,18 +51,24 @@ local record Window
 	---configuration overrides.
 	---Note that changing the config table will NOT change the effective window config; it's just a copy
 	---of that information.
-	effective_config: function(self: Window): Config
+	effective_config: function(self: Window): _tmp.Config
 
 	---Attempts to focus and activate the window.
 	focus: function(self: Window): nil
 
+	enum _Appearance
+		"Light"
+		"Dark"
+		"LightHighContrast"
+		"DarkHighContrast"
+	end
 	---Returns the appearance of the window environment.
-	get_appearance: function(self: Window): "Light"|"Dark"|"LightHighContrast"|"DarkHighContrast"
+	get_appearance: function(self: Window): _Appearance
 
 	---Returns a copy of the current set of configuration overrides that is in effect for the window.
 	---For examples, see:
 	--- - [`set_config_overrides`](lua://Window.set_config_overrides)
-	get_config_overrides: function(self: Window): Config
+	get_config_overrides: function(self: Window): _tmp.Config
 
 	---Returns a Lua table representing the dimensions for the `Window`.
 	get_dimensions: function(self: Window): WindowDimensions
@@ -74,7 +86,7 @@ local record Window
 	---specified window.
 	---This is the same text that would be copied to the clipboard if the `CopyTo` action were
 	---to be performed.
-	get_selection_text_for_pane: function(self: Window, pane: Pane The `Pane` object.): string
+	get_selection_text_for_pane: function(self: Window, pane: _tmp.Pane): string
 
 	---Returns `true` if the window has focus.
 	---The `"update-status"` event is fired when the focus state changes.
@@ -82,8 +94,12 @@ local record Window
 
 	---Returns two values; the keyboard `modifiers` and the key status `leds`.
 	---Note that macOS doesn't have a num lock concept.
-	---@return string mods
-	keyboard_modifiers: function(self: Window): "CAPS_LOCK"|"NUM_LOCK"|"CAPS_LOCK|NUM_LOCK"
+	enum _LEDs
+		"CAPS_LOCK"
+		"NUM_LOCK"
+		"CAPS_LOCK|NUM_LOCK"
+	end
+	keyboard_modifiers: function(self: Window): {string, _LEDs}
 
 	---Returns `true` if the Leader Key is active in the window, or `false` otherwise.
 	leader_is_active: function(self: Window): boolean
@@ -97,12 +113,12 @@ local record Window
 	---Returns the `MuxWindow` representation of this window.
 	---For more information, see:
 	--- - [`MuxWindow`](lua://MuxWindow)
-	mux_window: function(self: Window): MuxWindow
+	mux_window: function(self: Window): _tmp.MuxWindow
 
 	---Performs a key assignment against the window and pane.
 	---There are a number of actions that can be performed against a pane in a window when configured
 	---via the keys and mouse configuration options.
-	perform_action: function(self: Window, key_assignment: Action, pane: Pane The `Pane` object.): nil
+	perform_action: function(self: Window, key_assignment: _tmp.Action, pane: _tmp.Pane): nil
 
 	---Restores the window from the maximized state.
 	---For more information, see:
@@ -119,7 +135,7 @@ local record Window
 	---If you are calling this method from inside the handler for `"window-config-reloaded"` you should
 	---take care to only call `window:set_config_overrides()` if the actual override values have changed
 	---to avoid a loop.
-	set_config_overrides: function(self: Window, overrides: Config): nil
+	set_config_overrides: function(self: Window, overrides: _tmp.Config): nil
 
 	---Resizes the inner portion of the window (excluding any window decorations) to the specified width
 	---and height.
@@ -159,18 +175,9 @@ local record Window
 	---X11/Wayland environments, and Windows will always use a fixed, unspecified, duration.
 	---The notification will persist on screen until dismissed or clicked, or until its timeout duration
 	---elapses.
-	toast_notification: function(self: Window, title: string, message: string): nil
-
-	---@param title string
-	---@param message string
-	---@param url? string
-	toast_notification: function(self: Window, title, message, url) end
-
-	---@param title string
-	---@param message string
-	---@param url? string
-	---@param timeout? integer
-	toast_notification: function(self: Window, title, message, url, timeout) end
+	-- toast_notification: function(self: Window, title: string, message: string): nil
+	-- toast_notification: function(self: Window, title: string, message: string, url: string|nil): nil
+	toast_notification: function(self: Window, title: string, message: string, url: string|nil, timeout: integer|nil): nil
 
 	---Toggles full screen mode for the window.
 	toggle_fullscreen: function(self: Window): nil
@@ -183,6 +190,6 @@ local record Window
 	---Returns a string holding the top of the current key table activation stack, or `nil`
 	---if the stack is empty.
 	---See [Key Tables](https://wezterm.org/config/key-tables.html) for a detailed example.
-	active_key_table: function(self: Window): string|nil|?
+	active_key_table: function(self: Window): string|nil
 end
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

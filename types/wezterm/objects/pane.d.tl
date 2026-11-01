@@ -1,8 +1,20 @@
-local type SemanticZoneType =
-	"Input"|"Output"|"Prompt"
+local _tmp = require("_tmp")
 
-local record SpawnSplit: SpawnTab
-	direction: "Right"|"Left"|"Top"|"Bottom" | nil
+local enum SemanticZoneType
+	"Input"
+	"Output"
+	"Prompt"
+end
+
+local enum _Direction
+	"Right"
+	"Left"
+	"Top"
+	"Bottom"
+end
+
+local record SpawnSplit --: SpawnTab
+	direction: _Direction | nil
 	top_level: boolean | nil
 	size: number | nil
 end
@@ -21,6 +33,7 @@ local record PaneMetadata
 	---It is set to the number of elapsed milliseconds since the most recent response from
 	---the multiplexer server.
 	since_last_response_ms: integer
+end
 
 ---Mirrors `RenderableDimensions` in wezterm upstream:
 ---https://github.com/wezterm/wezterm/blob/main/mux/src/renderable.rs
@@ -52,6 +65,7 @@ local record SemanticZone
 	end_x: integer
 	end_y: integer
 	semantic_type: SemanticZoneType
+end
 
 ---A handle to a live instance of a Pane that is known to the wezterm process.
 ---It tracks the pseudo terminal (or real serial terminal) and associated process(es) and
@@ -82,19 +96,19 @@ local record Pane
 	---Note that while the current working directory is usually a file path, it is possible for
 	---an application to set it to an FTP URL or some other kind of URL, which is why this method
 	---doesn't simply return a file path string
-	get_current_working_dir: function(self: Pane): Url|nil|?
+	get_current_working_dir: function(self: Pane): _tmp.Url|nil
 
 	---Returns a Lua representation of the `StableCursorPosition` struct that identifies
 	---the cursor's position, visibility and shape.
 	---See:
 	--- - [`StableCursorPosition`](lua://StableCursorPosition)
-	get_cursor_position: function(self: Pane): StableCursorPosition
+	get_cursor_position: function(self: Pane): _tmp.StableCursorPosition
 
 	---Returns a Lua representation of the `RenderableDimensions` struct that identifies the dimensions
 	---and position of the viewport, as well as the scrollback for the pane.
 	---See:
 	--- - [`RenderableDimensions`](lua://RenderableDimensions)
-	get_dimensions: function(self: Pane): RenderableDimensions
+	get_dimensions: function(self: Pane): _tmp.RenderableDimensions
 
 	---Returns the name of the domain with which the pane instance is associated to.
 	get_domain_name: function(self: Pane): string
@@ -117,7 +131,7 @@ local record Pane
 	---If the process cannot be determined then this method returns `nil`.
 	---See:
 	--- - [`LocalProcessInfo`](lua://LocalProcessInfo)
-	get_foreground_process_info: function(self: Pane): LocalProcessInfo|nil|?
+	get_foreground_process_info: function(self: Pane): _tmp.LocalProcessInfo|nil
 
 	---Returns the path to the executable image for the pane.
 	---This method has some restrictions and caveats:
@@ -134,7 +148,7 @@ local record Pane
 	--- - Querying process information has some runtime overhead, which may cause WezTerm to slow down
 	---   if over-used
 	---If the path is not known then this method returns `nil`.
-	get_foreground_process_name: function(self: Pane): string|nil|?
+	get_foreground_process_name: function(self: Pane): string|nil
 
 	---Returns the textual representation (including color and other attributes) of the physical lines
 	---of text in the viewport as a string with embedded ANSI escape sequences to preserve the color
@@ -189,8 +203,7 @@ local record Pane
 	---returned string separated by a `\n` character. Trailing blank lines are stripped, which may
 	---result in fewer lines being returned than you might expect if the pane only had a couple of lines
 	---of output.
-	---@param nlines? integer
-	get_lines_as_text: function(self: Pane, nlines): string
+	get_lines_as_text: function(self: Pane, nlines: integer|nil): string
 
 	---Returns the textual representation (not including color or other attributes) of the logical lines
 	---of text in the viewport as a string.
@@ -234,8 +247,7 @@ local record Pane
 	---```lua
 	---pane:get_logical_lines_as_text(pane:get_dimensions().scrollback_rows)
 	---```
-	---@param nlines? integer
-	get_logical_lines_as_text: function(self: Pane, nlines): string
+	get_logical_lines_as_text: function(self: Pane, nlines: integer|nil): string
 
 	---Returns metadata about a pane.
 	---The return value depends on the instance of the underlying pane. If the pane doesn't support
@@ -249,14 +261,14 @@ local record Pane
 	---```
 	---See:
 	--- - [`PaneMetadata`](lua://PaneMetadata)
-	get_metadata: function(self: Pane): PaneMetadata|nil|?
+	get_metadata: function(self: Pane): PaneMetadata|nil
 
 	---Returns the progress state associated with the pane.
 	---By default, when the terminal is reset, the progress state will be `"None"` to indicate that
 	---no progress has been reported.
 	---Mirrors the `get_progress` Lua binding in wezterm upstream:
 	---https://github.com/wezterm/wezterm/blob/main/lua-api-crates/mux/src/pane.rs
-	get_progress: function(self: Pane): PaneProgress
+	get_progress: function(self: Pane): _tmp.PaneProgress
 
 	---Resolves the semantic zone that encapsulates the supplied `x` and `y` coordinates.
 	--- - `x` is the cell column index, where `0` is the left-most column
@@ -282,9 +294,7 @@ local record Pane
 	---of scrollback and top of viewport
 	---The text within the region is unwrapped to its logical line representation, rather than the
 	---_wrapped-to-physical-display-width_.
-	---@param start_x integer
-	---@param start_y integer
-	get_text_from_region: function(self: Pane, end_x: integer, start_y, end_x, end_y: integer): string
+	get_text_from_region: function(self: Pane, end_x: integer, start_y: integer, end_x: integer, end_y: integer): string
 
 	---This is a convenience method that calls `Pane:get_text_from_region()` on the supplied
 	---zone parameter.
@@ -310,12 +320,12 @@ local record Pane
 	---   won't be able to access the name of the remote process that is running
 	--- - This information is only available on UNIX systems. Windows systems do not have
 	---   an equivalent concept
-	get_tty_name: function(self: Pane): string|nil|?
+	get_tty_name: function(self: Pane): string|nil
 
 	---Returns a table holding the user variables that have been assigned to this `Pane` instance.
 	---User variables are set using an escape sequence defined by `iterm2`, but also recognized
 	---by WezTerm.
-	get_user_vars: function(self: Pane): table<string,
+	get_user_vars: function(self: Pane): {string: string}
 
 	---Returns `true` if there has been output in the pane
 	---since the last time the pane was focused.
@@ -344,7 +354,7 @@ local record Pane
 	--- 1. [`MuxTab`](lua://MuxTab)
 	--- 2. [`MuxWindow`](MuxWindow)
 	---@return MuxTab tab
-	move_to_new_tab: function(self: Pane): MuxWindow
+	move_to_new_tab: function(self: Pane): _tmp.MuxWindow
 
 	---Creates a window and moves pane into that window.
 	---The `workspace` parameter is optional; if specified, it will be used as the name of the workspace
@@ -353,9 +363,7 @@ local record Pane
 	---Returns a tuple of the newly created:
 	--- 1. [`MuxTab`](lua://MuxTab)
 	--- 2. [`MuxWindow`](MuxWindow)
-	---@param workspace? string
-	---@return MuxTab tab
-	move_to_new_window: function(self: Pane, workspace): MuxWindow
+	move_to_new_window: function(self: Pane, workspace: string|nil): {string|nil, _tmp.MuxWindow}
 
 	---Returns the id number for the pane.
 	---The ID is used to identify the pane within the internal multiplexer and can be used when
@@ -382,19 +390,19 @@ local record Pane
 	---the default program spawned into it.
 	---For available args, see:
 	--- - [`SpawnSplit`](lua://SpawnSplit)
-	---@param args? SpawnSplit
-	split: function(self: Pane, args): Pane
+	split: function(self: Pane, args: SpawnSplit|nil): Pane
 
 	---Returns the `MuxTab` that contains this pane.
 	---Note that this method can return `nil` when the pane is a GUI-managed overlay pane
 	---(such as the debug overlay), because those panes are not managed by the mux layer.
 	---See:
 	--- - [`MuxTab`](lua://MuxTab)
-	tab: function(self: Pane): MuxTab|nil|?
+	tab: function(self: Pane): _tmp.MuxTab|nil
 
 	---Returns the `MuxWindow` object containing the tab this pane is in.
 	---See:
 	--- - [`MuxWindow`](lua://MuxWindow)
-	window: function(self: Pane): MuxWindow
+	window: function(self: Pane): _tmp.MuxWindow
+end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:
