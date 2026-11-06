@@ -1,30 +1,30 @@
 -- vim: ft=teal expandtab sw=3 ts=3
 
-local _tmp = require("_tmp")
-local config = require("config")
+local _enums = require("_enums")
+local _records = require("_records")
+local _aliases = require("_aliases")
+
+global type WeztermConfig = _records.Config
 
 global record Wezterm
-	config: config.WeztermConfig
-	events: _tmp.Events
-	harfbuzz: _tmp.Harfbuzz
+	config: WeztermConfig
 
 	-- local type WezTerm = Wezterm.Color --WezTerm.Color
 	---The `wezterm.color` module exposes functions that work with colors.
-	color: _tmp.Color
+	color: _records.Color
 	gui: _records.Gui
 	mux: _records.Mux
-	nerdfonts: _tmp.Nerdfonts
-	-- plugin: _tmp.WeztermPlugin
+	-- plugin: _records.WeztermPlugin
 	procinfo: _records.ProcInfo
-	serde: _tmp.Serde
+	serde: _records.Serde
 	time: _records.Time
-	url: _tmp.Url
+	url: _records.Url
 	window_decorations: _enums.WindowDecorations
 
 	-- enums:
-	action:_enums.KeyAssignment
+	action:_records.KeyAssignment
 
-	on: function(event: _tmp.WeztermEvent, callback: _tmp.EventCallback): nil
+	on: function(event: _enums.DevWeztermEvent, callback: _aliases.EventCallback): nil
 
 
 	---This function is a helper to register a custom event and return
@@ -54,7 +54,7 @@ global record Wezterm
 
 	---Returns the battery information for each of the installed batteries on the system.
 	---This is useful for example to assemble status information for the status bar.
-	battery_info: function(): {_tmp.BatteryInfo}
+	battery_info: function(): {_records.BatteryInfo}
 
 	---Given a `string` parameter, returns the number of columns that text occupies
 	---in the terminal.
@@ -65,12 +65,12 @@ global record Wezterm
 	---Returns a `Config` object that can be used to define your configuration.
 	---See:
 	--- - [`Config`](lua://Config)
-	config_builder: function(): _tmp.Config
+	config_builder: function(): _records.Config
 
 	---Returns the compiled-in default hyperlink rules as a table.
 	---For more information, see:
 	--- - [`HyperLinkRule`](lua://HyperLinkRule)
-	default_hyperlink_rules: function(): {_shared.HyperLinkRule}
+	default_hyperlink_rules: function(): {_records.HyperLinkRule}
 
 	---Computes a list of `SshDomain` objects based on the set of hosts
 	---discovered in `~/.ssh/config`.
@@ -82,7 +82,7 @@ global record Wezterm
 	---to edit/adjust the returned information before assigning it to your config.
 	---For more information, see:
 	--- - [SshDomain](lua://SshDomain)
-	default_ssh_domains: function(): {_tmp.SshDomain}
+	default_ssh_domains: function(): {_records.SshDomain}
 
 	---Computes a list of `WslDomain` objects, each one representing
 	---an installed WSL distribution on your system.
@@ -93,7 +93,7 @@ global record Wezterm
 	---See:
 	--- - [`WslDomain`](lua://WslDomain)
 	--- - [`config.wsl_domains`](lua://Config.wsl_domains)
-	default_wsl_domains: function(): {_tmp.WslDomain}
+	default_wsl_domains: function(): {_records.WslDomain}
 
 	---`wezterm.emit()` resolves the registered callback(s) for the specified event name
 	---and calls each of them in turn, passing the additional arguments through to the callback.
@@ -137,7 +137,7 @@ global record Wezterm
 	---See:
 	--- - [`TextStyleAttributes`](lua://TextStyleAttributes)
 	--- - [`TextStyle`](lua://TextStyle)
-	font: function(font: string|_shared.FontFamilyAttributes, attributes: {_shared.TextStyleAttributes}|nil): _shared.TextStyle
+	font: function(font: string|_records.FontFamilyAttributes, attributes: {_records.TextStyleAttributes}|nil): _records.TextStyle
 
 	---This function constructs a Lua table that corresponds to the internal
 	---`FontAttributes` struct that is used to select a single named font.
@@ -163,7 +163,7 @@ global record Wezterm
 	--- - [`TextStyleAttributes`](lua://TextStyleAttributes)
 	--- - [`TextStyle`](lua://TextStyle)
 	--- - [`wezterm.font()`](lua://Wezterm.font)
-	font: function(font: _shared.FontFamilyAttributes, attributes: _shared.TextStyleAttributes|nil): _shared.TextStyle
+	font: function(font: _records.FontFamilyAttributes, attributes: _records.TextStyleAttributes|nil): _records.TextStyle
 
 	---This function constructs a Lua table that configures a font with fallback processing.
 	---Glyphs are looked up in the first font in the list but if missing the next font is checked and so on.
@@ -192,12 +192,12 @@ global record Wezterm
 	--- - [`FontFamilyAttributes`](lua://FontFamilyAttributes)
 	--- - [`TextStyleAttributes`](lua://TextStyleAttributes)
 	--- - [`TextStyle`](lua://TextStyle)
-	font_with_fallback: function(fonts: {string|_shared.FontFamilyAttributes}, attributes: _shared.TextStyleAttributes|nil): _shared.TextStyle
+	font_with_fallback: function(fonts: {string|_records.FontFamilyAttributes}, attributes: _records.TextStyleAttributes|nil): _records.TextStyle
 
 	---Can be used to produce a formatted string with terminal graphic attributes
 	---such as `bold`, `italic` and `colors`.
 	---The result is a string with WezTerm-compatible escape sequences embedded.
-	format: function(...: {_tmp.FormatItem}): string
+	format: function(...: {_aliases.FormatItem}): string
 
 	---While this function is still valid, it is recommended to use instead:
 	--- - [`wezterm.color.get_builtin_schemes()`](lua://Wezterm.Color.get_builtin_schemes)
@@ -207,7 +207,7 @@ global record Wezterm
 	---This is useful for programmatically deciding things about the scheme to use based on its color,
 	---or for taking a scheme and overriding a couple of entries from your configuration file.
 	---@deprecated Use `wezterm.color.get_builtin_color_schemes()` instead
-	get_builtin_color_schemes: function(): {string:_enums.Palette}
+	get_builtin_color_schemes: function(): {string: _records.Palette}
 
 	---This function evalutes the glob pattern and returns an array containing the absolute file names
 	---of the matching results.
@@ -225,7 +225,7 @@ global record Wezterm
 	---See:
 	--- - [`Color`](lua://Color)
 	--- - [`wezterm.color.gradient`](lua://Wezterm.Color.gradient)
-	gradient_colors: function(gradient: _records.Gradient, num_colors: number): {_tmp.Color}
+	gradient_colors: function(gradient: _records.Gradient, num_colors: number): {_records.Color}
 	---@deprecated
 	has_action: function(action: string): boolean
 
@@ -320,7 +320,7 @@ global record Wezterm
 	--- - [`KeyBinding`](lua://KeyBinding)
 	--- - [`MouseBinding`](lua://MouseBinding)
 	--- - [`wezterm.permute_any_or_no_mods()`](lua://Wezterm.permute_any_or_no_mods)
-	permute_any_mods: function(T: table):_records.KeyBinding|_shared.MouseBinding -- SHOULD BE: {_shared.MouseBinding}|{_tmp.KeyBinding}
+	permute_any_mods: function(T: table):_records.KeyBinding|_records.MouseBinding -- SHOULD BE: {_records.MouseBinding}|{_records.KeyBinding}
 
 	---This function is intended to help with generating `KeyBinding` entries.
 	---These should apply regardless of the combination of modifier keys pressed.
@@ -335,7 +335,7 @@ global record Wezterm
 	--- - [`KeyBinding`](lua://KeyBinding)
 	--- - [`table.unpack()`](lua://table.unpack)
 	--- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-	permute_any_or_no_mods: function(T: table): {_tmp.KeyBinding}
+	permute_any_or_no_mods: function(T: table): {_records.KeyBinding}
 
 	---This function is intended to help with generating `MouseBinding` entries.
 	---These should apply regardless of the combination of modifier keys pressed.
@@ -350,7 +350,7 @@ global record Wezterm
 	--- - [`MouseBinding`](lua://MouseBinding)
 	--- - [`table.unpack()`](lua://table.unpack)
 	--- - [`wezterm.permute_any_mods()`](lua://Wezterm.permute_any_mods)
-	permute_any_or_no_mods: function(T: table): {_shared.MouseBinding}
+	permute_any_or_no_mods: function(T: table): {_records.MouseBinding}
 
 	---Returns an array containing the absolute file name paths of the directory `path` specified.
 	---Due to limitations in the Lua bindings, all of the paths must be able to be represented as `UTF-8`

@@ -107,7 +107,11 @@ local record _Enums
 		"TogglePaneZoomState"
 	end
 
-
+	enum _Screen
+		"ScreenCoordinateSystem"
+		"MainScreen"
+		"ActiveScreen"
+	end
 
 
 
@@ -495,6 +499,12 @@ local record _Enums
 		"UltraExpanded"
 	end
 
+	enum _PaneIdentifier
+		"DefaultDomain"
+		"local"
+		"CurrentPaneDomain"
+	end
+
 	---This is a virtual modifier used by wezterm
 	enum Modifiers
 		"ALT"
@@ -524,6 +534,19 @@ local record _Enums
 	end
 
 	enum PaletteBrights
+		"aqua"
+		"blue"
+		"fuchsia"
+		"grey"
+		"lime"
+		"red"
+		"white"
+		"yellow"
+	end
+
+
+	enum PaletteBrightsOrAuto
+		"Auto"
 		"aqua"
 		"blue"
 		"fuchsia"
