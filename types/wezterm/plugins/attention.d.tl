@@ -120,7 +120,7 @@ local record WeztermAttention
 	---are left alone — pruning them here would cause cache thrash when multiple windows fire
 	---`update-status` (each window would wipe the other's entries every tick, producing visible
 	---tab-indicator blinking). Stale entries are cleaned up by the pane-destroyed handler.
-	poll: function(window: _tmp.Window, opts: WeztermAttentionOpts|nil): nil
+	poll: function(window:_records.Window, opts: WeztermAttentionOpts|nil): nil
 
 	type _TitleFormatter = function(
 		tab: _tmp.TabInformation,

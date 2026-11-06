@@ -51,7 +51,7 @@ local record Pivot
 	type _Table = {string: any} --TODO: should be: _tmp.Pane|_tmp.MuxTab
 	toggle_orientation: function(tab_or_pane: _Table|nil): boolean ---Directly toggle pane orientation.
 
-	toggle_orientation_callback: function(window: _tmp.Window, pane: _tmp.Pane): boolean   ---Callback function for keybindings.
+	toggle_orientation_callback: function(window:_records.Window, pane: _tmp.Pane): boolean   ---Callback function for keybindings.
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

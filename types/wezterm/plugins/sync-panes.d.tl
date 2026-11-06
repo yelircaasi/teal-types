@@ -21,7 +21,7 @@ local record SyncPanes
 
 	apply_to_config: function(config: _tmp.Config, opts: SyncPanesOpts|nil): _tmp.Config
 
-	is_synced: function(window: _tmp.Window): boolean
+	is_synced: function(window:_records.Window): boolean
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

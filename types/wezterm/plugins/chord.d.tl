@@ -15,7 +15,7 @@ local record ModeActivateOptions
 end
 
 local record ConflictEntry
-	action: _tmp.Action
+	action: _records.Action
 	desc:   string | nil
 	index:  integer
 end
@@ -35,7 +35,7 @@ end
 
 local record KeyEntry where self._tl_type == "KeyEntry"  --KeyEntry: Key
 	_tl_type: string
-	action: _tmp.Action       ---WezTerm action assigned to the key.
+	action: _records.Action       ---WezTerm action assigned to the key.
 	desc: string | nil   ---Optional command-palette or hint-bar description.
 end
 
@@ -48,10 +48,10 @@ local record VimMapping where self._tl_type == "VimMapping"
 	---Optional description.
 	---@field [3]? string
 	---WezTerm action.
-	action: _tmp.Action | nil
+	action: _records.Action | nil
 	desc:   string | nil   ---Optional description.
 	lhs:    string | nil    ---Vim-style left-hand side.
-	rhs:    _tmp.Action | nil    ---WezTerm action.
+	rhs:    _records.Action | nil    ---WezTerm action.
 end
 
 local record OverrideSpec
@@ -120,7 +120,7 @@ local record ChordConfig --ChordConfig
 end
 
 local record Command --Chord.Command
-	action:     _tmp.Action                ---WezTerm action executed when the command is selected.
+	action:     _records.Action                ---WezTerm action executed when the command is selected.
 	binding_id: string | nil          ---Normalized binding identity used for deduplication.
 	id:         string                ---Stable command identifier.
 	label:      string                ---User-facing command label.
@@ -137,14 +137,14 @@ local record CommandSpec --Chord.CommandSpec
 	---Optional command label.
 	---@field [3]? string
 	---WezTerm action.
-	action: _tmp.Action | nil
+	action: _records.Action | nil
 	desc:  string  | nil   ---User-facing command label.
 	id:    string  | nil   ---Stable command identifier.
 	key:   string  | nil   ---Native WezTerm key name.
 	label: string  | nil   ---User-facing command label.
 	lhs:   string  | nil   ---Vim-style left-hand side.
 	mods:  string  | nil   ---Native WezTerm modifier string.
-	rhs:   _tmp.Action  | nil   ---WezTerm action.
+	rhs:   _records.Action  | nil   ---WezTerm action.
 end
 
 local type _Def = KeyTableDef | function(theme: table): KeyTableDef
@@ -160,12 +160,12 @@ end
 local record CommandApi --Chord.CommandApi
 
 	---Return a WezTerm action that opens the command picker.
-	action: function(config_table: _tmp.Config, opts: CommandConfig|nil): _tmp.Action
+	action: function(config_table: _tmp.Config, opts: CommandConfig|nil): _records.Action
 
 	---Inject a trigger binding that opens the command picker.
 	---@param config_table  WezTerm config table.
 	---@param opts?CommandConfig Command options merged over `Chord.CommandConfig`.
-	apply: function(config_table: _tmp.Config, opts: CommandConfig|nil): _tmp.Action
+	apply: function(config_table: _tmp.Config, opts: CommandConfig|nil): _records.Action
 
 	---Clear commands registered through `chord.command.register()`.
 	---See:
@@ -199,10 +199,10 @@ local record Chord
 	get_modes: function(theme: table): {string}
 
 	---Render a plain-text key-hint bar for the active key table.
-	hint: function(config: _tmp.Config, name: string|nil, width_cols: integer, window: _tmp.Window): string
+	hint: function(config: _tmp.Config, name: string|nil, width_cols: integer, window:_records.Window): string
 
 	---Return an action callback that changes the visible hint page.
-	hint_action: function(name: string, direction: integer): _tmp.Action
+	hint_action: function(name: string, direction: integer): _records.Action
 
 	record _Opts
 		theme: table
@@ -212,13 +212,13 @@ local record Chord
 	---@param config_table Config WezTerm config table.
 	---@param name? string Key-table name. `nil` uses top-level keys.
 	---@param width_cols integer Available terminal columns.
-	hint_layout: function(config_table: _tmp.Config, name: string|nil, width_cols: integer,  window: _tmp.Window, opts: _Opts): _tmp.Ribbon
+	hint_layout: function(config_table: _tmp.Config, name: string|nil, width_cols: integer,  window:_records.Window, opts: _Opts): _tmp.Ribbon
 
 	---Create a WezTerm key entry from either native syntax or Vim-style syntax.
-	key: function(lhs_or_spec: string|VimMapping|KeyEntry, action: _tmp.Action|nil, desc: string|nil): KeyEntry|nil
+	key: function(lhs_or_spec: string|VimMapping|KeyEntry, action: _records.Action|nil, desc: string|nil): KeyEntry|nil
 
 	---Append a single key mapping to a target table.
-	map: function(lhs_or_spec: string|VimMapping|KeyEntry, action: _tmp.Action, target: table): nil
+	map: function(lhs_or_spec: string|VimMapping|KeyEntry, action: _records.Action, target: table): nil
 
 	---Append a batch of key mappings to a target table.
 	map_batch: function(mappings: {VimMapping|KeyEntry}, target: table): nil

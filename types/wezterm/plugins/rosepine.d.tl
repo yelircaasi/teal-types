@@ -6,9 +6,9 @@ local record RosePineWindowFrame
 end
 
 local record RosePinePalette
-	ansi: {integer: _tmp.PaletteAnsi}
+	ansi: {integer: _enums.PaletteAnsi}
 	background: string
-	brights: {string: _tmp.PaletteBrights}
+	brights: {string: _enums.PaletteBrights}
 	cursor_bg: string
 	cursor_border: string
 	cursor_fg: string
@@ -19,7 +19,7 @@ local record RosePinePalette
 end
 
 local record Variant
-	colors:       function(): _tmp.Palette
+	colors:       function():_enums.Palette
 	window_frame: function(): RosePineWindowFrame
 end
 

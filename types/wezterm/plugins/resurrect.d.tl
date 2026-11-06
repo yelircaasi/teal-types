@@ -100,7 +100,7 @@ local record FuzzyLoader
 
 	---A fuzzy finder to restore saved state.
 	type _Callback = function(id: string, label: string, save_state_dir: string): nil --?
-	fuzzy_load: function(window: _tmp.Window, pane: _tmp.Pane, callback: _Callback, opts: FuzzyLoadOpts|nil): nil
+	fuzzy_load: function(window:_records.Window, pane: _tmp.Pane, callback: _Callback, opts: FuzzyLoadOpts|nil): nil
 end
 
 local record PeriodicSaveOpts

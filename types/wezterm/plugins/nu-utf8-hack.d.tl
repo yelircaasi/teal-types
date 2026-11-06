@@ -2,7 +2,7 @@ local _tmp = require("_tmp")
 
 local record NuUtf8HackOpts
 	char_table: string | nil
-	key_tables: {string: _tmp.SendKeyParams} | nil
+	key_tables: {string:_records.SendKeyParams} | nil
 end
 
 local record NuUtf8Hack

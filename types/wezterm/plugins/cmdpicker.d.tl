@@ -3,7 +3,7 @@ local _tmp = require("_tmp")
 local record CmdPickerBinding --: Key
 	key: string
 	mods: string
-	action: _tmp.Action
+	action: _records.Action
 	desc: string | nil
 end
 

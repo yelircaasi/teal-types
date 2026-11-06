@@ -1,6 +1,6 @@
 local _tmp = require("_tmp")
 
-local type WindowOrTabInformation = {string: any} --TODO: should be: _tmp.Window|TabInformation
+local type WindowOrTabInformation = {string: any} --TODO: should be:_records.Window|TabInformation
 
 local enum HourStrings
 	"00"
@@ -87,7 +87,7 @@ local type _ComplexTable = { integer|string: string|table|nil } --TODO: should b
 local interface TablineWezComponentSpec
 	is {string}
 	cond:          nil | function(): boolean
-	fmt:           nil | function(str: string, win: {string: any}): string -- TODO: should be: _tmp.Window|_tmp.TabInformation
+	fmt:           nil | function(str: string, win: {string: any}): string -- TODO: should be:_records.Window|_tmp.TabInformation
 	icon:          string|_ComplexTable|nil
 	icons_enabled: boolean | nil
 	icons_only:    boolean | nil
@@ -208,18 +208,18 @@ local type TablineWezWin = TablineWezWinComponent|TablineWezWinComponents
 local type TablineWezTab = TablineWezTabComponent|TablineWezTabComponents
 
 local record Sections --TablineWezOpts.Sections
-	tab_active:   {TablineWezTab|_tmp.FormatItemSpec|function(): string} | nil
-	tab_inactive: {TablineWezTab|_tmp.FormatItemSpec|function(): string} | nil
-	tabline_a:    {TablineWezWin|_tmp.FormatItemSpec|function(): string} | nil
-	tabline_b:    {TablineWezWin|_tmp.FormatItemSpec|function(): string} | nil
-	tabline_c:    {TablineWezWin|_tmp.FormatItemSpec|function(): string} | nil
-	tabline_x:    {TablineWezWin|_tmp.FormatItemSpec|function(): string} | nil
-	tabline_y:    {TablineWezWin|_tmp.FormatItemSpec|function(): string} | nil
-	tabline_z:    {TablineWezWin|_tmp.FormatItemSpec|function(): string} | nil
+	tab_active:   {TablineWezTab|_records.FormatItemSpec|function(): string} | nil
+	tab_inactive: {TablineWezTab|_records.FormatItemSpec|function(): string} | nil
+	tabline_a:    {TablineWezWin|_records.FormatItemSpec|function(): string} | nil
+	tabline_b:    {TablineWezWin|_records.FormatItemSpec|function(): string} | nil
+	tabline_c:    {TablineWezWin|_records.FormatItemSpec|function(): string} | nil
+	tabline_x:    {TablineWezWin|_records.FormatItemSpec|function(): string} | nil
+	tabline_y:    {TablineWezWin|_records.FormatItemSpec|function(): string} | nil
+	tabline_z:    {TablineWezWin|_records.FormatItemSpec|function(): string} | nil
 end
 
 local record Events --TablineWezExtensionSpec.Events
-	callback: function(window: _tmp.Window): nil
+	callback: function(window:_records.Window): nil
 	delay:    integer  | nil
 	hide:     {string} | nil
 	show:     {string} | nil
@@ -243,7 +243,7 @@ local record Options --TablineWezOpts.Options
 	section_separators:   TablineWezSeparators     | _EmptyString | nil
 	tab_separators:       TablineWezSeparators     | _EmptyString | nil
 	tabs_enabled:         boolean                  | nil
-	theme:                string                   | _tmp.Palette | nil
+	theme:                string                   |_enums.Palette | nil
 	theme_overrides:      TablineWezThemeOverrides | nil
 end
 
@@ -263,7 +263,7 @@ local record TablineWezTabOverrides
 end
 
 local record TablineWezThemeOverrides
-	colors:      _tmp.Palette                | nil
+	colors:     _enums.Palette                | nil
 	copy_mode:   TablineWezThemeColors  | nil
 	normal_mode: TablineWezThemeColors  | nil
 	search_mode: TablineWezThemeColors  | nil
@@ -289,7 +289,7 @@ local record TablineWez
 
 	setup:           function(opts: TablineWezOpts|nil): nil
 
-	window:          function(window: _tmp.Window, tab: _tmp.TabInformation): nil
+	window:          function(window:_records.Window, tab: _tmp.TabInformation): nil
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

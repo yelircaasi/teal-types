@@ -4,297 +4,193 @@
 ---@module "wezterm.types.harfbuzz"
 
 local _tmp = require("_tmp")
+local _enums = require("_enums")
 
-local enum AllowSquareGlyphs
-	"Always"
-	"Never"
-	"WhenFollowedBySpace"
+--[[
+global record Config
+   --from docs: https://wezterm.org/config/lua/config/index.html
+
+   adjust_window_size_when_changing_font_size
+   allow_square_glyphs_to_overflow_width
+   allow_win32_input_mode
+   alternate_buffer_wheel_scroll_speed
+   animation_fps
+   anti_alias_custom_block_glyphs
+   audible_bell
+   automatically_reload_config
+   background
+   bold_brightens_ansi_colors
+   bypass_mouse_reporting_modifiers
+   canonicalize_pasted_newlines
+   cell_width
+   cell_widths
+   char_select_bg_color
+   char_select_fg_color
+   char_select_font
+   char_select_font_size
+   check_for_updates
+   clean_exit_codes
+   color_schemes
+   colors
+   command_palette_bg_color
+   command_palette_fg_color
+   command_palette_font
+   command_palette_font_size
+   command_palette_line_height
+   command_palette_rows
+   cursor_blink_ease_in
+   cursor_blink_ease_out
+   cursor_blink_rate
+   cursor_thickness
+   custom_block_glyphs
+   daemon_options
+   debug_key_events
+   default_cursor_style
+   default_cwd
+   default_domain
+   default_gui_startup_args
+   default_mux_server_domain
+   default_prog
+   default_ssh_auth_sock
+   default_workspace
+   detect_password_input
+   disable_default_mouse_bindings
+   disable_default_quick_select_patterns
+   display_pixel_geometry
+   dpi
+   enable_csi_u_key_encoding
+   enable_kitty_keyboard
+   enable_scroll_bar
+   enable_tab_bar
+   enable_wayland
+   exit_behavior
+   exit_behavior_messaging
+   font
+   font_antialias
+   font_dirs
+   font_hinting
+   font_locator
+   font_rasterizer
+   font_rules
+   font_shaper
+   font_size
+   force_reverse_video_cursor
+   foreground_text_hsb
+   freetype_interpreter_version
+   freetype_load_flags
+   freetype_load_target
+   freetype_pcf_long_family_names
+   freetype_render_target
+   front_end
+   harfbuzz_features
+   hide_mouse_cursor_when_typing
+   hide_tab_bar_if_only_one_tab
+   hyperlink_rules
+   ime_preedit_rendering
+   initial_cols
+   initial_rows
+   integrated_title_button_alignment
+   integrated_title_button_color
+   integrated_title_button_style
+   integrated_title_buttons
+   kde_window_background_blur
+   key_map_preference
+   key_tables
+   launch_menu
+   launcher_alphabet
+   line_height
+   log_unknown_escape_sequences
+   macos_forward_to_ime_modifier_mask
+   macos_fullscreen_extend_behind_notch
+   macos_window_background_blur
+   max_fps
+   min_scroll_bar_height
+   mouse_wheel_scrolls_tabs
+   mux_enable_ssh_agent
+   mux_env_remove
+   native_macos_fullscreen_mode
+   normalize_output_to_unicode_nfc
+   notification_handling
+   pane_focus_follows_mouse
+   pane_select_font
+   prefer_egl
+   prefer_to_spawn_tabs
+   quick_select_alphabet
+   quick_select_patterns
+   quick_select_remove_styling
+   quit_when_all_windows_are_closed
+   quote_dropped_files
+   reverse_video_cursor_min_contrast
+   scroll_to_bottom_on_input
+   scrollback_lines
+   selection_word_boundary
+   serial_ports
+   set_environment_variables
+   show_close_tab_button_in_tabs
+   show_new_tab_button_in_tab_bar
+   show_tab_index_in_tab_bar
+   show_tabs_in_tab_bar
+   show_update_window
+   skip_close_confirmation_for_processes_named
+   ssh_backend
+   ssh_domains
+   status_update_interval
+   strikethrough_position
+   swallow_mouse_click_on_pane_focus
+   swallow_mouse_click_on_window_focus
+   swap_backspace_and_delete
+   switch_to_last_active_tab_when_closing_tab
+   tab_and_split_indices_are_zero_based
+   tab_bar_at_bottom
+   tab_bar_style
+   tab_max_width
+   term
+   text_blink_ease_in
+   text_blink_ease_out
+   text_blink_rapid_ease_in
+   text_blink_rapid_ease_out
+   text_blink_rate
+   text_blink_rate_rapid
+   text_min_contrast_ratio
+   tiling_desktop_environments
+   tls_clients
+   tls_servers
+   treat_east_asian_ambiguous_width_as_wide
+   treat_left_ctrlalt_as_altgr
+   ui_key_cap_rendering
+   ulimit_nofile
+   ulimit_nproc
+   underline_position
+   underline_thickness
+   unicode_version
+   unix_domains
+   unzoom_on_switch_pane
+   use_cap_height_to_scale_fallback_fonts
+   use_fancy_tab_bar
+   use_ime
+   use_resize_increments
+   visual_bell
+   warn_about_missing_glyphs
+   wayland_window_background_blur
+   webgpu_force_fallback_adapter
+   webgpu_power_preference
+   webgpu_preferred_adapter
+   win32_acrylic_accent_color
+   win32_system_backdrop
+   window_background_gradient
+   window_background_image
+   window_background_image_hsb
+   window_background_opacity
+   window_close_confirmation
+   window_content_alignment
+   window_decorations
+   window_frame
+   window_padding
+   wsl_domains
+   xim_im_name
 end
+]]
 
-local enum AudibleBell
-	"Disabled"
-	"SystemBeep"
-end
-
-local enum BidiDirection
-	"AutoLeftToRight"
-	"AutoRightToLeft"
-	"LeftToRight"
-	"RightToLeft"
-end
-
-local enum DisplayPixelGeometry
-	"BGR"
-	"RGB"
-end
-
-local enum ExitBehavior
-	"Close"
-	"CloseOnCleanExit"
-	"Hold"
-end
-
-local enum ExitBehaviorMessaging
-	"Brief"
-	"None"
-	"Terse"
-	"Verbose"
-end
-
-local enum VerticalAlign
-	"Bottom"
-	"Middle"
-	"Top"
-end
-
-local enum HorizontalAlign
-	"Center"
-	"Left"
-	"Right"
-end
-
-local enum Blink --FontRules.Blink
-	"None"
-	"Rapid"
-	"Slow"
-end
-
-local enum BackgroundLayerAttachments
-	"Fixed"
-	"Scroll"
-end
-
-local enum BackgroundLayerRepeat
-	"Mirror"
-	"NoRepeat"
-	"Repeat"
-end
-
-local enum FontLocator --Config.FontLocator
-	"ConfigDirsOnly"
-	"CoreText"
-	"FontConfig"
-	"Gdi"
-end
-
-local enum FrontEnd --Config.FrontEnd
-	"OpenGL"
-	"Software"
-	"WebGpu"
-end
-
-local enum WebGpuPowerPreference --Config.WebGpuPowerPreference
-	"HighPerformance"
-	"LowPower"
-end
-
-local enum Win --Config.Win32SystemBackdrop
-	"Acrylic"
-	"Auto"
-	"Disable"
-	"Mica"
-	"Tabbed"
-end
-
-local enum DefaultCursorStyle
-	"BlinkingBar"
-	"BlinkingBlock"
-	"BlinkingUnderline"
-	"SteadyBar"
-	"SteadyBlock"
-	"SteadyUnderline"
-end
-
-local enum DroppedFileQuoting
-	"None"
-	"Posix"
-	"SpacesOnly"
-	"Windows"
-	"WindowsAlwaysQuoted"
-end
-
-local enum FontRasterizer
-	"FreeType"
-	"Harfbuzz"
-end
-
-local enum FontShaper
-	"Allsorts"
-	"Harfbuzz"
-end
-
-local enum FreeTypeLoadTarget
-	"HorizontalLcd"
-	"Light"
-	"Mono"
-	"Normal"
-	"VerticalLcd"
-end
-
-local enum NotifyHandler
-	"AlwaysShow"
-	"NeverShow"
-	"SuppressFromFocusedPane"
-	"SuppressFromFocusedTab"
-	"SuppressFromFocusedWindow"
-end
-
-local enum QuickSelectAlphabet
-	"aoeuqjkxpyhtnsgcrlmwvzfidb"
-	"arstqwfpzxcvneioluymdhgjbk"
-	"asdfqweryxcvjkluiopmghtzbn"
-	"asdfqwerzxcvjklmiuopghtybn"
-	"qsdfazerwxcvjklmuiopghtybn"
-end
-
-local enum VBTarget
-	"BackgroundColor"
-	"CursorColor"
-end
-
-local record HsbTransform
-	brightness: number | nil
-	hue: number | nil
-	saturation: number | nil
-end
-
-local record WindowPadding
-	bottom: integer | nil|string
-	left: integer | nil|string
-	right: integer | nil|string
-	top: integer | nil|string
-end
-
-local record DaemonOptions
-	pid_file: string | nil
-	stderr: string | nil
-	stdout: string | nil
-end
-
-local record VisualBell
-	fade_in_duration_ms: integer | nil
-	fade_in_function: _tmp.EasingFunction | nil
-	fade_out_duration_ms: integer | nil
-	fade_out_function: _tmp.EasingFunction | nil
-	target: VBTarget | nil
-end
-
-local record CellWidth
-	first: integer
-	last: integer
-	width: integer
-end
-
-
----Represents the `BackgroundLayer` type.
-local record BackgroundLayer
-	---Controls whether the layer is fixed to the viewport or moves as it scrolls:
-	--- - `"Fixed"`: (default) to not move as the window scrolls
-	--- - `"Scroll"`: To scroll 1:1 with the number of pixels scrolled
-	---             in the viewport
-	--- - `{ Parallax = 0.1 }`: To scroll `1:10` with the number of pixels
-	---                       scrolled in the viewport
-	attachment: BackgroundLayerAttachments | nil|{ _tmp.Parallax: number }
-	---Controls the height of the image.
-	---The following values are accepted:
-	--- - `"Cover"`: (default) scales the image, preserving aspect ratio, to the smallest
-	--- -          possible size to fill the viewport, leaving no empty space.
-	--- -          If the aspect ratio of the viewport differs from the image, the image is cropped
-	--- - `"Contain"`: Scales the image as large as possible without cropping or stretching.
-	--- -            If the viewport is larger than the image, tiles the image
-	--- -            unless `repeat_y` is set to `"NoRepeat"`
-	--- - `123`: Specifies a height of `123` pixels
-	--- - `"50%"`: Specifies a size of `50%` of the viewport height
-	--- - `"2cell"`: Specifies a size equivalent to 2 rows
-	enum _CoverOrContain
-		"Cover"
-		"Contain"
-	end
-	height: _CoverOrContain|number|nil
-	---Controls the initial horizontal position of the layer, relative to the viewport:
-	--- - `"Left"` (default)
-	--- - `"Center"`
-	--- - `"Right"`
-	horizontal_align: HorizontalAlign | nil
-	---`vertical_offset` is identical to this one, but it affects the y-direction.
-	---See:
-	--- - [`vertical_offset`](lua://BackgroundLayer.vertical_offset)
-	horizontal_offset: number | nil|string
-	---A _hue_, _saturation_ and _brightness_ transformation that can be used
-	---to adjust those attributes of the layer.
-	---For more information about this kind of transform, see:
-	--- - [`HsbTransform`](lua://HsbTransform)
-	hsb: HsbTransform | nil
-	---A number in the range `0.0` through `1.0` inclusive that is multiplied
-	---with the alpha channel of the source to adjust the opacity of the layer.
-	---The default is `1.0` to use the source alpha channel as-is.
-	---Using a smaller value makes the layer less opaque/more transparent.
-	opacity: number | nil
-	---Controls whether the image is repeated in the x-direction:
-	--- - `"Repeat"`: Repeat as much as possible to cover the area.
-	---             The last image will be clipped if it doesn't fit.
-	---             This is the default
-	--- - `"Mirror"`: Like `"Repeat"` except that the image is alternately mirrored which can
-	---             make images that don't tile seamlessly look a bit better when repeated
-	--- - `"NoRepeat"`: The image is not repeated
-	repeat_x: BackgroundLayerRepeat | nil
-	---Normally, when repeating, the image is tiled based on its width
-	---such that each copy of the image is immediately adjacent to
-	---the preceding instance.
-	---You may set `repeat_x_size` to a different value to _increase_
-	---or _decrease_ the space between the repeated instances:
-	--- - number values in pixels
-	--- - string values like `"100%"` to specify a size relative to the viewport
-	--- - `"10cell"` to specify a size based on the terminal cell metrics
-	repeat_x_size: string|nil|number
-	---`repeat_x` is identical to this one, but it affects the y-direction.
-	---See:
-	--- - [`repeat_x`](lua://BackgroundLayer.repeat_x)
-	repeat_y: BackgroundLayerRepeat|nil
-	---`repeat_x_size` is identical to this one, but it affects the y-direction.
-	---See:
-	--- - [`repeat_x_size`](lua://BackgroundLayer.repeat_x_size)
-	repeat_y_size: number | nil|string
-	---Defines the source of the layer texture data.
-
-	record _File where self._tl_type == "Gradient"
-		_tl_type: string
-		File: string
-		speed: number|nil
-	end
-	record _Gradient where self._tl_type == "Gradient"
-		_tl_type: string
-		Gradient: _tmp.Gradient
-		Color: string
-	end
-	source: _File|_Gradient|nil
-	---Controls the initial vertical position of the layer, relative to the viewport:
-	--- - `"Top"` (default)
-	--- - `"Middle"`
-	--- - `"Bottom"`
-	vertical_align: _tmp.VerticalAlign|nil
-	---Specifies an offset from the initial vertical position:
-	--- - number values in pixels
-	--- - string values like `"100%"` to specify a size relative to the viewport
-	--- - `"10cell"`: to specify a size based on terminal cell metrics
-	vertical_offset: number|string|nil
-	---Controls the width of the image.
-	---Same details as `height` but applied to the x-direction.
-	---See:
-	--- - [`height`](lua://BackgroundLayer.height)
-	width: _CoverOrContain|number|nil
-end
-
-local record FontRules
-	blink: FontRules|Blink|nil
-	font: _tmp.TextStyle|nil
-	intensity: _tmp.FormatItemAttribute|_tmp.Intensity|nil
-	invisible: boolean|nil
-	italic: boolean|nil
-	reverse: boolean|nil
-	strikethrough: boolean|nil
-	underline: _tmp.TabBarColor|_tmp.Underline|nil
-end
 
 
 ---The `return` statement at the end of your `wezterm.lua` file returns a table that is interpreted
@@ -308,7 +204,7 @@ end
 ------
 ---At the time of writing, it is not a complete list. Mirrors `Config` in upstream WezTerm:
 ---https://github.com/wezterm/wezterm/blob/main/config/src/config.rs
-local record Config
+global record Config
 	---Control whether changing the font size adjusts the dimensions of the window (`true`)
 	---or adjusts the number of terminal rows/columns (`false`).
 	---If you use a tiling window manager then you may wish to set this to `false`.
@@ -330,7 +226,7 @@ local record Config
 	---                          the next cell is a space
 	---This setting now applies to any glyph with an aspect ratio larger than `0.9`,
 	---which covers more symbol glyphs than in earlier releases.
-	allow_square_glyphs_to_overflow_width: _tmp.AllowSquareGlyphs | nil
+	allow_square_glyphs_to_overflow_width: _enums.AllowSquareGlyphs | nil
 ---When set to `true`, wezterm will honor an escape sequence generated by
 ---the Windows ConPTY layer to switch the keyboard encoding to a proprietary scheme
 ---that has maximum compatibility with win32 console applications.
@@ -424,7 +320,7 @@ local record Config
 	---which means that holding down shift while clicking will not send the mouse event to,
 	---e.g. _vim running in mouse mode_, and will instead treat the event as though `"SHIFT"`
 	---was not pressed and then match it against the mouse assignments.
-	bypass_mouse_reporting_modifiers: _tmp.Modifiers | nil
+	bypass_mouse_reporting_modifiers: _enums.Modifiers | nil
 	---Controls whether pasted text will have newlines normalized.
 	---If bracketed paste mode is enabled by the application the effective value
 	---of this configuration option is `"None"`.
@@ -512,7 +408,7 @@ local record Config
 	--- - [`config.window_frame.font`](lua://WindowFrameConfig.font)
 	--- - [`wezterm.font_with_fallback()`](lua://Wezterm.font_with_fallback)
 	--- - [`wezterm.font()`](lua://Wezterm.font)
-	char_select_font: _tmp.TextStyle | nil
+	char_select_font: _shared.TextStyle | nil
 	---Specifies the size of the font used with [`CharSelect`](https://wezterm.org/config/lua/keyassignment/CharSelect.html).
 	char_select_font_size: number | nil
 	---Wezterm checks regularly if there is a new stable version available on GitHub,
@@ -554,10 +450,10 @@ local record Config
 	color_scheme_dirs: {string} | nil
 	---Specifies various named color schemes in your configuration file.
 	---Described in more detail in [Colors & Appearance](https://wezterm.org/config/appearance.html).
-	color_schemes: {string, _tmp.Palette}|nil
+	color_schemes: {string,_enums.Palette}|nil
 	---Specifies the color palette.
 	---Described in more detail in [Colors & Appearance](https://wezterm.org/config/appearance.html).
-	colors: _tmp.Palette | nil
+	colors:_enums.Palette | nil
 	---Specifies the background color used by `ActivateCommandPalette`.
 	---See:
 	--- - [`ActivateCommandPalette`](https://wezterm.org/config/lua/keyassignment/ActivateCommandPalette.html)
@@ -579,7 +475,7 @@ local record Config
 	--- - [`config.window_frame.font`](lua://WindowFrameConfig.font)
 	--- - [`wezterm.font()`](lua://Wezterm.font)
 	--- - [`wezterm.font_with_fallback()`](lua://Wezterm.font_with_fallback)
-	command_palette_font: _tmp.TextStyle | nil
+	command_palette_font: _shared.TextStyle | nil
 	---Specifies the size of the font used with `ActivateCommandPalette`.
 	---See:
 	--- - [`ActivateCommandPalette`](https://wezterm.org/config/lua/keyassignment/ActivateCommandPalette.html)
@@ -593,12 +489,12 @@ local record Config
 	---when it is set to a blinking style.
 	---For more information about easing functions, see:
 	--- - [`config.visual_bell`](lua://Config.visual_bell)
-	cursor_blink_ease_in: _tmp.EasingFunction | nil
+	cursor_blink_ease_in: _aliases.EasingFunction | nil
 	---Specifies the easing function to use when computing the color for the text cursor
 	---when it is set to a blinking style.
 	---For more information about easing functions, see:
 	--- - [`config.visual_bell`](lua://Config.visual_bell)
-	cursor_blink_ease_out: _tmp.EasingFunction | nil
+	cursor_blink_ease_out: _aliases.EasingFunction | nil
 	---Specifies how often a blinking cursor transitions between _visible_ and _invisible_,
 	---expressed in milliseconds.
 	---Setting this to `0` disables blinking.
@@ -753,7 +649,7 @@ local record Config
 	---If your display has a `BGR` pixel geometry then you will want to set this to `"BGR"`
 	---for the best results when using subpixel antialiasing.
 	---The default value is `"RGB"`.
-	display_pixel_geometry: _tmp.DisplayPixelGeometry | nil
+	display_pixel_geometry: _enums.DisplayPixelGeometry | nil
 	---Override the detected DPI (_dots per inch_) for the display.
 	---This can be useful if the detected DPI is inaccurate and the text appears either blurry
 	---or too small, particularly if you are using a 4K display on either X11 or Wayland.
@@ -864,7 +760,7 @@ local record Config
 	---See:
 	--- - [`wezterm.font()`](lua://Wezterm.font)
 	--- - [`wezterm.font_with_fallback()`](lua://Wezterm.font_with_fallback)
-	font: _tmp.TextStyle | nil
+	font: _shared.TextStyle | nil
 	font_colr_rasterizer: FontRasterizer | nil
 	---By default, wezterm will use an appropriate system-specific method
 	---for locating the fonts that you specify using the options below.
@@ -927,7 +823,7 @@ local record Config
 	---and will match based on the attributes that were listed.
 	---See:
 	--- - [`FontRules`](lua://FontRules).
-	font_rules: {FontRules} | nil
+	font_rules: {_shared.FontRules} | nil
 	---Specifies the method by which text is mapped to glyphs
 	---in the available fonts.
 	---The shaper is responsible for handling kerning, ligatures
@@ -1012,7 +908,7 @@ local record Config
 	---The default value depends on the effective DPI of the display.
 	---If the DPI is `100` or larger, the default value is `"NO_HINTING"`.
 	---Otherwise, the default value is `"DEFAULT"`.
-	freetype_load_flags: _tmp.FreeTypeLoadFlags | nil
+	freetype_load_flags: _enums.FreeTypeLoadFlags | nil
 	---Configures the hinting and (potentially) the rendering mode used
 	---with the freetype rasterizer.
 	---The following values are possible:
@@ -1119,7 +1015,7 @@ local record Config
 	hide_tab_bar_if_only_one_tab: boolean | nil
 	---Defines rules to match text from the terminal output
 	---and generate clickable links.
-	hyperlink_rules: {_tmp.HyperlinkRule} | nil
+	hyperlink_rules: {_shared.HyperlinkRule} | nil
 	ignore_svg_fonts: boolean | nil
 	---Control IME preedit rendering. IME preedit is an area that is used to display the string being preedited in IME. WezTerm supports the following IME preedit rendering.
 	--- - `"Builtin"`: (Default) IME preedit is rendered by WezTerm itself
@@ -1175,7 +1071,7 @@ local record Config
 	enum _Auto
 		"Auto"
 	end
-	integrated_title_button_color: _Auto | _tmp.PaletteBrights | nil
+	integrated_title_button_color: _Auto | _enums.PaletteBrights | nil
 	---Configures the visual style of the tabbar-integrated titlebar button replacements that are shown
 	---when [`config.window_decorations`](lua://Config.window_decorations) has
 	---a value of `"INTEGRATED_BUTTONS|RESIZE"`.
@@ -1232,9 +1128,9 @@ local record Config
 	end
 	key_map_preference: _MappedOrPhysical | nil
 	---See the main [Key Tables docs](https://wezterm.org/config/key-tables.html).
-	key_tables: {string, {_tmp.Key}} | nil
+	key_tables: {string, {_records.Key}} | nil
 	---Holds an array of tables that assign keys to WezTerm.
-	keys: {_tmp.Key} | nil
+	keys: {_records.Key} | nil
 	---Specify a string of unique characters.
 	---The characters in the string are used to calculate one or two key press
 	---shortcuts that can be used to quickly choose from the Launcher when in the default mode.
@@ -1259,7 +1155,7 @@ local record Config
 	---LEADER stays active until a keypress is registered (whether it matches a key binding or not), or
 	---until it has been active for the duration specified by timeout_milliseconds, at which point it
 	---will automatically cancel itself.
-	leader: _tmp.LeaderKey | nil
+	leader: _shared.LeaderKey | nil
 
 	---Scales the computed line height to adjust the spacing between successive rows of text.
 	---The default line height is controlled by
@@ -1286,7 +1182,7 @@ local record Config
 	---Users of a Japanese IME may wish to set this to `"SHIFT|CTRL"`,
 	---but should note that it will prevent certain `CTRL` key combinations
 	---that are commonly used in UNIX terminal programs from working as expected.
-	macos_forward_to_ime_modifier_mask: _tmp.Modifiers | nil
+	macos_forward_to_ime_modifier_mask: _shared.Modifiers | nil
 	---When `true` and in full screen mode, the window will extend behind the notch on macOS.
 	---The default value for `config.macos_fullscreen_extend_behind_notch` is `false`.
 	---Must be used with a `false` value for
@@ -1328,7 +1224,7 @@ local record Config
 	---A list containing tables of type
 	---[`MouseBindingBase`](lua://MouseBindingBase).
 	---For more info please check the [Mouse Binding](https://wezterm.org/config/mouse.html?h=mouse_report#configuring-mouse-assignments) docs.
-	mouse_bindings: {_tmp.MouseBindingBase} | nil
+	mouse_bindings: {_shared.MouseBindingBase} | nil
 	---If `true`, the vertical mouse wheel will switch between tabs
 	---when the mouse cursor is over the tab bar.
 	---The default is `true`.
@@ -1393,7 +1289,7 @@ local record Config
 	---printf "\e]777;notify;%s;%s\e\\" "title" "body"
 	---printf "\e]9;%s\e\\" "hello there"
 	---```
-	notification_handling: _tmp.NotifyHandler | nil
+	notification_handling: _enums.NotifyHandler | nil
 	palette_max_key_assigments_for_action: integer | nil
 	---When `true`, moving the mouse pointer over an inactive pane will cause that pane to activate;
 	---this behavior is known as "focus follows mouse".
@@ -1413,7 +1309,7 @@ local record Config
 	---```lua
 	---config.pane_select_font = wezterm.font 'Roboto'
 	---```
-	pane_select_font: _tmp.TextStyle | nil
+	pane_select_font: _shared.TextStyle | nil
 	pane_select_font_size: number | nil
 	---If non-zero, specifies the period (in seconds) at which various statistics are logged.
 	---Note that there is a minimum period of 10 seconds.
@@ -1444,7 +1340,7 @@ local record Config
 	---on the home, top and bottom rows, then the right 4 fingers
 	---on the home, top and bottom rows, followed by the characters
 	---in the middle of the keyboard that may be harder to reach.
-	quick_select_alphabet: _tmp.QuickSelectAlphabet | nil
+	quick_select_alphabet: _enums.QuickSelectAlphabet | nil
 	---Specify additional patterns to match when in quick select mode.
 	---This setting is a table listing out a set of regular expressions.
 	---```lua
@@ -1478,12 +1374,12 @@ local record Config
 	---              with space characters in it, and leaving others as-is.
 	---              This is the default on Windows
 	--- - `"WindowsAlwaysQuoted"`: Like `"Windows"`, while always double-quoting the filename
-	quote_dropped_files: _tmp.DroppedFileQuoting | nil
+	quote_dropped_files: _enums.DroppedFileQuoting | nil
 	---Constrains the rate at which the multiplexer client speculatively prefetches lines.
 	---This helps avoid saturating the client/server link when the server
 	---is producing a large amount of output.
 	ratelimit_mux_line_prefetches_per_second: integer | nil
-	resolved_palette: _tmp.Palette | nil
+	resolved_palette:_enums.Palette | nil
 	---The minimum contrast ratio required to use the reverse video cursor.
 	---When the contrast ratio between the reverse video cursor foreground and background
 	---is below this threshold then the default cursor foreground and background
@@ -1531,7 +1427,7 @@ local record Config
 	---}
 	---```
 	---See [this page](https://wezterm.org/config/lua/config/serial_ports.html) for more complete info.
-	serial_ports: {_tmp.SerialDomain} | nil
+	serial_ports: {_shared.SerialDomain} | nil
 	---Specifies a map of environment variables that should be set
 	---when spawning commands in the local domain.
 	---This is not used when working with remote domains.
@@ -1676,7 +1572,7 @@ local record Config
 	--- - `window_hide`/`window_hide_hover`: The minimize/hide button
 	--- - `window_maximize`/`window_maximize_hover`: The maximize button
 	--- - `window_close`/`window_close_hover`: The close button
-	tab_bar_style: _tmp.TabBarStyle | nil
+	tab_bar_style: _shared.TabBarStyle | nil
 	---Specifies the maximum width that a tab can have in the tab bar
 	---when using retro tab mode.
 	---This is ignored when using fancy tab mode.
@@ -1692,28 +1588,28 @@ local record Config
 	--- - [`EasingFunction`](lua://EasingFunction)
 	--- - [`config.visual_bell`](lua://Config.visual_bell)
 	--- - [`config.cursor_blink_rate`](lua://Config.cursor_blink_rate)
-	text_blink_ease_in: _tmp.EasingFunction | nil
+	text_blink_ease_in: _aliases.EasingFunction | nil
 	---Specifies the easing function to use when computing the color
 	---for text that has the blinking attribute in the fading-out phase
 	---when the text is fading from the foreground color to the background color.
 	---See:
 	--- - [`config.visual_bell`](lua://Config.visual_bell)
 	---   for more information about easing functions
-	text_blink_ease_out: _tmp.EasingFunction | nil
+	text_blink_ease_out: _aliases.EasingFunction | nil
 	---Specifies the easing function to use when computing the color for text that has
 	---the rapid blinking attribute in the fading-in phase when the text is fading
 	---from the background color to the foreground color.
 	---See:
 	--- - [`config.visual_bell`](lua://Config.visual_bell)
 	---   for more information about easing functions
-	text_blink_rapid_ease_in: _tmp.EasingFunction | nil
+	text_blink_rapid_ease_in: _aliases.EasingFunction | nil
 	---Specifies the easing function to use when computing the color for text that has
 	---the rapid blinking attribute in the fading-out phase when the text is fading
 	---from the foreground color to the background color.
 	---See:
 	--- - [`config.visual_bell`](lua://Config.visual_bell)
 	---   for more information about easing functions
-	text_blink_rapid_ease_out: _tmp.EasingFunction | nil
+	text_blink_rapid_ease_out: _aliases.EasingFunction | nil
 	---Specifies how often blinking text (normal speed) transitions between
 	---_visible_ and _invisible_, expressed in milliseconds.
 	---Setting this to `0` disables slow text blinking.
@@ -1892,7 +1788,7 @@ local record Config
 	---More info can be found [here](https://wezterm.org/config/lua/config/unicode_version.html).
 	unicode_version: integer | nil
 	---The set of UNIX domains.
-	unix_domains: {_tmp.UnixDomain} | nil
+	unix_domains: {_shared.UnixDomain} | nil
 	---If set to `false`, the [`ActivatePaneDirection`](https://wezterm.org/config/lua/keyassignment/ActivatePaneDirection.html) command
 	---will have no effect if the active pane is zoomed.
 	---If `true`, the active pane will be unzoomed first and then switched.
@@ -1988,7 +1884,7 @@ local record Config
 	---See also:
 	--- - [`config.audible_bell`](lua://Config.audible_bell)
 	--- - [`Bell`](https://wezterm.org/config/lua/window-events/bell.html)
-	visual_bell: _tmp.VisualBell | nil
+	visual_bell: _records.VisualBell | nil
 	---When set to `true`, if a glyph cannot be found for a given codepoint,
 	---then the configuration error window will be shown with a pointer
 	---to the font configuration docs.
@@ -2007,13 +1903,13 @@ local record Config
 	---Whether to select the higher powered discrete GPU when the system has
 	---a choice of _integrated_ or _discrete_.
 	---Defaults to `"LowPower"`.
-	webgpu_power_preference: _tmp.WebGpuPowerPreference | nil --TODO: check if takes Config
+	webgpu_power_preference: _enums.WebGpuPowerPreference | nil --TODO: check if takes Config
 	---Specifies which `WebGpu` adapter should be used.
 	---This option is only applicable when you have set `"WebGpu"` to
 	---[`config.front_end`](lua://Config.front_end).
 	---To return a list of GPUs, you can use
 	---[`wezterm.gui.enumerate_gpus()`](lua://Wezterm.Gui.enumerate_gpus).
-	webgpu_preferred_adapter: _tmp.GpuInfo | nil
+	webgpu_preferred_adapter: _shared.GpuInfo | nil
 	---When combined with
 	---[`config.win32_system_backdrop`](lua://Config.win32_system_backdrop)
 	---as `"Acrylic"` on Windows systems, this option specifies
@@ -2031,7 +1927,7 @@ local record Config
 	---[`config.window_background_image`](lua://Config.window_background_image).
 	---Linear gradients with both vertical or horizontal orientation
 	---are supported.
-	window_background_gradient: _tmp.Gradient | nil
+	window_background_gradient: _records.Gradient | nil
 	---Specifies the path to a background image attachment file.
 	---The file can be any image format that the rust `image`
 	---crate is able to identify and load.
@@ -2103,7 +1999,7 @@ local record Config
 	---                                                      also including `"TITLE|RESIZE"` in the set of decorations
 	---For more info, see:
 	--- - [`WindowDecorations`](lua://WindowDecorations)
-	window_decorations: _tmp.WindowDecorations | nil
+	window_decorations: _enums.WindowDecorations | nil
 	---This setting is applicable primarily on Wayland systems when
 	---client-side decorations are in use.
 	---It allows you to customize the colors of the window frame.
@@ -2147,7 +2043,7 @@ local record Config
 	---and `12pt` on other systems.
 	---For more info, see:
 	--- - [`WindowFrameConfig`](lua://WindowFrameConfig)
-	window_frame: _tmp.WindowFrameConfig | nil
+	window_frame: _shared.WindowFrameConfig | nil
 	---Controls the amount of padding between the window border
 	---and the terminal cells.
 	---Padding is measured in pixels.
@@ -2159,7 +2055,7 @@ local record Config
 	---will instead match the width of a cell.
 	---For more info, see:
 	--- - [`WindowPadding`](lua://WindowPadding)
-	window_padding: _tmp.WindowPadding | nil
+	window_padding: _records.WindowPadding | nil
 	---Configures WSL domains.
 	---This option accepts an array of tables of type
 	---[`WslDomain`](lua://WslDomain).

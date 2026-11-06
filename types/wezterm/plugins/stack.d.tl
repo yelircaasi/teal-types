@@ -12,7 +12,7 @@ local record _ActionCallback
 end
 
 local record StackWezAction
-	SpawnPane: { _tmp.EmitEvent: string }
+	SpawnPane: {_aliases.EmitEvent: string }
 
 	ActivatePaneRelative: function(direction: integer): _ActionCallback
 end

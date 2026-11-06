@@ -14,14 +14,14 @@ end
 
 local record BuildContext --Lantern.BuildContext
 	pane: _tmp.Pane
-	window: _tmp.Window
+	window:_records.Window
 end
 
 local record Context --Lantern.Context
 	choice: Choice
 	pane: _tmp.Pane | nil
 	wick: Lantern |Wick | nil
-	window: _tmp.Window | nil
+	window:_records.Window | nil
 end
 
 local record Flame --Lantern.Flame
@@ -33,7 +33,7 @@ end
 
 local record GpuFlame --Lantern.GpuFlame: Flame
 	---Choose the best detected GPU adapter, if any.
-	best: function(): _tmp.GpuInfo | nil
+	best: function(): _shared.GpuInfo | nil
 end
 
 local record InternalChoice --Lantern.InternalChoice
@@ -88,8 +88,8 @@ local record ColorOpts --Lantern.ColorOpts
 end
 
 local record DefaultFontConfig --Lantern.DefaultFontConfig
-	font: _tmp.TextStyle | nil
-	font_rules: {_tmp.FontRules} | nil
+	font: _shared.TextStyle | nil
+	font_rules: {_shared.FontRules} | nil
 	font_size: number | nil
 	line_height: number | nil
 end
@@ -171,46 +171,46 @@ local record Wick where type(self.register) ~= nil
 	select: function(self: Wick, config: _tmp.Config, ctx: Context): nil
 
 	---Return a WezTerm action that opens this wick.
-	light: function(self: Wick): _tmp.Action
+	light: function(self: Wick): _records.Action
 end
 
 local record LightApi --Lantern.LightApi
 
 	---Open any registered wick.
-	__call:         function(self: LightApi, name: string): _tmp.Action
+	__call:         function(self: LightApi, name: string): _records.Action
 
 	---Open the built-in colorscheme wick.
-	colorscheme:    function(): _tmp.Action
+	colorscheme:    function(): _records.Action
 
 	---Open the built-in font wick.
-	font:           function(): _tmp.Action
+	font:           function(): _records.Action
 
 	---Open the built-in font-size wick.
-	font_size:      function(): _tmp.Action
+	font_size:      function(): _records.Action
 
 	---Open the built-in line-height wick.
-	font_leading:   function(): _tmp.Action
+	font_leading:   function(): _records.Action
 
 	---Open the built-in GPU adapter wick.
-	gpu:            function(): _tmp.Action
+	gpu:            function(): _records.Action
 
 	---Open the built-in window-opacity wick.
-	window_opacity: function(): _tmp.Action
+	window_opacity: function(): _records.Action
 
 	---Open the built-in window-padding wick.
-	window_padding: function(): _tmp.Action
+	window_padding: function(): _records.Action
 
 	---Open the built-in cursor-style wick.
-	cursor_style:   function(): _tmp.Action
+	cursor_style:   function(): _records.Action
 
 	---Open the built-in inactive-pane-opacity wick.
-	inactive_pane_opacity: function(): _tmp.Action
+	inactive_pane_opacity: function(): _records.Action
 
 	---Open the built-in font-ligatures wick.
-	font_ligatures: function(): _tmp.Action
+	font_ligatures: function(): _records.Action
 
 	---Open the built-in tab-bar-style wick.
-	tab_bar_style:  function(): _tmp.Action
+	tab_bar_style:  function(): _records.Action
 end
 
 local record FlamesApi --Lantern.FlamesApi
@@ -228,13 +228,13 @@ end
 local record ColorApi --Lantern.ColorApi
 
 	---Set tab button style in a config table from a Lantern colorscheme.
-	set_tab_button: function(config: _tmp.Config, scheme: _tmp.Palette): nil
+	set_tab_button: function(config: _tmp.Config, scheme:_enums.Palette): nil
 
 	---Apply a colorscheme to a WezTerm config override table.
-	apply_scheme: function(config: _tmp.Config, scheme: _tmp.Palette, name: string): nil
+	apply_scheme: function(config: _tmp.Config, scheme:_enums.Palette, name: string): nil
 
 	---Return a built-in Lantern colorscheme table by name.
-	scheme: function(name: string): _tmp.Palette|nil
+	scheme: function(name: string):_enums.Palette|nil
 end
 
 local record StateEntry --Lantern.StateEntry

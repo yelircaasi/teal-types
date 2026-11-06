@@ -64,7 +64,7 @@ local record Kanagawa
 	---The base preset is never mutated.
 	---@param name Kanagawa.PaletteName Scheme name: `"wave"`, `"lotus"`, or `"dragon"`.
 	---@param overrides?_tmp.Palette Partial table, deep-merged into the cloned scheme.
-	get: function(name: _Name, overrides: _tmp.Palette|nil): _tmp.Palette
+	get: function(name: _Name, overrides:_enums.Palette|nil):_enums.Palette
 
 	---Register all Kanagawa schemes in `config.color_schemes` without activating
 	---one through `config.color_scheme`.

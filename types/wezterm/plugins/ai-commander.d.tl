@@ -26,9 +26,9 @@ end
 local record AICommander
 	apply_to_config: function(wezterm_config: _tmp.Config, plugin_config: AICommanderConfig): nil
 
-	show_history:    function(window: _tmp.Window, pane: _tmp.Pane): nil
+	show_history:    function(window:_records.Window, pane: _tmp.Pane): nil
 
-	show_prompt:     function(window: _tmp.Window, pane: _tmp.Pane): nil
+	show_prompt:     function(window:_records.Window, pane: _tmp.Pane): nil
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

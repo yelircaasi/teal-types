@@ -37,7 +37,7 @@ local record Table --LibWezterm.Table
 	shallowcopy: function(original: table): table
 
 	-- extend table
-	tbl_deep_extend: function(behavior: _tmp.Behavior, ...: table): table|nil
+	tbl_deep_extend: function(behavior: _enums.Behavior, ...: table): table|nil
 end
 
 local record FileIO --LibWezterm.FileIO

@@ -41,7 +41,7 @@ local record WorkspacePicker
 
 	setup: function(opts: WorkspacePickerConfig|nil): WorkspacePicker      ---Initialize configuration.
 
-	show_workspace_selector: function(window: _tmp.Window, pane: _tmp.Pane): nil   ---Display workspace selector.
+	show_workspace_selector: function(window:_records.Window, pane: _tmp.Pane): nil   ---Display workspace selector.
 end
 
 -- vim: set ts=2 sts=2 sw=2 et ai si sta:

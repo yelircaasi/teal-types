@@ -13,13 +13,13 @@ local record ModalWeztermMode
 end
 
 local record ModalWezterm
-	key_tables: {_tmp.Key}
+	key_tables: {_records.Key}
 	modes: {string: ModalWeztermMode}
 
 	---Activates mode.
-	activate_mode: function(name: string, activate_key_table_params: _tmp.ActivateKeyTableParams|nil): _tmp.Action
+	activate_mode: function(name: string, activate_key_table_params: _records.ActivateKeyTableParams|nil): _records.Action
 
-	add_mode: function(name: string, key_table: {_tmp.Key}, status_text: string|nil, key_table_name: string|nil): nil
+	add_mode: function(name: string, key_table: {_records.Key}, status_text: string|nil, key_table_name: string|nil): nil
 
 	apply_to_config: function(config: _tmp.Config): nil
 
@@ -28,17 +28,17 @@ local record ModalWezterm
 
 	enable_defaults: function(url: string): nil
 
-	exit_all_modes: function(name: string): _tmp.Action   ---Exits all active modes.
+	exit_all_modes: function(name: string): _records.Action   ---Exits all active modes.
 
-	exit_mode: function(name: string): _tmp.Action   ---Exits active mode.
+	exit_mode: function(name: string): _records.Action   ---Exits active mode.
 
-	get_mode: function(window: _tmp.Window): nil
+	get_mode: function(window:_records.Window): nil
 
 	reset_window_title: function(pane: _tmp.Pane): nil   ---Resets the window title to the foreground process by emitting a OSC 2 escape sequence.
 
 	set_default_keys: function(config: _tmp.Config): nil
 
-	set_right_status: function(window: _tmp.Window): nil   ---Sets the current modal status to the right status.
+	set_right_status: function(window:_records.Window): nil   ---Sets the current modal status to the right status.
 
 	---@param pane Pane The `Pane` object.
 	---@param name? string

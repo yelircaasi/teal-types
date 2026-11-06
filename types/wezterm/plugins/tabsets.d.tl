@@ -28,15 +28,15 @@ end
 local record Tabsets
 	options: TabsetsOpts
 
-	delete_tabset: function(window: _tmp.Window): nil   ---Interactively delete a saved tabset. Prompts for a tabset, deletes the corresponding JSON file and notifies the user.
+	delete_tabset: function(window:_records.Window): nil   ---Interactively delete a saved tabset. Prompts for a tabset, deletes the corresponding JSON file and notifies the user.
 
-	load_tabset: function(window: _tmp.Window): nil   ---Interactively load a saved tabset. Shows a selector of available tabsets, then calls @{load_tabset_by_name} on the chosen entry.
+	load_tabset: function(window:_records.Window): nil   ---Interactively load a saved tabset. Shows a selector of available tabsets, then calls @{load_tabset_by_name} on the chosen entry.
 
-	load_tabset_by_name: function(window: _tmp.Window, tabset_name: string): nil   ---Load and restore a tabset by its logical name. If loading or recreation fails, a notification is shown to the user.
+	load_tabset_by_name: function(window:_records.Window, tabset_name: string): nil   ---Load and restore a tabset by its logical name. If loading or recreation fails, a notification is shown to the user.
 
-	rename_tabset: function(window: _tmp.Window): nil   ---Rename a tabset.
+	rename_tabset: function(window:_records.Window): nil   ---Rename a tabset.
 
-	save_tabset: function(window: _tmp.Window): nil   ---Interactively save the current window layout as a tabset. Prompts for a tabset name, validates it and writes a JSON description to disk.
+	save_tabset: function(window:_records.Window): nil   ---Interactively save the current window layout as a tabset. Prompts for a tabset name, validates it and writes a JSON description to disk.
 
 	setup: function(opts: TabsetsOpts|nil): nil   ---Initialize plugin and set configuration options.
 end

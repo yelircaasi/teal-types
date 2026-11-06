@@ -3,13 +3,13 @@ local _tmp = require("_tmp")
 local record PresentationWezConfigMode
 	enabled:              boolean | nil
 	font_size_multiplier: number | nil
-	font_weight:          _tmp.FontWeight | nil
-	keybind:              _tmp.Key | nil
+	font_weight:          _enums.FontWeight | nil
+	keybind:              _records.Key | nil
 end
 
 local record PresentationWezConfig
 	font_size_multiplier: number | nil
-	font_weight:          _tmp.FontWeight | nil
+	font_weight:          _enums.FontWeight | nil
 	presentation:         PresentationWezConfigMode | nil
 	presentation_full:    PresentationWezConfigMode | nil
 end

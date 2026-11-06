@@ -1,7 +1,7 @@
 local _tmp = require("_tmp")
 
 local interface AIHelperConfigSpec
-	keybinding_with_pane: _tmp.Key | nil
+	keybinding_with_pane: _records.Key | nil
 	luarocks_path: string | nil
 	share_n_lines: integer | nil
 	show_loading:  boolean | nil

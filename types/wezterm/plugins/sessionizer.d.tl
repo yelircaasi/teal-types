@@ -9,7 +9,7 @@ end
 
 local record SchemaOptions
 	always_fuzzy: boolean | nil
-	callback:     nil     | function(window: _tmp.Window, pane: _tmp.Pane, id: string, label: string): nil --?
+	callback:     nil     | function(window:_records.Window, pane: _tmp.Pane, id: string, label: string): nil --?
 	prompt:       string  | nil
 	title:        string  | nil
 end
@@ -46,7 +46,7 @@ local type _EntriesMaker =    function(): {Entry}
 
 local record Sessionizer
 	AllActiveWorkspaces: function(opts: AllActiveWorkspacesOpts): _EntriesMaker
-	DefaultCallback: function(id: string, window: _tmp.Window, pane: _tmp.Pane, id: string, label: string): nil
+	DefaultCallback: function(id: string, window:_records.Window, pane: _tmp.Pane, id: string, label: string): nil
 	DefaultWorkspace: function(opts: DefaultWorkspaceOpts): _EntriesMaker
 	FdSearch:         function(opts: string|FdSearchOpts): _EntriesMaker
 	apply_to_config:  function(config: _tmp.Config): nil
